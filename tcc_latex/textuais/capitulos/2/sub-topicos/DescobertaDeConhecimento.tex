@@ -1,0 +1,48 @@
+\section{Descoberta de Conhecimento em Bases de Dados}
+\label{sec:kdd}
+
+Atualmente, bancos de dados ao redor do mundo armazenam uma quantidade absurda e crescente de dados, isto gera a oportunidade de utilizar de métodos que possibilitem a descoberta de conhecimento oculto nestas bases. Caso esta tarefa seja bem sucedida, o conhecimento adquirido pode vir a melhorar o processo de tomada de decisão em uma empresa ou instituição.
+
+Tomemos, por exemplo, dados armazenados a respeito de vendas realizadas em um estabelecimento comercial, o conhecimento a respeito dos produtos preferidos pelos consumidores pode proporcionar um crescimento nas vendas. Enquanto dados sobre pacientes em um hospital podem indicar a probabilidade dos pacientes desenvolver doenças, e esse conhecimento leva a melhores diagnósticos.
+
+Os processos de mineração de dados e descoberta de conhecimento são frequentemente confundidos, porém, existe uma distinção entre estes termos que foi introduzida e popularizada por \citeonline{fayyad1996kdd}, apontando \textit{data mining} como um passo principal em um processo complexo chamado de descoberta de conhecimento em bases de dados, ou \textit{Knowledge Discovery in Databases} {--} KDD. Este processo é constituído ainda de outras etapas, como pré\hyp{}processamento e pós\hyp{}processamento, que têm por objetivo: i) preparar os dados, permitindo maior fluidez no processo; e ii) validar e refinar o conhecimento obtido.
+
+Outros passos envolvidos no processo de KDD foram propostos pelos autores em \citeonline{fayyad1996data, han2000data} e são descritos por \citeonline{hilderman2013knowledge}, são eles:
+
+\begin{enumerate}[label=\roman*.]
+    \item Integração {--} Dados de múltiplas fontes são combinados;
+    \item Seleção {--} Busca, na base, os exemplos que serão utilizados;
+    \item Redução e transformação {--} Reduz o volume de dados a ser considerado nos passos seguintes e converter os mesmos para um formato útil ao algoritmo de mineração selecionado;
+    \item Mineração {--} Especifica uma tarefa a ser executada, tal como análise de agrupamentos ou classificação;
+    \item Interpretação e avaliação {--} Buscam compreender os resultados obtidos pelo passo anterior;
+    \item Apresentação {--} Expõe os resultados utilizando técnicas de visualização e representação de conhecimento;
+    \item Aplicação {--} Utiliza conhecimento descoberto e compreendido, como parte de um processo de tomada de decisão ou solução para um problema;
+    \item Refinamento e repetição {--} Utiliza o conhecimento recém descoberto, buscando melhorar a qualidade ou foco da tarefa de descoberta, tornando\hyp{}a mais relevante.
+\end{enumerate}
+
+Do ponto de vista empresarial, o  KDD pode ser aplicado em praticamente qualquer setor comercial ou industrial que armazene informações a respeito de seus negócios e clientes. O processo pode ser aplicado a qualquer entidade que busque vantagens em grandes quantidades de dados. Dois fatores críticos para o sucesso da mineração destas bases são definidos por \citeonline{zhang2004knowledge}, são eles: grandes quantidades de dados bem integrados e a compreensão bem definida dos processos de negócios onde a tarefa deve ser aplicada.
+
+Na área educacional, diversas formas de ensino, tais como: \textit{softwares} educacionais e cursos via internet, surgiram para complementar o ambiente escolar. Estas fontes múltiplas de dados proporcionam ao KDD uma vasta quantidade de dados únicos, que podem ser analisados para atender questões envolvendo deferentes populações estudantis ou comportamento incomum por parte dos estudantes \cite{romero2010handbook}.
+
+\subsection{Representação de Conhecimento}
+\label{subsec:representacao-conhecimento}
+
+Para que seja compreendido, o conhecimento obtido através do processo de KDD deve ser representado. Para isso, existem diversas maneiras de representação descritas pelos autores em \citeonline{freitas2013data, maulik2006advanced, witten2011data} como sendo:
+
+\begin{enumerate}[label=\roman*.]
+    \item Conjunções lógicas {--} Expressam o conhecimento utilizando regras de predição SE\hyp{}ENTÃO, onde a regra antecedente (SE) consiste de uma conjunção de condições e a regra consequente (ENTÃO) prediz um certo valor objetivo de uma instância de dados que satisfaça a regra antecedente;
+    \item Árvores {--} Apresentam o conhecimento em uma estrutura de fácil compreensão, cada nó representa um atributo e a informação final pode ser observada através da análise do valor de cada nó;
+    \item Tabelas {--} A forma mais simples de representação de conhecimento, similar ao formato de entrada dos algoritmos de mineração, cada linha representa um exemplo ou informação;
+    \item Gráficos {--} Apresentam o conhecimento baseando\hyp{}se em eixos, que representam os atributos dos itens avaliados;
+    \item Exemplos limiares {--} São associados a uma correspondência parcial entre um conceito e uma instância de dados, normalmente utilizada em algoritmos de rede neural. Uma instância deve atingir um limite mínimo de similaridade para satisfazer as condições do conceito;
+    \item Exemplos competitivos {--} Assim como conceitos limiares, envolvem uma forma de correspondência parcial. Porém, ao invés de usar um limite para representar o grau de similaridade, o algoritmo computa este nível para diferentes exemplos e seleciona o melhor. Este tipo de representação de conhecimento é observado em algoritmos de aprendizado baseado em instâncias.
+\end{enumerate}
+
+Para que o conhecimento seja representado, \citeonline{cios2012data} afirmam que devem ser observados os tipos de dados e o papel da granularidade nos esforços de KDD. O primeiro é representado nas bases de dados, em geral como: i) entradas numéricas, sendo estas números, vetores ou matrizes; ou ii) entidades simbólicas, que descrevem variáveis qualitativas, como claro e escuro. Quanto ao segundo ponto, a granularidade refere\hyp{}se ao nível de abstração como um conjunto de dados é observado. Um exemplo bem detalhado é a eficiência de um carro em Km/l, ao buscar um veículo de consumo médio numa base de dados, obter um valor único como resultado (16 Km/l) demonstra um alto grau de granularidade, enquanto um intervalo (14 - 18 Km/l) apresenta um grau mais baixo de granularidade.
+
+\subsection{Desafios do KDD}
+\label{subsec:kdd-desafios}
+
+A aplicação do processo de descoberta de conhecimento enfrenta desafios devido ao número de passos e processos contidos em cada etapa. Entre os desafios definidos por \citeonline{fayyad1996data, fayyad1996kdd}, podemos citar: i) a quantidade massiva de dados com alta dimensionalidade; ii) sobrecarga; iii) valores faltosos; iv) integração entre sistemas; e v) mudança nos dados.
+
+Algumas etapas do KDD tem por foco alguns destes desafios. Valores faltosos, por exemplo, são observados pela etapa de pré\hyp{}processamento e limpeza dos dados. Dificuldades de integração são observadas tanto nas primeiras fases do processo, a fim de coletar dados de diferentes bases, quanto nas etapas finais, onde o conhecimento é representado aos usuários. Para outros desafios, como a quantidade e dimensionalidade de dados, existe a redução e transformação. As etapas do processo KDD são individualmente preparadas para abordar e corrigir estas e outras dificuldades que possam ocorrer.
