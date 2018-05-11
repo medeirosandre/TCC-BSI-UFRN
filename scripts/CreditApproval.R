@@ -3,6 +3,8 @@
 ###    Credit Approval     ###
 ##############################
 
+setwd("f:/workspace/ufrn/r")
+
 # imports
 ##############################
 source("tcc/scripts/src/Imports.R")
@@ -11,91 +13,144 @@ source("tcc/scripts/src/Functions.R")
 
 # create dataframes
 ##############################
-dataFrame.original <- read.csv(paste(dataFramesLocation[1], 
-                                     dataFramesNames[3], 
+dataframe.original <- read.csv(paste(dataframes.location[1], 
+                                     dataframes.names[2], 
                                      ".csv", sep = ""), 
                                stringsAsFactors = TRUE)
-dataFrame.clean <- data.frame(matrix(1, nrow = nrow(dataFrame.original), 1))
-dataFrame.default <- dataFrame.original
+dataframe.clean <- data.frame(matrix(1, nrow = nrow(dataframe.original), 1))
+dataframe.default <- dataframe.original
 ##############################
 
 # removing NAs from dataFrame.default
 ##############################
-levels(dataFrame.default[[1]]) <- list(A="a", B="b", Z="")
-levels(dataFrame.default[[4]]) <- list(L="l", U="u", Y="y", Z="")
-levels(dataFrame.default[[5]]) <- list(G="g", GG="gg", P="p", Z="")
-levels(dataFrame.default[[6]]) <- list(AA="aa", C="c", CC="cc", 
-                                       D="d", E="e", FF="ff", 
-                                       I="i", J="j", K="k", 
-                                       M="m", Q="q", R="r", 
-                                       W="w", X="x", Z="")
-levels(dataFrame.default[[7]]) <- list(BB="bb", DD="dd", FF="ff", 
-                                       H="h", J="j", N="n", 
-                                       O="o", V="v", L="z", 
-                                       Z="")
-for(i in 1:(ncol(dataFrame.default)-1))
+levels(dataframe.default[[1]]) <- list(a="a", b="b", ZZZ="")
+levels(dataframe.default[[4]]) <- list(l="l", u="u", y="y", ZZZ="")
+levels(dataframe.default[[5]]) <- list(g="g", gg="gg", p="p", ZZZ="")
+levels(dataframe.default[[6]]) <- list(aa="aa", c="c", cc="cc",
+                                       d="d", e="e", ff="ff",
+                                       i="i", j="j", k="k",
+                                       m="m", q="q", r="r",
+                                       w="w", x="x", ZZZ="")
+levels(dataframe.default[[7]]) <- list(bb="bb", dd="dd", ff="ff",
+                                       h="h", j="j", n="n",
+                                       o="o", v="v", z="z",
+                                       ZZZ="")
+for(i in 1:(ncol(dataframe.default)-1))
 {
-  if(is.numeric(dataFrame.default[[i]]))
+  if(is.numeric(dataframe.default[[i]]))
   {
-    dataFrame.default[[i]][is.na(dataFrame.default[[i]])] <- 0
+    dataframe.default[[i]][is.na(dataframe.default[[i]])] <- 0
   }
 }
 ##############################
 
 # creating dataFrame.clean
 ##############################
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 1))
-dataFrame.clean <- dataFrame.clean[, -length(dataFrame.clean)]
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 4))
-dataFrame.clean <- dataFrame.clean[, -length(dataFrame.clean)]
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 5))
-dataFrame.clean <- dataFrame.clean[, -length(dataFrame.clean)]
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 6))
-dataFrame.clean <- dataFrame.clean[, -length(dataFrame.clean)]
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 7))
-dataFrame.clean <- dataFrame.clean[, -length(dataFrame.clean)]
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 1))
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 4))
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 5))
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 6))
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 7))
 
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 9))
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 10))
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 12))
-dataFrame.clean <- cbind(dataFrame.clean, convertColCatToNum(dataFrame.default, 13))
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 9))
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 10))
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 12))
+dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 13))
 
-for(i in 1:ncol(dataFrame.clean))
+for(i in 1:ncol(dataframe.clean))
 {
-  dataFrame.clean[[i]] <- as.numeric(dataFrame.clean[[i]])
+  dataframe.clean[[i]] <- as.numeric(dataframe.clean[[i]])
 }
 
-for(i in 1:(ncol(dataFrame.default)-1))
+for(i in 1:(ncol(dataframe.default)-1))
 {
-  if(is.numeric(dataFrame.default[[i]]))
+  if(is.numeric(dataframe.default[[i]]))
   {
-    dataFrame.clean[length(dataFrame.clean)+1] <- scale(dataFrame.default[[i]])
+    dataframe.clean[length(dataframe.clean)+1] <- scale(dataframe.default[[i]])
   }
 }
 ##############################
 
 # retrieving class
 ##############################
-dataFrame.clean <- dataFrame.clean[,-1]
-dataFrame.clean[length(dataFrame.clean)+1] <- dataFrame.default$Class
+dataframe.clean <- dataframe.clean[,-1]
+dataframe.clean[length(dataframe.clean)+1] <- dataframe.default$Class
 ##############################
 
-# dataframe.clean <- fillNAs(dataFrame.original, dataFrame.clean, dataFrame.default, 10)
+# filling NAs and scalling data
+##############################
+dataframe.final <- fillNAs(dataframe.original, dataframe.clean, dataframe.default, 10)
+for (i in 1:ncol(dataframe.final))
+{
+  if(is.numeric(dataframe.final[[i]]))
+  {
+    dataframe.final[[i]] <- scale(dataframe.final[[i]])
+  }
+}
+##############################
 
-levels <- dataFrame.clean[[47]]
-dataframe.train <- dataFrame.clean[,-47]
+# binarizind data
+##############################
+x <- data.frame(matrix(1, nrow = nrow(dataframe.original), 1))
 
-k <- knn(dataframe.train, dataframe.train, levels, k=10, algorithm = "cover_tree")
-indices <- attr(k, "nn.index")
+levels(dataframe.final[[1]]) <- list(a="a", b="b", ZZZ="")
+levels(dataframe.final[[4]]) <- list(l="l", u="u", y="y", ZZZ="")
+levels(dataframe.final[[5]]) <- list(g="g", gg="gg", p="p", ZZZ="")
+levels(dataframe.final[[6]]) <- list(aa="aa", c="c", cc="cc",
+                                       d="d", e="e", ff="ff",
+                                       i="i", j="j", k="k",
+                                       m="m", q="q", r="r",
+                                       w="w", x="x", ZZZ="")
+levels(dataframe.final[[7]]) <- list(bb="bb", dd="dd", ff="ff",
+                                       h="h", j="j", n="n",
+                                       o="o", v="v", z="z",
+                                       ZZZ="")
 
-nearest.neighbors <- dataFrame.default[indices[207,-1],]
+# x <- cbind(x, convertColCatToNum(dataframe.final, 1))
+# x <- x[,-length(x)]
+# x <- cbind(x, convertColCatToNum(dataframe.final, 4))
+# x <- x[,-length(x)]
+# x <- cbind(x, convertColCatToNum(dataframe.final, 5))
+# x <- x[,-length(x)]
+# x <- cbind(x, convertColCatToNum(dataframe.final, 6))
+# x <- x[,-length(x)]
+# x <- cbind(x, convertColCatToNum(dataframe.final, 7))
+# x <- x[,-length(x)]
 
-# print(statmod(nearest.neighbors[,1]))
-# print(mean(nearest.neighbors[,2]))
+x <- cbind(x,convertColCatToNumOrd(dataframe.final, 1, c("b", "a", "ZZZ")))
+x <- cbind(x,convertColCatToNumOrd(dataframe.final, 4, c("u", "y", "l", "t", "ZZZ")))
+x <- cbind(x,convertColCatToNumOrd(dataframe.final, 5, c("g", "p", "gg", "ZZZ")))
+x <- cbind(x,convertColCatToNumOrd(dataframe.final, 6, c("c", "d", "cc",
+                                                         "i", "j", "k",
+                                                         "m", "r", "q",
+                                                         "w", "x", "e",
+                                                         "aa", "ff", "ZZZ")))
+x <- cbind(x,convertColCatToNumOrd(dataframe.final, 7, c("v", "h", "bb",
+                                                         "j", "n", "z",
+                                                         "dd", "ff", "o",
+                                                         "ZZZ")))
+x <- cbind(x,convertColCatToNumOrd(dataframe.final, 9, c("t", "f")))
+x <- cbind(x,convertColCatToNumOrd(dataframe.final, 10, c("t", "f")))
+x <- cbind(x,convertColCatToNumOrd(dataframe.final, 12, c("t", "f")))
+
+x <- cbind(x, convertColCatToNumOrd(dataframe.final, 13, c("g", "p", "s")))
+
+for(i in 1:ncol(dataframe.final))
+{
+  if(is.numeric(dataframe.final[[i]]))
+  {
+    x[length(x)+1] <- dataframe.final[[i]]
+  }
+}
+
+x <- x[,-1]
+x[[length(x)+1]] <- dataframe.final[[length(dataframe.final)]]
+
+##############################
 
 # write dataFrame to file
 ##############################
-# write.csv(dataFrame.clean, paste(dataFramesLocation[2], 
-#                                  dataFramesNames[3],".csv", sep = ""), 
-#           na = "", row.names = FALSE)
+write.csv(x, paste(dataframes.location[2],
+                                 dataframes.names[2],".csv", sep = ""),
+          na = "", row.names = FALSE)
 ##############################

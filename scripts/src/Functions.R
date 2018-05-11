@@ -66,49 +66,71 @@ convertColCatToNumOrd <- function(dataFrame, column, levels)
 }
 
 
-
 ##############################
 ##      Data Imputation     ##
 ##############################
 
-fillNAs <- function(dataframe.original, dataframe.clean, dataframe.treated, number.k)
+# d.o = dataframe.original
+# d.c = dataframe.clean
+# d.t = dataframe.treated
+fillNAs <- function(d.o, d.c, d.t, num.k)
 {
-  levels <- dataframe.clean[[47]]
-  dataframe.train <- dataframe.clean[,-47]
+  lvls <- d.c[[length(d.c)]]
+  d.train <- d.c[,-length(d.c)]
   
-  k <- knn(dataframe.train, dataframe.train, levels, k=number.k, algorithm = "cover_tree")
+  k <- knn(d.train, d.train, lvls, k=num.k, algorithm = "cover_tree")
   indices <- attr(k, "nn.index")
   
-  for(i in 1:nrow(dataframe.original))
+  for(i in 1:nrow(d.o))
   {
-    for(j in 1:(ncol(dataframe.original)-1))
+    for(j in 1:(ncol(d.o)-1))
     {
-      if(is.na(dataFrame.original[i,j]) || dataframe.original[i,j] == "")
+      if(is.na(d.o[i,j]) || d.o[i,j] == "")
       {
-        print(i)
-        print(j)
-        nearest.neighbors <- dataframe.treated[indices[i,-1],]
-        if(is.numeric(dataFrame.original[[j]]))
+        nearest.neighbors <- d.t[indices[i,-1],]
+        if(is.numeric(d.o[[j]]))
         {
-          dataframe.original[i,j] <- mean(nearest.neighbors[,j])
+          d.o[i,j] <- media(nearest.neighbors ,j)
         }
         else{
-          dataframe.original[i,j] <- moda(nearest.neighbors[,j])
+          d.o[i,j] <- moda(nearest.neighbors, j)
         }
       }
     }
   }
   
-  return(dataframe.original)
+  return(d.o)
 }
 
 
-################
-##    Moda    ##
-################
+########################
+##    Media e Moda    ##
+########################
 
-# TODO tratar empates e sorteio de NAs
-moda <- function(column) 
+# y = nearest.neighbors
+# c = column
+media <- function(y, c)
 {
-  lvls <- as.factor(as.vector(nearest.neighbors[[6]]))
+  x <- y[complete.cases(y[,c]),c]
+  
+  if(length(x) == 0)
+  {
+    return(0)
+  }
+  
+  return(mean(x))
+}
+
+# y = nearest.neighbors
+# c = column
+moda <- function(y, c) 
+{
+  x <- as.factor(
+    as.vector(
+      y[which(as.vector(y[[c]]) != "ZZZ"),c]))
+  
+  l <- summary(x)
+  m <- names(sort(l, decreasing = T))
+  
+  return(m[1])
 } 
