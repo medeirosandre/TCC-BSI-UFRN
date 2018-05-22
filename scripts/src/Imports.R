@@ -13,7 +13,7 @@ library("plyr")         # rename levels
 library("readr")        # read files
 
 # Used data frames locations (dirty and clean)
-dataframes.location <- c("tcc/databases/", "tcc/cleanDatabases/")
+dataframes.location <- c("tcc/originalDatasets/", "tcc/cleanDatasets/")
 
 # Used data frames
-dataframes.names <- c("carEvaluation", "creditApproval", "mushroom", "internetAds")
+dataframes.names <- c("mushroom")
