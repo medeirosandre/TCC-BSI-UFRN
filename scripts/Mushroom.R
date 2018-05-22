@@ -3,7 +3,7 @@
 ###        Mushroom        ###
 ##############################
 
-setwd("f:/workspace/ufrn/r")
+# setwd("d:/workspace/ufrn/r")
 
 # imports
 ##############################

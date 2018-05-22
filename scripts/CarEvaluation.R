@@ -2,7 +2,7 @@
 ###       Cleaning Car Evaluation          ###
 ##############################################
 
-setwd("f:/workspace/ufrn/r")
+setwd("d:/workspace/ufrn/r")
 
 source("tcc/scripts/src/Imports.R")
 source("tcc/scripts/src/Functions.R")
