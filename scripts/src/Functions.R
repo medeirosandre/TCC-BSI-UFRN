@@ -36,7 +36,7 @@ convertColCatToNum <- function(dataFrame, column)
   
   for (l in 1:length(lvls))
   {
-    lvls[l] = paste(column, "_", lvls[l])
+    lvls[l] = paste(colnames(dataFrame)[column], "_", lvls[l])
   }
   colnames(auxDataFrame) <- lvls
   
@@ -87,13 +87,15 @@ fillNAs <- function(d.o, d.c, d.t, num.k)
     {
       if(is.na(d.o[i,j]) || d.o[i,j] == "")
       {
+        # print(i)
+        # print(j)
         nearest.neighbors <- d.t[indices[i,-1],]
         if(is.numeric(d.o[[j]]))
         {
           d.o[i,j] <- media(nearest.neighbors ,j)
         }
         else{
-          d.o[i,j] <- moda(nearest.neighbors, j)
+          d.o[i,j] <- moda(d.t ,nearest.neighbors, j)
         }
       }
     }
@@ -123,7 +125,7 @@ media <- function(y, c)
 
 # y = nearest.neighbors
 # c = column
-moda <- function(y, c) 
+moda <- function(df.o, y, c) 
 {
   x <- as.factor(
     as.vector(
@@ -131,6 +133,11 @@ moda <- function(y, c)
   
   l <- summary(x)
   m <- names(sort(l, decreasing = T))
+  
+  if(length(x) == 0)
+  {
+    return(moda(df.o, df.o, c))
+  }
   
   return(m[1])
 } 
