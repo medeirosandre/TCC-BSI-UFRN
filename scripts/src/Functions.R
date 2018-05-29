@@ -11,7 +11,15 @@
 # Categorical to Numerical data
 convertColCatToNum <- function(dataFrame, column)
 {
-  lvls <- levels(dataFrame[[column]])
+  if(is.numeric(dataFrame[[column]]))
+  {
+    lvls <- as.character(unique(dataFrame[[column]]))
+    
+  }
+  else
+  {
+    lvls <- levels(dataFrame[[column]])
+  }
   auxDataFrame <- data.frame(matrix(lvls, 
                                     nrow = nrow(dataFrame), 
                                     ncol = length(lvls)), 

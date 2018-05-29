@@ -94,13 +94,13 @@ dataframe.clean <- cbind(dataframe.clean, convertColCatToNum(dataframe.default, 
 # write dataFrame to file
 ##############################
 write.csv(dataframe.clean, paste(dataframes.location[2],
-                   dataframes.names[1],"2.csv", sep = ""),
+                   dataframes.names[1],"_2.csv", sep = ""),
           quote = FALSE,
           na = "", row.names = FALSE)
 
 dataframe.clean <- read.csv(paste(dataframes.location[2],
                                   dataframes.names[1],
-                                  "2.csv", sep = ""),
+                                  "_2.csv", sep = ""),
                             stringsAsFactors = TRUE)
 ##############################
 
