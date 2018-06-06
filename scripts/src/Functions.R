@@ -105,6 +105,7 @@ fillNAs <- function(d.o, d.c, d.t, num.k)
         else{
           d.o[i,j] <- moda(d.t ,nearest.neighbors, j)
         }
+        # print(d.o[i,j])
       }
     }
   }

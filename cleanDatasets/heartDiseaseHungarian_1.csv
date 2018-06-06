@@ -1,4 +1,4 @@
-dataframe.default[[1]],sex _ 1,sex _ 0,cp _ 2,cp _ 1,cp _ 3,cp _ 4,dataframe.default[[4]],dataframe.default[[5]],fbs _ 0,fbs _ 1,fbs _ ZZZ,dataframe.default[[7]],dataframe.default[[8]],exang _ 0,exang _ 1,exang _ ZZZ,dataframe.default[[10]],dataframe.default[[11]],dataframe.default[[12]],dataframe.default[[13]],num
+age,sex_1,sex_2,cp_1,cp_2,cp_3,cp_4,trestbps,chol,fbs_1,fbs_2,fbs_nulo,restecg,thalach,exang_1,exang_2,exang_nulo,oldpeak,slope,ca,thal,num
 28,1,0,1,0,0,0,130,132,1,0,0,2,185,1,0,0,0,,,,0
 29,1,0,1,0,0,0,120,243,1,0,0,0,160,1,0,0,0,,,,0
 29,1,0,1,0,0,0,140,,1,0,0,0,170,1,0,0,0,,,,0
