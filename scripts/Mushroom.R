@@ -19,8 +19,9 @@ source("tcc/scripts/src/Functions.R")
 # create dataframes
 ##############################
 dataframe.original <- readFromCsv(1, 1)
-dataframe.original <- pushClassToTheEnd(dataframe.original, 1, "class")
+dataframe.original <- pushClassToTheEnd(dataframe.original, 1, colnames(dataframe.original)[1])
 dataframe.original <- dropLevelFromDataframe(dataframe.original, "NULO")
 
 dataframe.noNA <- getCompleteCases(dataframe.original)
+dataframe.onlyNA <- getIncompleteCases(dataframe.original)
 ##############################
