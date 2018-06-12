@@ -9,15 +9,17 @@
 ### <summary>
 ### funcion to load a csv file and return a dataframe
 ### </summary>
-### <param name="df.location">integer, index for path to find dataframe</param>
-### <param name="df.name">integer, index for the name of the dataframe</param>
+### <param name="df.location">string, path to find dataframe</param>
+### <param name="df.name">string, name of the dataframe</param>
+### <param name="df.sufix">string, sufix of the dataframe</param>
 ### <return>returns a dataframe from csv file</return>
-readFromCsv <- function(df.location, df.name)
+readFromCsv <- function(df.location, df.name, df.sufix)
 {
-  df.aux <- read.csv(paste(dataframes.location[df.location], 
-                                       dataframes.names[df.name], 
-                                       ".csv", sep = ""), 
-                                 stringsAsFactors = TRUE)
+  df.aux <- read.csv(paste(df.location,
+                           df.name, 
+                           df.sufix, 
+                           ".csv", sep = ""), 
+                     stringsAsFactors = TRUE)
   return(df.aux)
 }
 
@@ -25,12 +27,15 @@ readFromCsv <- function(df.location, df.name)
 ### funcion to write a dataframe into a csv file
 ### </summary>
 ### <param name="df.toWrite">dataframe, dataframe to be written into a csv file</param>
-### <param name="df.location">integer, index for path in which a dataframe must be written</param>
-### <param name="df.name">integer, index for the name of the dataframe</param>
-writeToCsv <- function(df.toWrite, df.location, df.name)
+### <param name="df.location">string, path in which a dataframe must be written</param>
+### <param name="df.name">string, name of the dataframe</param>
+### <param name="df.sufix>string, sufix of the dataframe</param>
+writeToCsv <- function(df.toWrite, df.location, df.name, df.sufix)
 {
-  write.csv(df.toWrite, paste(dataframes.location[df.location], 
-                              dataframes.names[df.name],".csv", sep = ""), 
+  write.csv(df.toWrite, paste(df.location, 
+                              df.name,
+                              df.sufix,
+                              ".csv", sep = ""), 
             quote = FALSE, 
             na = "", row.names = FALSE)
 }
@@ -60,6 +65,32 @@ dropLevelFromDataframe <- function(df.original, levelToDrop)
 {
   df.aux <- df.original
   df.aux <- droplevels(df.aux, exclude = levelToDrop)
+  
+  return(df.aux)
+}
+
+fillNAs <- function(df.noNA, df.onlyNA)
+{
+  df.aux <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    current.row <- df.onlyNA[i, ]
+    
+    column.na <- findWhichElementsInRowAreNA(current.row)
+    
+    for (j in 1:length(column.na)) {
+      if (is.numeric(df.noNA[[column.na[j]]]))
+      {
+        value.toReplace <- findMean(df.noNA, column.na[j])
+      }
+      else
+      {
+        value.toReplace <- findFashion(df.noNA, column.na[j])
+      }
+      current.row[, column.na[j]] <- value.toReplace
+    }
+    
+    df.aux <- appendRowIntoDataframe(df.aux, current.row)
+  }
   
   return(df.aux)
 }
@@ -138,9 +169,7 @@ findFashion <- function(df.original, column)
 ### <return>returns number representing the mean of such column</return>
 findMean <- function(df.original, column)
 {
-  var.aux <- df.original[,column]
-  
-  return(mean(var.aux))
+  return(mean(df.original[,column]))
 }
 ###############################################################################
 
@@ -293,5 +322,16 @@ hideColumnsOfDataframe <- function(df.original, columns)
 findWhichElementsInRowAreNA <- function(row)
 {
   return(which(is.na(row)))
+}
+
+### <summary>
+### function to get all of the cases of a specific class
+### <summary>
+### <param name="df.original">dataframe, original dataframe from which the cases must be observed</param>
+### <param name="className">string, value of the class who must be observed</param>
+### <return>returns a dataframe containing only the cases of said specific class</return>
+getCasesOfSpecificClass <- function(df.original, className)
+{
+  return(df.original[c(which(df.original[[ncol(df.original)]] == className)),])
 }
 ###############################################################################
