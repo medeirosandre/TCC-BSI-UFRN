@@ -56,6 +56,22 @@ appendRowIntoDataframe <- function(df.original, rowToAppend)
 }
 
 ### <summary>
+### function to convert the data in an already converted dataframe from categorical to numerical
+### to be used before the use of k-nn
+### <summary>
+### <param name="dfToConvert">dataframe, dataframe from which the columns must be converted</param>
+### <return>returns a dataframe containing the same data as the original one, 
+### only representend as numeric data</return>
+convertCategoricalToNumerical <- function(dfToConvert)
+{
+  for (i in 1:(ncol(dfToConvert)-1)) {
+    dfToConvert[[i]] <- as.numeric(dfToConvert[[i]])
+  }
+  
+  return(dfToConvert)
+}
+
+### <summary>
 ### funcion to drop a level from a dataframe
 ### </summary>
 ### <param name="df.orivinal">dataframe, original dataframe from which the level must be dropped</param>
@@ -65,32 +81,6 @@ dropLevelFromDataframe <- function(df.original, levelToDrop)
 {
   df.aux <- df.original
   df.aux <- droplevels(df.aux, exclude = levelToDrop)
-  
-  return(df.aux)
-}
-
-fillNAs <- function(df.noNA, df.onlyNA)
-{
-  df.aux <- df.noNA
-  for (i in 1:nrow(df.onlyNA)) {
-    current.row <- df.onlyNA[i, ]
-    
-    column.na <- findWhichElementsInRowAreNA(current.row)
-    
-    for (j in 1:length(column.na)) {
-      if (is.numeric(df.noNA[[column.na[j]]]))
-      {
-        value.toReplace <- findMean(df.noNA, column.na[j])
-      }
-      else
-      {
-        value.toReplace <- findFashion(df.noNA, column.na[j])
-      }
-      current.row[, column.na[j]] <- value.toReplace
-    }
-    
-    df.aux <- appendRowIntoDataframe(df.aux, current.row)
-  }
   
   return(df.aux)
 }
@@ -333,5 +323,149 @@ findWhichElementsInRowAreNA <- function(row)
 getCasesOfSpecificClass <- function(df.original, className)
 {
   return(df.original[c(which(df.original[[ncol(df.original)]] == className)),])
+}
+###############################################################################
+
+# functions to fill missing values
+###############################################################################
+
+### <summary>
+### function to fill missing values in a single row, based on a dataframe
+### <summary>
+### <param name="df.toAnalize">dataframe, dataframe from which the value to be used is obtained</param>
+### <param name="row">dataframe, single row of a dataframe in which the missing values must be filled</param>
+### <param name="row.naElements">vector, vector containing the indexes for the columns that 
+### contain missing values within the row</param>
+### <return>returns a dataframe containing a single row with it's missing values filled</return>
+fillNAInARow <- function(df.toAnalize, row, row.naElements)
+{
+  for (j in 1:length(row.naElements)) {
+    if (is.numeric(df.toAnalize[[row.naElements[j]]]))
+    {
+      value.toReplace <- findMean(df.toAnalize, row.naElements[j])
+    }
+    else
+    {
+      value.toReplace <- findFashion(df.toAnalize, row.naElements[j])
+    }
+    row[, row.naElements[j]] <- value.toReplace
+  }
+  
+  return(row)
+}
+
+### <summary>
+### function to fill missing values from original dataframe based in the original complete cases of said dataframe
+### plus, the rows with the missing values recently filled
+### </summary
+### <param name="df.noNA">dataframe, dataframe containing only complete cases of an original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing only incomplete cases of an original dataframe</param>
+### <return>returns a dataframe representing the original data with the missing values filled</return>
+fillNAWithCompleteDatasetAppending <- function(df.noNA, df.onlyNA)
+{
+  df.aux <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    current.row <- df.onlyNA[i, ]
+    column.na <- findWhichElementsInRowAreNA(current.row)
+    
+    current.row <- fillNAInARow(df.aux, current.row, column.na)
+    
+    df.aux <- appendRowIntoDataframe(df.aux, current.row)
+  }
+  
+  return(df.aux)
+}
+
+### <summary>
+### function to fill missing values from original dataframe based in the original complete cases of said dataframe
+### </summary
+### <param name="df.noNA">dataframe, dataframe containing only complete cases of an original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing only incomplete cases of an original dataframe</param>
+### <return>returns a dataframe representing the original data with the missing values filled</return>
+fillNAWithCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA)
+{
+  df.aux <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    current.row <- df.onlyNA[i, ]
+    column.na <- findWhichElementsInRowAreNA(current.row)
+    
+    current.row <- fillNAInARow(df.noNA, current.row, column.na)
+    
+    df.aux <- appendRowIntoDataframe(df.aux, current.row)
+  }
+  
+  return(df.aux)
+}
+
+### <summary>
+### function to fill missing values from original dataframe based in the original complete cases of said dataframe
+### plus, the rows with the missing values recently filled, having the same class as the case which must be filled
+### </summary
+### <param name="df.noNA">dataframe, dataframe containing only complete cases of an original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing only incomplete cases of an original dataframe</param>
+### <return>returns a dataframe representing the original data with the missing values filled</return>
+fillNAWithDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA)
+{
+  df.aux <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    current.row <- df.onlyNA[i, ]
+    column.na <- findWhichElementsInRowAreNA(current.row)
+    
+    df.aux2 <- getCasesOfSpecificClass(df.aux, as.character(current.row[, ncol(current.row)]))
+    
+    current.row <- fillNAInARow(df.aux2, current.row, column.na)
+    
+    df.aux <- appendRowIntoDataframe(df.aux, current.row)
+  }
+  
+  return(df.aux)
+}
+
+### <summary>
+### function to fill missing values from original dataframe based in the original complete cases of said dataframe
+### having the same class as the case which must be filled
+### </summary
+### <param name="df.noNA">dataframe, dataframe containing only complete cases of an original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing only incomplete cases of an original dataframe</param>
+### <return>returns a dataframe representing the original data with the missing values filled</return>
+fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA)
+{
+  df.aux <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    current.row <- df.onlyNA[i, ]
+    column.na <- findWhichElementsInRowAreNA(current.row)
+    
+    df.aux2 <- getCasesOfSpecificClass(df.noNA, as.character(current.row[, ncol(current.row)]))
+    
+    current.row <- fillNAInARow(df.aux2, current.row, column.na)
+    
+    df.aux <- appendRowIntoDataframe(df.aux, current.row)
+  }
+  
+  return(df.aux)
+}
+###############################################################################
+
+# functions to use k-nn
+###############################################################################
+
+### <summary>
+### function to find the k-nearest neighbors of an individual row within a dataframe
+### </summary>
+### <param name="dfToAnalize">dataframe, dataframe in which the nearest neighbors must be found</param>
+### <param name="row">dataframe, dataframe containing the single row from which the nearest neighbors must be found</param
+### <param name="kNum">integer, number of nearest neighbors who must be found</param>
+### <return>returns a vector contaning the indexes of the k-nearest neighbors of the given row</param>
+findKNNOfARow <- function(dfToAnalize, row, kNum)
+{
+  targetValues <- dfToAnalize[[length(dfToAnalize)]]
+  dfTraining <- dfToAnalize[, -ncol(dfToAnalize)]
+  
+  k <- knn(dfTraining, dfTraining, targetValues, k = kNum, algorithm = "cover_tree")
+  indices <- attr(k, "nn.index")
+  
+  nearestNeighbors <- dfToAnalize[indices[as.numeric(rownames(row)[1]), -1], ]
+  
+  return(c(as.integer(rownames(nearestNeighbors))))
 }
 ###############################################################################
