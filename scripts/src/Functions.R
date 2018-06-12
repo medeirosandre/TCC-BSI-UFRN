@@ -458,14 +458,13 @@ fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA)
 ### <return>returns a vector contaning the indexes of the k-nearest neighbors of the given row</param>
 findKNNOfARow <- function(dfToAnalize, row, kNum)
 {
-  targetValues <- dfToAnalize[[length(dfToAnalize)]]
+  targetValues <- dfToAnalize[[ncol(dfToAnalize)]]
   dfTraining <- dfToAnalize[, -ncol(dfToAnalize)]
+  dfTest <- row[,-ncol(row)]
   
-  k <- knn(dfTraining, dfTraining, targetValues, k = kNum, algorithm = "cover_tree")
+  k <- knn(dfTraining, dfTest, targetValues, k = kNum, algorithm = "cover_tree")
   indices <- attr(k, "nn.index")
   
-  nearestNeighbors <- dfToAnalize[indices[as.numeric(rownames(row)[1]), -1], ]
-  
-  return(c(as.integer(rownames(nearestNeighbors))))
+  return(c(as.integer(indices[1, ])))
 }
 ###############################################################################
