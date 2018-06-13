@@ -465,6 +465,9 @@ findKNNOfARow <- function(dfToAnalize, row, kNum)
   k <- knn(dfTraining, dfTest, targetValues, k = kNum, algorithm = "cover_tree")
   indices <- attr(k, "nn.index")
   
-  return(c(as.integer(indices[1, ])))
+  nn <- as.integer(rownames(dfTraining[c(as.integer(indices[1, ])), ]))
+  
+  # return(c(as.integer(indices[1, ])))
+  return(nn)
 }
 ###############################################################################

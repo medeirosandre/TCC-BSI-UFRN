@@ -44,5 +44,6 @@ df.converted <- df.converted[-c(as.numeric(rownames(row)[1])), ]
 
 nn <- findKNNOfARow(df.converted, row, 9)
 nearestNeighbors <- dataframe.original[nn, ]
+
 print(as.numeric(rownames(row)[1]))
 print(nn)
