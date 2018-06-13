@@ -39,11 +39,11 @@ df.2 <- dataframe.original[-c(as.integer(rownames(df.1))), ]
 # df.1 <- dataframe.original[1:100, ]
 # df.2 <- dataframe.original[-c(as.integer(rownames(df.1))), ]
 
-cRow <- df.2[sample(1:nrow(df.2)), ]
+cRow <- df.2[sample(1:nrow(df.2), 1), ]
 
 nn <- findKNNOfARow(df.1, cRow, 9)
-nearestNeighbors <- dataframe.original[nn, ]
-# nearestNeighbors <- df.1[nn, ]
-
+# nearestNeighbors <- dataframe.original[nn, ]
+# # nearestNeighbors <- df.1[nn, ]
+# 
 print(as.numeric(rownames(cRow)[1]))
 print(nn)

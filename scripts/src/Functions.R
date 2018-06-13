@@ -455,7 +455,7 @@ fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA)
 ### <param name="dfToAnalize">dataframe, dataframe in which the nearest neighbors must be found</param>
 ### <param name="row">dataframe, dataframe containing the single row from which the nearest neighbors must be found</param
 ### <param name="kNum">integer, number of nearest neighbors who must be found</param>
-### <return>returns a vector contaning the indexes of the k-nearest neighbors of the given row</param>
+### <return>returns a dataframe contaning the k-nearest neighbors of the given row</param>
 findKNNOfARow <- function(dfToAnalize, row, kNum)
 {
   targetValues <- dfToAnalize[[ncol(dfToAnalize)]]
@@ -465,9 +465,13 @@ findKNNOfARow <- function(dfToAnalize, row, kNum)
   k <- knn(dfTraining, dfTest, targetValues, k = kNum, algorithm = "cover_tree")
   indices <- attr(k, "nn.index")
   
-  nn <- as.integer(rownames(dfTraining[c(as.integer(indices[1, ])), ]))
+  knn.numericIndexes <- c(as.numeric(indices[1, ]))
+  knn.rowNames <- rownames(dfTraining)[knn.numericIndexes]
+  nearestNeighbors <- dfTraining[which(rownames(dfTraining) == knn.rowNames[1]), ]
+  for (i in 2:length(knn.rowNames)) {
+    nearestNeighbors <- rbind(nearestNeighbors, dfTraining[which(rownames(dfTraining) == knn.rowNames[i]), ])
+  }
   
-  # return(c(as.integer(indices[1, ])))
-  return(nn)
+  return(nearestNeighbors)
 }
 ###############################################################################
