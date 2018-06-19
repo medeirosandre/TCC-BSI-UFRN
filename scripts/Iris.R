@@ -47,3 +47,6 @@ nn <- findKNNOfARow(df.1, cRow, 9)
 # 
 print(as.numeric(rownames(cRow)[1]))
 print(nn)
+
+
+nn.orig <- findOriginalDataForNeighbors(dataframe.original, nn)
