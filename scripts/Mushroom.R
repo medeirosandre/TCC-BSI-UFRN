@@ -59,27 +59,63 @@ convertion.levels <- list(c(1, c(levels(dataframe.original[[1]]))),
 
 # converting dataframes
 ###############################################################################
-# dataframe.final <- fillNAWithCompleteDatasetAppending(dataframe.noNA, dataframe.onlyNA)
-# writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoCompletoAppending")
-# 
-# dataframe.final <- fillNAWithCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA)
-# writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoCompletoNotAppending")
-# 
-# dataframe.final <- fillNAWithDatasetOfCasesClassAppending(dataframe.noNA, dataframe.onlyNA)
-# writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoDeMesmaClasseAppending")
-# 
-# dataframe.final <- fillNAWithDatasetOfCasesClassNotAppending(dataframe.noNA, dataframe.onlyNA)
-# writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoDeMesmaClasseNotAppending")
-# 
-# dataframe.final <- fillNAWithKNNFromCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 3)
-# writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa3NNConjuntoCompletoNotAppending")
-# 
-# dataframe.final <- fillNAWithKNNFromCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 5)
-# writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa5NNConjuntoCompletoNotAppending")
-# 
-# dataframe.final <- fillNAWithKNNFromCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 7)
-# writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa7NNConjuntoCompletoNotAppending")
-# 
-# dataframe.final <- fillNAWithKNNFromCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 9)
-# writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa9NNConjuntoCompletoNotAppending")
+dataframe.final <- fillNAWithCompleteDatasetAppending(dataframe.noNA, dataframe.onlyNA)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoCompletoAppending")
+
+dataframe.final <- fillNAWithCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoCompletoNotAppending")
+
+dataframe.final <- fillNAWithDatasetOfCasesClassAppending(dataframe.noNA, dataframe.onlyNA)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoDeMesmaClasseAppending")
+
+dataframe.final <- fillNAWithDatasetOfCasesClassNotAppending(dataframe.noNA, dataframe.onlyNA)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoDeMesmaClasseNotAppending")
+
+dataframe.final <- fillNAWithKNNFromCompleteDatasetAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 3)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa3NNConjuntoCompletoAppending")
+
+dataframe.final <- fillNAWithKNNFromCompleteDatasetAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 5)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa5NNConjuntoCompletoAppending")
+
+dataframe.final <- fillNAWithKNNFromCompleteDatasetAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 7)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa7NNConjuntoCompletoAppending")
+
+dataframe.final <- fillNAWithKNNFromCompleteDatasetAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 9)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa9NNConjuntoCompletoAppending")
+
+dataframe.final <- fillNAWithKNNFromCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 3)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa3NNConjuntoCompletoNotAppending")
+
+dataframe.final <- fillNAWithKNNFromCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 5)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa5NNConjuntoCompletoNotAppending")
+
+dataframe.final <- fillNAWithKNNFromCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 7)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa7NNConjuntoCompletoNotAppending")
+
+dataframe.final <- fillNAWithKNNFromCompleteDatasetNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 9)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa9NNConjuntoCompletoNotAppending")
+
+dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 3)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa3NNConjuntoDeMesmaClasseAppending")
+
+dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 5)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa5NNConjuntoDeMesmaClasseAppending")
+
+dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 7)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa7NNConjuntoDeMesmaClasseAppending")
+
+dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 9)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModa9NNConjuntoDeMesmaClasseAppending")
+
+dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 3)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MedieEModa3NNConjuntoDeMesmaClasseNotAppending")
+
+dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 5)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MedieEModa5NNConjuntoDeMesmaClasseNotAppending")
+
+dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 7)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MedieEModa7NNConjuntoDeMesmaClasseNotAppending")
+
+dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, 9)
+writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MedieEModa9NNConjuntoDeMesmaClasseNotAppending")
 ###############################################################################

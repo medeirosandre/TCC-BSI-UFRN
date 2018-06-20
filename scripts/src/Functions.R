@@ -350,13 +350,20 @@ convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.origin
   {
     for (j in 1:length(var.aux1))
     {
-      if (var.aux[i] == var.aux1[j])
+      if(is.na(var.aux[i]))
       {
-        df.aux1[i,j] <- as.numeric(1)
+        df.aux1[i,j] <- as.numeric(0)
       }
       else
       {
-        df.aux1[i,j] <- as.numeric(0)
+        if (var.aux[i] == var.aux1[j])
+        {
+          df.aux1[i,j] <- as.numeric(1)
+        }
+        else
+        {
+          df.aux1[i,j] <- as.numeric(0)
+        }
       }
     }
   }
@@ -529,6 +536,53 @@ fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA)
 
 ### <summary>
 ### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
+### and increments the dataframe from which the neighbors are found with each new complete row
+### </summary>
+### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
+### <param name="convert.typs">list, contains vectors informing the index for every column and the convertion 
+### which must be made in said columns</param>
+### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
+### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
+### <return>returns a dataframe containing all of the missing cases filled</return>
+fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, numOfK)
+{
+  convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
+  convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
+  
+  auxDF.return <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    cRow.origData <- df.onlyNA[i, ]
+    
+    cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
+    
+    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+    
+    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    
+    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+    
+    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+    
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA)
+    
+    auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
+    
+    cRow.convData <- getConvertedDataFrame(cRow.origData, convert.typs, convert.lvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    convertedDF.noNA <- appendRowIntoDataframe(convertedDF.noNA, cRow.convData)
+  }
+  
+  return(auxDF.return)
+}
+
+### <summary>
+### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
 ### </summary>
 ### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
 ### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
@@ -557,6 +611,99 @@ fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, con
     cRow.convData <- convertCategoricalToNumerical(cRow.convData)
     
     convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+    
+    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+    
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA)
+    
+    auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
+  }
+  
+  return(auxDF.return)
+}
+
+### <summary>
+### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
+### having the same class as the row with the missing values and increments the dataframe from which the 
+### neighbors are found with each new complete row
+### </summary>
+### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
+### <param name="convert.typs">list, contains vectors informing the index for every column and the convertion 
+### which must be made in said columns</param>
+### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
+### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
+### <return>returns a dataframe containing all of the missing cases filled</return>
+fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, numOfK)
+{
+  convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
+  convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
+  
+  auxDF.return <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    cRow.origData <- df.onlyNA[i, ]
+    
+    cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
+    
+    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+    
+    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    
+    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+    convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
+    
+    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+    
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA)
+    
+    auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
+    
+    cRow.convData <- getConvertedDataFrame(cRow.origData, convert.typs, convert.lvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    convertedDF.noNA <- appendRowIntoDataframe(convertedDF.noNA, cRow.convData)
+  }
+  
+  return(auxDF.return)
+}
+
+### <summary>
+### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
+### having the same class as the row with the missing values
+### </summary>
+### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
+### <param name="convert.typs">list, contains vectors informing the index for every column and the convertion 
+### which must be made in said columns</param>
+### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
+### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
+### <return>returns a dataframe containing all of the missing cases filled</return>
+fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, numOfK)
+{
+  convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
+  convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
+  
+  auxDF.return <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    cRow.origData <- df.onlyNA[i, ]
+    
+    cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
+    
+    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+    
+    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    
+    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+    convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
     
     auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
     auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
