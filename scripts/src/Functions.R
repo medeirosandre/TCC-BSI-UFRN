@@ -425,11 +425,16 @@ getCasesOfSpecificClass <- function(df.original, className)
 ### <param name="row">dataframe, single row of a dataframe in which the missing values must be filled</param>
 ### <param name="row.naElements">vector, vector containing the indexes for the columns that 
 ### contain missing values within the row</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
 ### <return>returns a dataframe containing a single row with it's missing values filled</return>
-fillNAInARow <- function(df.toAnalize, row, row.naElements)
+fillNAInARow <- function(df.toAnalize, row, row.naElements, fillUsing)
 {
   for (j in 1:length(row.naElements)) {
-    if (is.numeric(df.toAnalize[[row.naElements[j]]]))
+    # if (is.numeric(df.toAnalize[[row.naElements[j]]]))
+    if (fillUsing[row.naElements[j]] == 1)
     {
       value.toReplace <- findMean(df.toAnalize, row.naElements[j])
     }
@@ -544,9 +549,13 @@ fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA)
 ### which must be made in said columns</param>
 ### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
 ### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
 ### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
 ### <return>returns a dataframe containing all of the missing cases filled</return>
-fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, numOfK)
+fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
 {
   convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
   convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
@@ -569,7 +578,7 @@ fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA, conver
     auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
     auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
     
-    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA)
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
     
@@ -590,9 +599,13 @@ fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA, conver
 ### which must be made in said columns</param>
 ### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
 ### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
 ### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
 ### <return>returns a dataframe containing all of the missing cases filled</return>
-fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, numOfK)
+fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
 {
   convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
   convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
@@ -615,7 +628,7 @@ fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, con
     auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
     auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
     
-    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA)
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
   }
@@ -634,9 +647,13 @@ fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, con
 ### which must be made in said columns</param>
 ### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
 ### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
 ### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
 ### <return>returns a dataframe containing all of the missing cases filled</return>
-fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, numOfK)
+fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
 {
   convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
   convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
@@ -660,7 +677,7 @@ fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, co
     auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
     auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
     
-    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA)
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
     
@@ -682,9 +699,13 @@ fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, co
 ### which must be made in said columns</param>
 ### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
 ### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
 ### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
 ### <return>returns a dataframe containing all of the missing cases filled</return>
-fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, numOfK)
+fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
 {
   convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
   convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
@@ -708,7 +729,7 @@ fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA,
     auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
     auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
     
-    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA)
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
   }
