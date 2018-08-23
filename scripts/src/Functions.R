@@ -1,18 +1,13 @@
 
-##############################
-###        Functions       ###
-##############################
+#' Functions to be used in the experiments
 
-# Functions to manipulate csv files
-###############################################################################
-
-### <summary>
-### funcion to load a csv file and return a dataframe
-### </summary>
-### <param name="df.location">string, path to find dataframe</param>
-### <param name="df.name">string, name of the dataframe</param>
-### <param name="df.sufix">string, sufix of the dataframe</param>
-### <return>returns a dataframe from csv file</return>
+#' Load a .csv file from de HD.
+#' 
+#' @param df.location a path to a .csv file.
+#' @param df.name the .csv filename.
+#' @param df.sufix the sufix for the .csv file.
+#' 
+#' @return a dataframe with the data from the .csv file.
 readFromCsv <- function(df.location, df.name, df.sufix)
 {
   df.aux <- read.csv(paste(df.location,
@@ -23,13 +18,14 @@ readFromCsv <- function(df.location, df.name, df.sufix)
   return(df.aux)
 }
 
-### <summary>
-### funcion to write a dataframe into a csv file
-### </summary>
-### <param name="df.toWrite">dataframe, dataframe to be written into a csv file</param>
-### <param name="df.location">string, path in which a dataframe must be written</param>
-### <param name="df.name">string, name of the dataframe</param>
-### <param name="df.sufix>string, sufix of the dataframe</param>
+
+#' Write a dataframe into a .csv file.
+#' 
+#' @param df.toWrite a dataframe that is supposed to be written
+#' into a .csv file.
+#' @param df.location the path in which the .csv file must be written.
+#' @param df.name the name of the .csv file.
+#' @param df.sufix the sufix of the .csv file.
 writeToCsv <- function(df.toWrite, df.location, df.name, df.sufix)
 {
   write.csv(df.toWrite, paste(df.location, 
