@@ -95,6 +95,51 @@ getCompleteCases <- function(df.original)
 }
 
 ### <summary>
+### function to get a converted dataframe, using the convertion.types as a method of 
+### differing the converting function
+### <summary>
+### <param name="df.original">dataframe, original dataframe who must be converted</param>
+### <param name="convertion.types">
+### list, used to differt converting functions
+### 1 = convertion from ordinal categorical data to numerical data
+### 2 = convertion from categorical data to numerical data through binarization
+### </param>
+### <param names="column.levels">list, list vectors containing the levels for ordinal convertion</param>
+### <return>returns a dataframe containing the converted data</return>
+getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
+{
+  df.aux <- data.frame(matrix(1,
+                              nrow = nrow(df.original),
+                              ncol = 1),
+                       stringsAsFactors = F)
+  
+  var.aux1 <- 1
+  for (i in 1:length(convertion.types)) {
+    # if (convertion.types[i] == 1)
+    if (convertion.types[[i]][2] == 1)
+    {
+      # df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalOrdinal(
+      #   df.original[[i]], column.levels[[var.aux1]], colnames(df.original)[i]))
+      df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalOrdinal(
+        df.original[[i]], column.levels[[var.aux1]][-1], colnames(df.original)[i]))
+      # var.aux1 <- var.aux1 + 1
+    }
+    # else if (convertion.types[i] == 2)
+    else if (convertion.types[[i]][2] == 2)
+    {
+      df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalThroughBinarization(
+        df.original, i, colnames(df.original)[i], c(column.levels[[var.aux1]][-1])))
+    }
+    var.aux1 <- var.aux1 + 1
+  }
+  
+  df.aux <- cbind(df.aux, df.original[ncol(df.original)])
+  df.aux <- df.aux[, -1]
+  
+  return(df.aux)
+}
+
+### <summary>
 ### function to get a dataframe of incomplete cases from another dataframe
 ### </summary>
 ### <param name="df.original">dataframe, original dataframe from which the function finds the incomplete cases</param>
@@ -102,6 +147,57 @@ getCompleteCases <- function(df.original)
 getIncompleteCases <- function(df.original)
 {
   return(df.original[-c(as.integer(rownames(getCompleteCases(df.original)))),])
+}
+
+### <summary>
+### function to hide columns in a dataframe
+### </summary>
+### <param name="df.original">dataframe, dataframe from which the columns must be hidden</param>
+### <param name"columns">
+### vector, vector of integers containing the indexes of the columns who must be hidden
+### </param>
+### <return>returns the original dataframe without the hidden columns</return>
+hideColumnsOfDataframe <- function(df.original, columns)
+{
+  return(df.original[, -columns])
+}
+
+### <summary>
+### function to hide column in a converted dataframe
+### </summary>
+### <param name="df.converted">dataframe, dataframe containing the converted data</param>
+### <param name="columnstToHide">vector, contains the indexes for the columnst which must be hidden</param>
+### <param name="convrt.typs">list, represents the types of convertions that the dataframe suffered</param>
+### <param name="convrt.lvls">list, represents the possible values for the original data</param>
+### <param name="originalColnames">vector, contains the names of the original columns for the dataframe</param>
+### <return>returns a dataframe containing the converted data, minus the columns which were supposed to be hidden</return>
+hideColumnsOfConvertedDataframe <- function(df.converted, columnsToHide, convrt.typs, convrt.lvls, originalColnames)
+{
+  colnamesToHide <- c()
+  for(i in 1:length(columnsToHide))
+  {
+    auxVar <- originalColnames[columnsToHide[i]]
+    if(convrt.typs[[columnsToHide[i]]][2] == 1)
+    {
+      colnamesToHide <- c(colnamesToHide, auxVar)
+    }
+    else if(convrt.typs[[columnsToHide[i]]][2] == 2)
+    {
+      auxVar2 <- convrt.lvls[[columnsToHide[i]]][-1]
+      for(j in 1:length(auxVar2)) 
+      {
+        colnamesToHide <- c(colnamesToHide, paste(auxVar, "_", auxVar2[j]))
+      }
+    }
+  }
+  
+  indexesToHide <- c()
+  for(i in 1:length(colnamesToHide))
+  {
+    indexesToHide <- c(indexesToHide, which(colnames(df.converted) == colnamesToHide[i]))
+  }
+  
+  return(df.converted[, -c(indexesToHide)])
 }
 
 ### <summary>
@@ -124,6 +220,36 @@ pushClassToTheEnd <- function(df.original, column, columnName)
   colnames(df.aux) <- var.aux1
   
   return(df.aux)
+}
+###############################################################################
+
+# Functions to manipulate lists
+###############################################################################
+
+### <summary>
+### function to hide elements inside a list, using the first value of each 
+### element from the list to determine if said element must be hidden
+### </summary>
+### <param name="aList">list, represents the list from which the elemenst must
+### be hidden</param>
+### <param name="elementsToHide">vector, contain the comparation values</param>
+### <return>returns a list without the elements which were supposed the be 
+### hidden</return>
+hideElementsInAList <- function(aList, elementsToHide)
+{
+  auxList <- list()
+  auxVar <- 1
+  for(i in 1:length(aList))
+  {
+    cElement <- aList[[i]]
+    if(length(which(elementsToHide == cElement[1])) == 0)
+    {
+      auxList[[auxVar]] <- cElement
+      auxVar <- auxVar + 1
+    }
+  }
+  
+  return(auxList)
 }
 ###############################################################################
 
@@ -197,16 +323,18 @@ convertColumnFromCategoricalToNumericalOrdinal <- function(column.data, column.l
 ### <param name="df.original">dataframe, original dataframe from which the column must be observed</param>
 ### <param name="column">integer, index for the column who must be observed within the dataframe</param>
 ### <param name="columnName">string, final name of the column who must be converted</param>
+### <param name="columnLevels">vector, contains the possible values for this column</param>
 ### <return>
 ### returns a dataframe with the same number of columns as the possible values of the column 
 ### to be converted, this dataframe represents the binarized data from such column
 ### </return>
-convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.original, column, columnName)
+convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.original, column, columnName, columnLevels)
 {
   df.aux <- df.original
   var.aux <- df.aux[, column]
   
-  var.aux1 <- unique(var.aux)
+  # var.aux1 <- unique(var.aux)
+  var.aux1 <- unique(columnLevels)
   
   df.aux1 <- data.frame(matrix(var.aux1,
                                nrow = length(var.aux),
@@ -218,13 +346,20 @@ convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.origin
   {
     for (j in 1:length(var.aux1))
     {
-      if (var.aux[i] == var.aux1[j])
+      if(is.na(var.aux[i]))
       {
-        df.aux1[i,j] <- as.numeric(1)
+        df.aux1[i,j] <- as.numeric(0)
       }
       else
       {
-        df.aux1[i,j] <- as.numeric(0)
+        if (var.aux[i] == var.aux1[j])
+        {
+          df.aux1[i,j] <- as.numeric(1)
+        }
+        else
+        {
+          df.aux1[i,j] <- as.numeric(0)
+        }
       }
     }
   }
@@ -240,65 +375,19 @@ convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.origin
 }
 ###############################################################################
 
-# functions to manipulate dataframes
+# functions to analize data
 ###############################################################################
 
-### <summary>
-### function to get a converted dataframe, using the convertion.types as a method of 
-### differing the converting function
-### <summary>
-### <param name="df.original">dataframe, original dataframe who must be converted</param>
-### <param name="convertion.types">
-### vector, used to differt converting functions
-### 1 = convertion from ordinal categorical data to numerical data
-### 2 = convertion from categorical data to numerical data through binarization
-### </param>
-### <param names="column.levels">list, list vectors containing the levels for ordinal convertion</param>
-### <return>returns a dataframe containing the converted data</return>
-getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
+findOriginalDataForNeighbors <- function(df.original, df.neighbors)
 {
-  df.aux <- data.frame(matrix(1,
-                              nrow = nrow(df.original),
-                              ncol = 1),
-                       stringsAsFactors = F)
-  
-  var.aux1 <- 1
-  for (i in 1:length(convertion.types)) {
-    if (convertion.types[i] == 1)
-    {
-      df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalOrdinal(
-        df.original[[i]], column.levels[[var.aux1]], colnames(df.original)[i]))
-      var.aux1 <- var.aux1 + 1
-    }
-    else if (convertion.types[i] == 2)
-    {
-      df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalThroughBinarization(
-        df.original, i, colnames(df.original)[i]))
-    }
+  df.aux <- df.original[which(rownames(df.original) == rownames(df.neighbors)[1]), ]
+  for (i in 2:nrow(df.neighbors))
+  {
+    df.aux <- rbind(df.aux, df.original[which(rownames(df.original) == rownames(df.neighbors)[i]), ])
   }
-  
-  df.aux <- cbind(df.aux, df.original[ncol(df.original)])
-  df.aux <- df.aux[, -1]
   
   return(df.aux)
 }
-
-### <summary>
-### function to hide columns in a dataframe
-### </summary>
-### <param name="df.original">dataframe, dataframe from which the columns must be hidden</param>
-### <param name"columns">
-### vector, vector of integers containing the indexes of the columns who must be hidden
-### </param>
-### <return>returns the original dataframe without the hidden columns</return>
-hideColumnsOfDataframe <- function(df.original, columns)
-{
-  return(df.original[, -columns])
-}
-###############################################################################
-
-# functions to analize data
-###############################################################################
 
 ### <summary>
 ### function to find which elements in a row are NA
@@ -332,11 +421,16 @@ getCasesOfSpecificClass <- function(df.original, className)
 ### <param name="row">dataframe, single row of a dataframe in which the missing values must be filled</param>
 ### <param name="row.naElements">vector, vector containing the indexes for the columns that 
 ### contain missing values within the row</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
 ### <return>returns a dataframe containing a single row with it's missing values filled</return>
-fillNAInARow <- function(df.toAnalize, row, row.naElements)
+fillNAInARow <- function(df.toAnalize, row, row.naElements, fillUsing)
 {
   for (j in 1:length(row.naElements)) {
-    if (is.numeric(df.toAnalize[[row.naElements[j]]]))
+    # if (is.numeric(df.toAnalize[[row.naElements[j]]]))
+    if (fillUsing[row.naElements[j]] == 1)
     {
       value.toReplace <- findMean(df.toAnalize, row.naElements[j])
     }
@@ -440,6 +534,204 @@ fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA)
   
   return(df.aux)
 }
+
+### <summary>
+### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
+### and increments the dataframe from which the neighbors are found with each new complete row
+### </summary>
+### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
+### <param name="convert.typs">list, contains vectors informing the index for every column and the convertion 
+### which must be made in said columns</param>
+### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
+### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
+### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
+### <return>returns a dataframe containing all of the missing cases filled</return>
+fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
+{
+  convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
+  convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
+  
+  auxDF.return <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    cRow.origData <- df.onlyNA[i, ]
+    
+    cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
+    
+    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+    
+    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    
+    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+    
+    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+    
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    
+    auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
+    
+    cRow.convData <- getConvertedDataFrame(cRow.origData, convert.typs, convert.lvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    convertedDF.noNA <- appendRowIntoDataframe(convertedDF.noNA, cRow.convData)
+  }
+  
+  return(auxDF.return)
+}
+
+### <summary>
+### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
+### </summary>
+### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
+### <param name="convert.typs">list, contains vectors informing the index for every column and the convertion 
+### which must be made in said columns</param>
+### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
+### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
+### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
+### <return>returns a dataframe containing all of the missing cases filled</return>
+fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
+{
+  convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
+  convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
+  
+  auxDF.return <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    cRow.origData <- df.onlyNA[i, ]
+    
+    cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
+    
+    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+    
+    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    
+    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+    
+    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+    
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    
+    auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
+  }
+  
+  return(auxDF.return)
+}
+
+### <summary>
+### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
+### having the same class as the row with the missing values and increments the dataframe from which the 
+### neighbors are found with each new complete row
+### </summary>
+### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
+### <param name="convert.typs">list, contains vectors informing the index for every column and the convertion 
+### which must be made in said columns</param>
+### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
+### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
+### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
+### <return>returns a dataframe containing all of the missing cases filled</return>
+fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
+{
+  convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
+  convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
+  
+  auxDF.return <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    cRow.origData <- df.onlyNA[i, ]
+    
+    cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
+    
+    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+    
+    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    
+    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+    convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
+    
+    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+    
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    
+    auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
+    
+    cRow.convData <- getConvertedDataFrame(cRow.origData, convert.typs, convert.lvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    convertedDF.noNA <- appendRowIntoDataframe(convertedDF.noNA, cRow.convData)
+  }
+  
+  return(auxDF.return)
+}
+
+### <summary>
+### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
+### having the same class as the row with the missing values
+### </summary>
+### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
+### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
+### <param name="convert.typs">list, contains vectors informing the index for every column and the convertion 
+### which must be made in said columns</param>
+### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
+### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
+### <param name="fillUsing">vector, represents the method to be used to input the missing value
+### 1 = fill NA using mean
+### 2 = fill NA using fashion
+### </param>
+### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
+### <return>returns a dataframe containing all of the missing cases filled</return>
+fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
+{
+  convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
+  convertedDF.noNA <- convertCategoricalToNumerical(convertedDF.noNA)
+  
+  auxDF.return <- df.noNA
+  for (i in 1:nrow(df.onlyNA)) {
+    cRow.origData <- df.onlyNA[i, ]
+    
+    cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
+    
+    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+    
+    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+    
+    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+    convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
+    
+    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+    
+    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    
+    auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
+  }
+  
+  return(auxDF.return)
+}
 ###############################################################################
 
 # functions to use k-nn
@@ -465,7 +757,7 @@ findKNNOfARow <- function(dfToAnalize, row, kNum)
   knn.rowNames <- rownames(dfTraining)[knn.numericIndexes]
   nearestNeighbors <- dfTraining[which(rownames(dfTraining) == knn.rowNames[1]), ]
   for (i in 2:length(knn.rowNames)) {
-    nearestNeighbors <- rbind(nearestNeighbors, dfTraining[which(rownames(dfTraining) == knn.rowNames[i]), ])
+    nearestNeighbors <- appendRowIntoDataframe(nearestNeighbors, dfTraining[which(rownames(dfTraining) == knn.rowNames[i]), ])
   }
   
   return(nearestNeighbors)
