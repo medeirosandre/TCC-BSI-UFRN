@@ -8,7 +8,6 @@
 
 # Import necessary libraries
 library("FNN")          # K-NN
-library("factoextra")   # feature selection funcions
 library("plyr")         # rename levels
 library("readr")        # read files
 

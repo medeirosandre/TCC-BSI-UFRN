@@ -7,7 +7,7 @@
 # create dataframes
 ###############################################################################
 # setwd("D:/workspace/UFRN/R")    # run on windows
-setwd("~/Workspace/UFRN/R")     # run on linux
+setwd("~/Workspace/UFRN")     # run on linux
 ###############################################################################
 
 # imports
