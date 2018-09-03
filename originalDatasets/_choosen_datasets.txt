@@ -1,0 +1,52 @@
+15 datasets:
+
+5 datasets com dados categóricos:*
+
+	Breast Cancer Data Set
+		https://archive.ics.uci.edu/ml/datasets/Breast+Cancer
+
+	Congressional Voting Records Data Set
+		https://archive.ics.uci.edu/ml/datasets/Congressional+Voting+Records
+
+	Mushroom Data Set
+		https://archive.ics.uci.edu/ml/datasets/Mushroom
+
+	Primary Tumor Data Set
+		https://archive.ics.uci.edu/ml/datasets/Primary+Tumor
+
+	Soybean Large Data Set
+		https://archive.ics.uci.edu/ml/datasets/Soybean+%28Large%29
+
+5 datasets com dados numéricos:
+
+	Autism Screening Adult Data Set:
+		https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
+
+	Breast Cancer Wisconsin (Original) Data Set
+		https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Original%29
+
+	APS Failure at Scania Trucks Data Set
+		https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
+
+	Autistic Spectrum Disorder Screening Data for Children Data Set
+		https://archive.ics.uci.edu/ml/datasets/Autistic+Spectrum+Disorder+Screening+Data+for+Children++
+
+	Autistic Spectrum Disorder Screening Data for Adolescent Data Set
+		https://archive.ics.uci.edu/ml/datasets/Autistic+Spectrum+Disorder+Screening+Data+for+Adolescent+++
+
+5 datasets com dados variados (categóricos e numéricos)
+
+	Adult Data Set
+		https://archive.ics.uci.edu/ml/datasets/Adult
+
+	Annealing Data Set
+		https://archive.ics.uci.edu/ml/datasets/Annealing
+
+	Arrhythmia Data Set
+		https://archive.ics.uci.edu/ml/datasets/Arrhythmia
+
+	Census Income Data Set
+		https://archive.ics.uci.edu/ml/datasets/Census+Income
+
+	Credit Approval Data Set
+		https://archive.ics.uci.edu/ml/datasets/Credit+Approval
