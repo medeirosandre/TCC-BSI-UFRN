@@ -22,6 +22,16 @@
 		% instâncias completas: 53
 		url: https://www.openml.org/d/56
 
+	KDD Internet Usage:
+		nome: kdd-internet-usage.csv
+		n. classes: 2
+		n. atributos: 69
+		n. instâncias: 10108
+		n. instâncias completas: 7409
+		n. valores faltosos: 2699
+		% instâncias completas: 73
+		url: https://www.openml.org/d/981
+
 	Mushroom Data Set (69% dados completos):
 		nome: mushroom.csv
 		n. classes: 2
@@ -54,17 +64,17 @@
 		% instâncias completas: .04
 		url: https://archive.ics.uci.edu/ml/datasets/HCC+Survival
 
-5 datasets com dados variados (categóricos e numéricos)
-
-	Autistic Screening Adult:
-		nome: autism-adult.csv
+	Hip Measurements:
+		nome: hip.csv
 		n. classes: 2
-		n. atributos: 21
-		n. instâncias: 704
-		n. instâncias completas: 609
-		n; valores faltosos: 192
-		% instâncias completas: 86
-		url: https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
+		n. atributos: 8
+		n. instâncias: 54
+		n. instâncias completas: 24
+		n. valores faltosos: 120
+		% instâncias completas: 44
+		url: https://www.openml.org/d/898
+
+5 datasets com dados variados (categóricos e numéricos)
 
 	Adult:
 		name: adult.csv
@@ -75,6 +85,16 @@
 		n. valores fatosos: 6465
 		% instâncias completas: 92
 		url: https://www.openml.org/d/1590
+
+	Autistic Screening Adult:
+		nome: autism-adult.csv
+		n. classes: 2
+		n. atributos: 21
+		n. instâncias: 704
+		n. instâncias completas: 609
+		n; valores faltosos: 192
+		% instâncias completas: 86
+		url: https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
 
 	Credit Approval:
 		nome: credit-approval.csv
@@ -95,6 +115,16 @@
 		n. valores faltosos: 999
 		% instâncias completas: 51
 		url: https://www.openml.org/d/6332
+
+	Jungle Chess 2pcs Endgame Rat Panther:
+		nome: jngl-chs-2pcs-ndgm-rat-pntr.csv
+		n. classes: 2
+		n. atributos: 47
+		n. instâncias: 5880
+		n. instâncias completas: 4704
+		n. valores faltosos: 3528
+		% instâncias completas: 80
+		url: https://www.openml.org/d/41002
 
 	Kicks:
 		nome: kick.csv
