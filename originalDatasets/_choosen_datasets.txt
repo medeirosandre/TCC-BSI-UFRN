@@ -1,52 +1,34 @@
 15 datasets:
 
-5 datasets com dados categóricos:*
+5 datasets com dados categóricos:
 
-	Breast Cancer Data Set
+	Breast Cancer Data Set (96% dados completos):
 		https://archive.ics.uci.edu/ml/datasets/Breast+Cancer
 
-	Congressional Voting Records Data Set
+	Congressional Voting Records Data Set (53% dados completos):
 		https://archive.ics.uci.edu/ml/datasets/Congressional+Voting+Records
 
-	Mushroom Data Set
+	Mushroom Data Set (69% dados completos):
 		https://archive.ics.uci.edu/ml/datasets/Mushroom
 
-	Primary Tumor Data Set
+	Primary Tumor Data Set (38% dados completos) (has to be converted back to categorical):
 		https://archive.ics.uci.edu/ml/datasets/Primary+Tumor
-
-	Soybean Large Data Set
-		https://archive.ics.uci.edu/ml/datasets/Soybean+%28Large%29
 
 5 datasets com dados numéricos:
 
-	Autism Screening Adult Data Set:
-		https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
-
-	Breast Cancer Wisconsin (Original) Data Set
-		https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Original%29
-
-	APS Failure at Scania Trucks Data Set
-		https://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
-
-	Autistic Spectrum Disorder Screening Data for Children Data Set
-		https://archive.ics.uci.edu/ml/datasets/Autistic+Spectrum+Disorder+Screening+Data+for+Children++
-
-	Autistic Spectrum Disorder Screening Data for Adolescent Data Set
-		https://archive.ics.uci.edu/ml/datasets/Autistic+Spectrum+Disorder+Screening+Data+for+Adolescent+++
+	HCC Survival Data Set (.04% dados completos):
+		https://archive.ics.uci.edu/ml/datasets/HCC+Survival
 
 5 datasets com dados variados (categóricos e numéricos)
 
-	Adult Data Set
+	Autistic Screening Adult Data Set (86% dados completos):
+		https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
+
+	Adult Data Set (92% dados completos):
 		https://archive.ics.uci.edu/ml/datasets/Adult
 
-	Annealing Data Set
-		https://archive.ics.uci.edu/ml/datasets/Annealing
-
-	Arrhythmia Data Set
-		https://archive.ics.uci.edu/ml/datasets/Arrhythmia
-
-	Census Income Data Set
-		https://archive.ics.uci.edu/ml/datasets/Census+Income
-
-	Credit Approval Data Set
+	Credit Approval Data Set (94% dados completos):
 		https://archive.ics.uci.edu/ml/datasets/Credit+Approval
+
+	Cylinder Bands Data Set (51% dados completos):
+		https://archive.ics.uci.edu/ml/datasets/Cylinder+Bands

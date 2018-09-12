@@ -1,6 +1,60 @@
 
 #' Functions to be used in the experiments
 
+#' Append a row into a dataframe.
+#' 
+#' @param df_original the dataframe in which the row must be appended.
+#' @param row_to_append a row to append into a dataframe.
+#' 
+#' @return a dataframe with the row appended into.
+appendRowIntoDataframe <- function(df_original, row_to_append)
+{
+  return(rbind(df_original, row_to_append))
+}
+
+#' Convert the type of data in a dataframe from categorical to numerical.
+#' 
+#' @param df_to_convert the dataframe in which the type of data must be converted.
+#' 
+#' @return a dataframe that contains the same data as the input, only represented in numeric type.
+convertCategoricalToNumerical <- function(df_to_convert)
+{
+  for (i in 1:(ncol(df_to_convert)-1)) {
+    df_to_convert[[i]] <- as.numeric(df_to_convert[[i]])
+  }
+  
+  return(df_to_convert)
+}
+
+#' Convert categorical data into ordinal numerical data.
+#' 
+#' @param column_data data from the column that must be converted.
+#' @param column_levels values from the column in the right order.
+#' @param column_name final name of the converted column.
+#' 
+#' @return a dataframe with one column, containing the converted data.
+convertColumnFromCategoricalToNumericalOrdinal <- function(column_data, column_levels, column_name)
+{
+  var_aux <- column_data
+  var_aux1 <- column_levels
+  df_aux <- data.frame(matrix(1,
+                              nrow = length(var_aux),
+                              ncol = 1),
+                       stringsAsFactors = F)
+  colnames(df_aux) <- column_name
+  
+  for (i in 1:length(var_aux)) {
+    for (j in 1:length(var_aux1)) {
+      if (var_aux[i] == var_aux1[j])
+      {
+        df_aux[i, 1] <- j
+      }
+    }
+  }
+  
+  return(df_aux)
+}
+
 #' Load a .csv file from de HD.
 #' 
 #' @param df.location a path to a .csv file.
@@ -18,7 +72,6 @@ readFromCsv <- function(df.location, df.name, df.sufix)
   return(df.aux)
 }
 
-
 #' Write a dataframe into a .csv file.
 #' 
 #' @param df.toWrite a dataframe that is supposed to be written
@@ -34,37 +87,6 @@ writeToCsv <- function(df.toWrite, df.location, df.name, df.sufix)
                               ".csv", sep = ""), 
             quote = FALSE, 
             na = "", row.names = FALSE)
-}
-###############################################################################
-
-# Functions to manipulate a dataframe
-###############################################################################
-
-### <summary>
-### function to append a row into a dataframe
-### </summary>
-### <param name="df.original">dataframa, original dataframe in which the row must be appended</param>
-### <param name="rowToAppend">vector, a row to append into the dataframe</param>
-### <return>returns a dataframe with the appended row</return>
-appendRowIntoDataframe <- function(df.original, rowToAppend)
-{
-  return(rbind(df.original, rowToAppend))
-}
-
-### <summary>
-### function to convert the data in an already converted dataframe from categorical to numerical
-### to be used before the use of k-nn
-### <summary>
-### <param name="dfToConvert">dataframe, dataframe from which the columns must be converted</param>
-### <return>returns a dataframe containing the same data as the original one, 
-### only representend as numeric data</return>
-convertCategoricalToNumerical <- function(dfToConvert)
-{
-  for (i in 1:(ncol(dfToConvert)-1)) {
-    dfToConvert[[i]] <- as.numeric(dfToConvert[[i]])
-  }
-  
-  return(dfToConvert)
 }
 
 ### <summary>
@@ -288,34 +310,7 @@ findMean <- function(df.original, column)
 # Functions to convert categorical values to numerical values
 ###############################################################################
 
-### <summary>
-### function to convert categorical data into ordinal numerical data
-### </summary>
-### <param name="column.data">vector, data from the column which must be converted</param>
-### <param name="column.levels">vector, values from the column in the right order</param>
-### <param name="column.name">string, final name of the converted column</param>
-### <return>returns a dataframe with one column, containing the converted data</return>
-convertColumnFromCategoricalToNumericalOrdinal <- function(column.data, column.levels, column.name)
-{
-  var.aux <- column.data
-  var.aux1 <- column.levels
-  df.aux <- data.frame(matrix(1,
-                              nrow = length(var.aux),
-                              ncol = 1),
-                       stringsAsFactors = F)
-  colnames(df.aux) <- column.name
-  
-  for (i in 1:length(var.aux)) {
-    for (j in 1:length(var.aux1)) {
-      if (var.aux[i] == var.aux1[j])
-      {
-        df.aux[i, 1] <- j
-      }
-    }
-  }
-  
-  return(df.aux)
-}
+
 
 ### <summary>
 ### function to binarize a column with categorical data

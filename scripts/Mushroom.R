@@ -1,33 +1,16 @@
-
-##############################
-###        Mushroom        ###
-##############################
-
-
-# create dataframes
-###############################################################################
 # setwd("D:/workspace/UFRN/R")    # run on windows
 setwd("~/Workspace/UFRN")     # run on linux
-###############################################################################
 
-# imports
-###############################################################################
 source("tcc/scripts/src/Imports.R")
 source("tcc/scripts/src/Functions.R")
-###############################################################################
 
-# create dataframes
-###############################################################################
-dataframe.original <- readFromCsv(dataframes.location[1], dataframes.names[1], "")
+dataframe.original <- readFromCsv(dataframes.location[1], dataframes.names[3], "")
 dataframe.original <- pushClassToTheEnd(dataframe.original, 1, colnames(dataframe.original)[1])
 dataframe.original <- dropLevelFromDataframe(dataframe.original, "NULO")
 
 dataframe.noNA <- getCompleteCases(dataframe.original)
 dataframe.onlyNA <- getIncompleteCases(dataframe.original)
-###############################################################################
 
-# setting dataframe parameters
-###############################################################################
 convertion.types <- list(c(1, 2), c(2, 2), c(3, 2), c(4, 1), c(5, 2), 
                          c(6, 2), c(7, 1), c(8, 2), c(9, 2), c(10, 2), 
                          c(11, 2), c(12, 2), c(13, 2), c(14, 2), c(15, 2), 
@@ -56,12 +39,8 @@ convertion.levels <- list(c(1, c(levels(dataframe.original[[1]]))),
                           c(21, "y", "s", "c", "v", "n", "a"),
                           c(21, c(levels(dataframe.original[[21]]))))
 fillNAUsing <- c(2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2)
-###############################################################################
 
 
-
-# converting dataframes
-###############################################################################
 # dataframe.final <- fillNAWithCompleteDatasetAppending(dataframe.noNA, dataframe.onlyNA)
 # writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MediaEModaConjuntoCompletoAppending")
 # 
@@ -121,4 +100,3 @@ fillNAUsing <- c(2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2)
 # 
 # dataframe.final <- fillNAWithKNNFromDatasetOfCasesClassNotAppending(dataframe.noNA, dataframe.onlyNA, convertion.types, convertion.levels, fillNAUsing, 9)
 # writeToCsv(dataframe.final, dataframes.location[2], dataframes.names[1], "_MedieEModa9NNConjuntoDeMesmaClasseNotAppending")
-###############################################################################
