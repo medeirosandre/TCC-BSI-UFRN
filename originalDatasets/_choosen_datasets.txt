@@ -1,34 +1,107 @@
 15 datasets:
 
-5 datasets com dados categóricos:
+5 datasets com dados categéricos:
 
-	Breast Cancer Data Set (96% dados completos):
-		https://archive.ics.uci.edu/ml/datasets/Breast+Cancer
+	Breast Cancer:
+		nome: breast-cancer.csv
+		n. classes: 2
+		n. atributos 16
+		n. instâncias 286
+		n. instâncias completas: 277
+		n. valores faltosos: 9
+		% instâncias completas: 96
+		url: https://www.openml.org/d/13
 
-	Congressional Voting Records Data Set (53% dados completos):
-		https://archive.ics.uci.edu/ml/datasets/Congressional+Voting+Records
+	Congressional Voting Records:
+		nome: vote.csv
+		n. classes: 2
+		n. atributos: 17
+		n. instâncias: 435
+		n. instâncias completas: 232
+		n. valores faltosos: 392
+		% instâncias completas: 53
+		url: https://www.openml.org/d/56
 
 	Mushroom Data Set (69% dados completos):
-		https://archive.ics.uci.edu/ml/datasets/Mushroom
+		nome: mushroom.csv
+		n. classes: 2
+		n. atributos: 23
+		n. instâncias: 8124
+		n. instâncias completas: 5644
+		n. valores faltosos: 2480
+		% instâncias completas: 69
+		url: https://www.openml.org/d/24
 
-	Primary Tumor Data Set (38% dados completos) (has to be converted back to categorical):
-		https://archive.ics.uci.edu/ml/datasets/Primary+Tumor
+	Primary Tumor:
+		nome: primary-tumor.csv
+		n. classes: 21
+		n. atributos: 18
+		n. instâncias: 339
+		n. instâncias completas: 132
+		n. valores faltosos: 225
+		% instâncias completas: 38
+		url: https://www.openml.org/d/171
 
 5 datasets com dados numéricos:
 
-	HCC Survival Data Set (.04% dados completos):
-		https://archive.ics.uci.edu/ml/datasets/HCC+Survival
+	HCC Survival:
+		nome: hcc-survival.csv
+		n. classes: 2
+		n. atributos: 50
+		n. instâncias: 165
+		n. instâncias completas: 8
+		n; valores faltosos: 826
+		% instâncias completas: .04
+		url: https://archive.ics.uci.edu/ml/datasets/HCC+Survival
 
 5 datasets com dados variados (categóricos e numéricos)
 
-	Autistic Screening Adult Data Set (86% dados completos):
-		https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
+	Autistic Screening Adult:
+		nome: autism-adult.csv
+		n. classes: 2
+		n. atributos: 21
+		n. instâncias: 704
+		n. instâncias completas: 609
+		n; valores faltosos: 192
+		% instâncias completas: 86
+		url: https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
 
-	Adult Data Set (92% dados completos):
-		https://archive.ics.uci.edu/ml/datasets/Adult
+	Adult:
+		name: adult.csv
+		n. classes: 2
+		n. atributos: 15
+		n. instâncias: 48842
+		n. instâncias completas: 45222
+		n. valores fatosos: 6465
+		% instâncias completas: 92
+		url: https://www.openml.org/d/1590
 
-	Credit Approval Data Set (94% dados completos):
-		https://archive.ics.uci.edu/ml/datasets/Credit+Approval
+	Credit Approval:
+		nome: credit-approval.csv
+		n. classes: 2
+		n. atributos: 16
+		n. instâncias: 640
+		n. instâncias completas: 653
+		n. valores faltosos: 67
+		% instâncias completas: 94
+		url: https://www.openml.org/d/29
 
-	Cylinder Bands Data Set (51% dados completos):
-		https://archive.ics.uci.edu/ml/datasets/Cylinder+Bands
+	Cylinder Bands:
+		nome: cylinder-bands.csv
+		n. classes: 2
+		n. atributos: 40
+		n. instâncias: 541
+		n. instâncias completas: 277
+		n. valores faltosos: 999
+		% instâncias completas: 51
+		url: https://www.openml.org/d/6332
+
+	Kicks:
+		nome: kick.csv
+		n. classes: 2
+		n. atributos: 33
+		n. instâncias: 72983
+		n. instâncias completas: 3274
+		n. valores faltosos: 149271
+		% instâncias completas: .04
+		url: https://www.openml.org/d/41162

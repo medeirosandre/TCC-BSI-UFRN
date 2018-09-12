@@ -15,6 +15,7 @@ library("readr")        # read files
 dataframes.location <- c("tcc/originalDatasets/", "tcc/cleanDatasets/")
 
 # Used data frames
-dataframes.names <- c("breast-cancer", "congretional-voting-records", "mushroom", 
+dataframes.names <- c("breast-cancer", "vote", "mushroom", 
                       "primary-tumor", "adult", "autism-adult", 
-                      "credit-approval", "hcc-survival", "cylinder-bands")
+                      "credit-approval", "hcc-survival", "cylinder-bands",
+                      "kick")

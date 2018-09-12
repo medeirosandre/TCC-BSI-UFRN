@@ -1,4 +1,4 @@
-timestamp,cylinder,customer,job,grain,ink,proof,blade,cylinder,paper,ink,direct,solvent,type,press,press,unit,cylinder,paper,plating,proof,viscosity,caliper,ink,humifity,roughness,blade,varnish,press,ink,solvent,ESA,ESA,wax,hardener,roller,current,anode,chrome,class
+timestamp,cylinder,customer,job,grain,ink,proof,blade,cylinder,paper,ink,direct,solvent,type,press,press,unit,cylinder,paper,plating,proof,viscosity,caliper,ink,humifity,roughness,blade,varnish,press,ink,solvent,ESA,ESA,wax,hardener,roller,current,anode,chrome,band_type
 19910108,X126,TVGUIDE,25503,YES,KEY,YES,BENTON,GALLATIN,UNCOATED,UNCOATED,NO,LINE,YES,Motter94,821,2,TABLOID,NorthUS,1911,55,46,0.2,17,78,0.75,20,13.1,1700,50.5,36.4,0,0,2.5,1,34,40,105,100,band
 19910109,X266,TVGUIDE,25503,YES,KEY,YES,BENTON,GALLATIN,UNCOATED,UNCOATED,NO,LINE,YES,Motter94,821,2,TABLOID,NorthUS,?,55,46,0.3,15,80,0.75,20,6.6,1900,54.9,38.5,0,0,2.5,0.7,34,40,105,100,noband
 19910104,B7,MODMAT,47201,YES,KEY,YES,BENTON,GALLATIN,UNCOATED,COATED,NO,LINE,YES,WoodHoe70,815,9,CATALOG,NorthUS,?,62,40,0.433,16,80,?,30,6.5,1850,53.8,39.8,0,0,2.8,0.9,40,40,103.87,100,noband
@@ -540,11 +540,3 @@ tabloid,?,1910,?,45,0.200,17,84,0.8125,27,?,1865,?,?,?,?,1.5,0.7,?,40,109.1,95,b
 19941009,aa58,kmart,85814,?,key,?,?,gallatin,super,coated,?,?,?,Motter94,827,2,tabloid,?,1910,?,?,0.300,16.5,70,1,34,?,1903,?,?,?,?,2.7,2.8,?,40,108,100,band
 19941010,aa70,kmart,85814,?,key,?,?,gallatin,super,uncoated,?,?,?,Motter94,828,2,tabloid,?,1910,?,46,0.267,16.4,76,1,34,?,1903,?,?,?,?,1.5,2.3,?,40,108,100,band
 19941010,j70,best,38064,?,key,?,?,gallatin,super,uncoated,?,?,yes,Albert70,815,1,tabloid,?,1910,?,46,0.200,14.2,75,0.75,25,?,2050,?,?,?,?,2.5,1,?,40,108.1,100,band
-
-
-
-
-
-
-
-
