@@ -109,13 +109,6 @@ convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.origin
   return(df.aux1)
 }
 
-### <summary>
-### funcion to drop a level from a dataframe
-### </summary>
-### <param name="df.orivinal">dataframe, original dataframe from which the level must be dropped</param>
-### <param name="levelToDrop">string, name of the level to drop from the dataframe</param>
-### <return>returns a dataframe with such level dropped</return>
-
 #' Drop a level from a dataframe.
 #' 
 #' @param df.original original dataframe from which the level must be dropped.

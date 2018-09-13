@@ -54,6 +54,16 @@
 
 5 datasets com dados numéricos:
 
+	APS Failure at Scania Trucks:
+		nome:
+		n. classes 2
+		n. atributos: 171
+		n. instâncias: 60000
+		n. instâncias completas: 591
+		n. valores faltosos: 850015
+		% instâncias completas: .009
+		url: http://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
+
 	Breast Cancer Wisconsin:
 		nome: breast-w.csv
 		n. classes: 2
