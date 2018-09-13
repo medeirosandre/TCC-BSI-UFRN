@@ -55,6 +55,81 @@ convertColumnFromCategoricalToNumericalOrdinal <- function(column_data, column_l
   return(df_aux)
 }
 
+#' Binarize a column that contains categorical data.
+#' 
+#' @param df.original original dataframe from which the column must be observed.
+#' @param column index for the column that must observed within the dataframe.
+#' @param columnName final name of the column that must be converted.
+#' @param coolumnLevels contains the possible values for the column.
+#' 
+#' @return a dataframe representing the binarized data from the column.
+convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.original, column, columnName, columnLevels)
+{
+  df.aux <- df.original
+  var.aux <- df.aux[, column]
+  
+  # var.aux1 <- unique(var.aux)
+  var.aux1 <- unique(columnLevels)
+  
+  df.aux1 <- data.frame(matrix(var.aux1,
+                               nrow = length(var.aux),
+                               ncol = length(var.aux1)),
+                        stringsAsFactors = F)
+  colnames(df.aux1) <- var.aux1
+  
+  for (i in 1:length(var.aux))
+  {
+    for (j in 1:length(var.aux1))
+    {
+      if(is.na(var.aux[i]))
+      {
+        df.aux1[i,j] <- as.numeric(0)
+      }
+      else
+      {
+        if (var.aux[i] == var.aux1[j])
+        {
+          df.aux1[i,j] <- as.numeric(1)
+        }
+        else
+        {
+          df.aux1[i,j] <- as.numeric(0)
+        }
+      }
+    }
+  }
+  
+  var.aux2 <- c()
+  for (i in 1:length(var.aux1))
+  {
+    var.aux2 = c(var.aux2, paste(columnName, "_", var.aux1[i]))
+  }
+  colnames(df.aux1) <- var.aux2
+  
+  return(df.aux1)
+}
+
+### <summary>
+### funcion to drop a level from a dataframe
+### </summary>
+### <param name="df.orivinal">dataframe, original dataframe from which the level must be dropped</param>
+### <param name="levelToDrop">string, name of the level to drop from the dataframe</param>
+### <return>returns a dataframe with such level dropped</return>
+
+#' Drop a level from a dataframe.
+#' 
+#' @param df.original original dataframe from which the level must be dropped.
+#' @param levelToDrop name of the level to drop from the dataframe.
+#' 
+#' @return a dataframe with such level dropped.
+dropLevelFromDataframe <- function(df.original, levelToDrop)
+{
+  df.aux <- df.original
+  df.aux <- droplevels(df.aux, exclude = levelToDrop)
+  
+  return(df.aux)
+}
+
 #' Load a .csv file from de HD.
 #' 
 #' @param df.location a path to a .csv file.
@@ -89,19 +164,7 @@ writeToCsv <- function(df.toWrite, df.location, df.name, df.sufix)
             na = "", row.names = FALSE)
 }
 
-### <summary>
-### funcion to drop a level from a dataframe
-### </summary>
-### <param name="df.orivinal">dataframe, original dataframe from which the level must be dropped</param>
-### <param name="levelToDrop">string, name of the level to drop from the dataframe</param>
-### <return>returns a dataframe with such level dropped</return>
-dropLevelFromDataframe <- function(df.original, levelToDrop)
-{
-  df.aux <- df.original
-  df.aux <- droplevels(df.aux, exclude = levelToDrop)
-  
-  return(df.aux)
-}
+
 
 ### <summary>
 ### funcion to get a dataframe of complete cases from another dataframe
@@ -304,69 +367,6 @@ findFashion <- function(df.original, column)
 findMean <- function(df.original, column)
 {
   return(mean(df.original[,column]))
-}
-###############################################################################
-
-# Functions to convert categorical values to numerical values
-###############################################################################
-
-
-
-### <summary>
-### function to binarize a column with categorical data
-### <summary>
-### <param name="df.original">dataframe, original dataframe from which the column must be observed</param>
-### <param name="column">integer, index for the column who must be observed within the dataframe</param>
-### <param name="columnName">string, final name of the column who must be converted</param>
-### <param name="columnLevels">vector, contains the possible values for this column</param>
-### <return>
-### returns a dataframe with the same number of columns as the possible values of the column 
-### to be converted, this dataframe represents the binarized data from such column
-### </return>
-convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.original, column, columnName, columnLevels)
-{
-  df.aux <- df.original
-  var.aux <- df.aux[, column]
-  
-  # var.aux1 <- unique(var.aux)
-  var.aux1 <- unique(columnLevels)
-  
-  df.aux1 <- data.frame(matrix(var.aux1,
-                               nrow = length(var.aux),
-                               ncol = length(var.aux1)),
-                        stringsAsFactors = F)
-  colnames(df.aux1) <- var.aux1
-  
-  for (i in 1:length(var.aux))
-  {
-    for (j in 1:length(var.aux1))
-    {
-      if(is.na(var.aux[i]))
-      {
-        df.aux1[i,j] <- as.numeric(0)
-      }
-      else
-      {
-        if (var.aux[i] == var.aux1[j])
-        {
-          df.aux1[i,j] <- as.numeric(1)
-        }
-        else
-        {
-          df.aux1[i,j] <- as.numeric(0)
-        }
-      }
-    }
-  }
-  
-  var.aux2 <- c()
-  for (i in 1:length(var.aux1))
-  {
-    var.aux2 = c(var.aux2, paste(columnName, "_", var.aux1[i]))
-  }
-  colnames(df.aux1) <- var.aux2
-  
-  return(df.aux1)
 }
 ###############################################################################
 

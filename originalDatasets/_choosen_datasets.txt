@@ -54,13 +54,23 @@
 
 5 datasets com dados numéricos:
 
+	Breast Cancer Wisconsin:
+		nome: breast-w.csv
+		n. classes: 2
+		n. atributos: 10
+		n. instâncias: 699
+		n. instâncias completas: 683
+		n. valores faltosos: 16
+		% instâncias completas: 97
+		url: https://www.openml.org/d/15
+
 	HCC Survival:
 		nome: hcc-survival.csv
 		n. classes: 2
 		n. atributos: 50
 		n. instâncias: 165
 		n. instâncias completas: 8
-		n; valores faltosos: 826
+		n. valores faltosos: 826
 		% instâncias completas: .04
 		url: https://archive.ics.uci.edu/ml/datasets/HCC+Survival
 
