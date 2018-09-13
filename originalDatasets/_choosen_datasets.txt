@@ -55,7 +55,7 @@
 5 datasets com dados numéricos:
 
 	APS Failure at Scania Trucks:
-		nome:
+		nome: aps-failure.csv
 		n. classes 2
 		n. atributos: 171
 		n. instâncias: 60000
@@ -93,6 +93,16 @@
 		n. valores faltosos: 120
 		% instâncias completas: 44
 		url: https://www.openml.org/d/898
+
+	Mice Protein Expression:
+		nome: mice.csv
+		n. classes: 8
+		n. atributos: 82
+		n. instâncias: 1080
+		n. instâncias completas: 552
+		n. valores faltosos: 1114
+		% instâncias completas: 51
+		url: https://archive.ics.uci.edu/ml/datasets/Mice+Protein+Expression
 
 5 datasets com dados variados (categóricos e numéricos)
 
