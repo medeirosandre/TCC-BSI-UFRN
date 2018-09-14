@@ -94,6 +94,16 @@
 		% instâncias completas: 44
 		url: https://www.openml.org/d/898
 
+	Mammographic Mass:
+		nome: mammographic-mass.csv
+		n. classes: 2
+		n. atributos: 6
+		n. instâncias: 961
+		n. instâncias completas: 830
+		n. valores faltosos: 160
+		% instâncias completas: 83
+		url: https://archive.ics.uci.edu/ml/datasets/Mammographic+Mass
+
 	Mice Protein Expression:
 		nome: mice.csv
 		n. classes: 8
