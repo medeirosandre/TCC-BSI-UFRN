@@ -22,6 +22,7 @@
 		% instâncias completas: 53
 		url: https://www.openml.org/d/56
 
+	Conseguir detalhes.
 	KDD Internet Usage:
 		nome: kdd-internet-usage.csv
 		n. classes: 2
@@ -114,6 +115,9 @@
 		% instâncias completas: 51
 		url: https://archive.ics.uci.edu/ml/datasets/Mice+Protein+Expression
 
+	Polish Companies Bankrupcy:
+		url: https://archive.ics.uci.edu/ml/datasets/Polish+companies+bankruptcy+data
+
 5 datasets com dados variados (categóricos e numéricos)
 
 	Adult:
@@ -146,6 +150,7 @@
 		% instâncias completas: 94
 		url: https://www.openml.org/d/29
 
+	Detalhar.
 	Cylinder Bands:
 		nome: cylinder-bands.csv
 		n. classes: 2

@@ -111,6 +111,26 @@ convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.origin
   return(df.aux1)
 }
 
+#' Drops all of the instances from a dataframe that doesn't have a any features filled.
+#' 
+#' @param df_to_drop_instances the dataframe from which the instances must be dropped.
+#' 
+#' @return the dataframe with the instances dropped.
+dropInstancesWithFullNA <- function(df_to_drop_instances)
+{
+  rows_to_drop <- c()
+  for(i in 1:nrow(df_to_drop_instances))
+  {
+    if(length(which(is.na(df_to_drop_instances[i,]))) == ncol(df_to_drop_instances)-1)
+    {
+      rows_to_drop <- c(rows_to_drop, as.integer(rownames(df_to_drop_instances[i, ])))
+      # df_to_drop_instances <- df_to_drop_instances[-which(rownames(df_to_drop_instances) == i), ]
+    }
+  }
+  
+  return(df_to_drop_instances[-rows_to_drop, ])
+}
+
 #' Drop a level from a dataframe.
 #' 
 #' @param df.original original dataframe from which the level must be dropped.
@@ -195,16 +215,11 @@ getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
   
   var.aux1 <- 1
   for (i in 1:length(convertion.types)) {
-    # if (convertion.types[i] == 1)
     if (convertion.types[[i]][2] == 1)
     {
-      # df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalOrdinal(
-      #   df.original[[i]], column.levels[[var.aux1]], colnames(df.original)[i]))
       df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalOrdinal(
         df.original[[i]], column.levels[[var.aux1]][-1], colnames(df.original)[i]))
-      # var.aux1 <- var.aux1 + 1
     }
-    # else if (convertion.types[i] == 2)
     else if (convertion.types[[i]][2] == 2)
     {
       df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalThroughBinarization(
@@ -226,7 +241,8 @@ getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
 ### <return>returns a dataframe with the incomplete cases of the orginal dataframe</return>
 getIncompleteCases <- function(df.original)
 {
-  return(df.original[-c(as.integer(rownames(getCompleteCases(df.original)))),])
+  # return(df.original[-c(as.integer(rownames(getCompleteCases(df.original)))),])
+  return(df.original[-c(match(rownames(getCompleteCases(df_original)), rownames(df_original))),])
 }
 
 ### <summary>

@@ -32,16 +32,18 @@ fillNAInARow <- function(df.toAnalize, row, row.naElements, fillUsing)
 #' 
 #' @param df.noNA a dataframe containing only complete cases of an original dataframe.
 #' @param df.onlyNA a dataframe containing only the incomplete cases of an original dataframe.
+#' @param fill_na_using a vector containing the indicators to which technique is to be used
+#' to fill the NA in a row, mean or fashion.
 #' 
 #' @return a dataframe representing the original data with it's <NA> filled.
-fillNAWithCompleteDatasetAppending <- function(df.noNA, df.onlyNA)
+fillNAWithCompleteDatasetAppending <- function(df.noNA, df.onlyNA, fill_na_using)
 {
   df.aux <- df.noNA
   for (i in 1:nrow(df.onlyNA)) {
     current.row <- df.onlyNA[i, ]
     column.na <- findWhichElementsInRowAreNA(current.row)
     
-    current.row <- fillNAInARow(df.aux, current.row, column.na)
+    current.row <- fillNAInARow(df.aux, current.row, column.na, fill_na_using)
     
     df.aux <- appendRowIntoDataframe(df.aux, current.row)
   }
@@ -53,16 +55,18 @@ fillNAWithCompleteDatasetAppending <- function(df.noNA, df.onlyNA)
 #' 
 #' @param df.noNA a dataframe containing only complete cases of an original dataframe.
 #' @param df.onlyNA a dataframe containing only the incomplete cases of an original dataframe.
+#' @param fill_na_using a vector containing the indicators to which technique is to be used
+#' to fill the NA in a row, mean or fashion.
 #' 
 #' @return a dataframe representing the original data with it's <NA> filled.
-fillNAWithCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA)
+fillNAWithCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, fill_na_using)
 {
   df.aux <- df.noNA
   for (i in 1:nrow(df.onlyNA)) {
     current.row <- df.onlyNA[i, ]
     column.na <- findWhichElementsInRowAreNA(current.row)
     
-    current.row <- fillNAInARow(df.noNA, current.row, column.na)
+    current.row <- fillNAInARow(df.noNA, current.row, column.na, fill_na_using)
     
     df.aux <- appendRowIntoDataframe(df.aux, current.row)
   }
@@ -75,9 +79,11 @@ fillNAWithCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA)
 #' 
 #' @param df.noNA a dataframe containing only complete cases of an original dataframe.
 #' @param df.onlyNA a dataframe containing only the incomplete cases of an original dataframe.
+#' @param fill_na_using a vector containing the indicators to which technique is to be used
+#' to fill the NA in a row, mean or fashion.
 #' 
 #' @return a dataframe representing the original data with it's <NA> filled.
-fillNAWithDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA)
+fillNAWithDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, fill_na_using)
 {
   df.aux <- df.noNA
   for (i in 1:nrow(df.onlyNA)) 
@@ -87,7 +93,7 @@ fillNAWithDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA)
     
     df.aux2 <- getCasesOfSpecificClass(df.aux, as.character(current.row[, ncol(current.row)]))
     
-    current.row <- fillNAInARow(df.aux2, current.row, column.na)
+    current.row <- fillNAInARow(df.aux2, current.row, column.na, fill_na_using)
     
     df.aux <- appendRowIntoDataframe(df.aux, current.row)
   }
@@ -100,9 +106,11 @@ fillNAWithDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA)
 #' 
 #' @param df.noNA a dataframe containing only complete cases of an original dataframe.
 #' @param df.onlyNA a dataframe containing only the incomplete cases of an original dataframe.
+#' @param fill_na_using a vector containing the indicators to which technique is to be used
+#' to fill the NA in a row, mean or fashion.
 #' 
 #' @return a dataframe representing the original data with it's <NA> filled.
-fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA)
+fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA, fill_na_using)
 {
   df.aux <- df.noNA
   for (i in 1:nrow(df.onlyNA)) {
@@ -111,7 +119,7 @@ fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA)
     
     df.aux2 <- getCasesOfSpecificClass(df.noNA, as.character(current.row[, ncol(current.row)]))
     
-    current.row <- fillNAInARow(df.aux2, current.row, column.na)
+    current.row <- fillNAInARow(df.aux2, current.row, column.na, fill_na_using)
     
     df.aux <- appendRowIntoDataframe(df.aux, current.row)
   }
