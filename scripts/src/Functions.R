@@ -213,6 +213,7 @@ getCompleteCases <- function(df.original)
 ### list, used to differt converting functions
 ### 1 = convertion from ordinal categorical data to numerical data
 ### 2 = convertion from categorical data to numerical data through binarization
+# 3 = just append
 ### </param>
 ### <param names="column.levels">list, list vectors containing the levels for ordinal convertion</param>
 ### <return>returns a dataframe containing the converted data</return>
@@ -234,6 +235,17 @@ getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
     {
       df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalThroughBinarization(
         df.original, i, colnames(df.original)[i], c(column.levels[[var.aux1]][-1])))
+    }
+    else if (convertion.types[[i]][2] == 3)
+    {
+      current_col <- data.frame(matrix(
+        data = df.original[, i],
+        nrow = length(df.original[, i]),
+        ncol = 1
+      ))
+      colnames(current_col) <- colnames(df.original)[i]
+      
+      df.aux <- cbind(df.aux, current_col)
     }
     var.aux1 <- var.aux1 + 1
   }
@@ -295,6 +307,10 @@ hideColumnsOfConvertedDataframe <- function(df.converted, columnsToHide, convrt.
         colnamesToHide <- c(colnamesToHide, paste(auxVar, "_", auxVar2[j]))
       }
     }
+    else if(convrt.typs[[columnsToHide[i]]][2] == 3)
+    {
+      colnamesToHide <- c(colnamesToHide, auxVar)
+    }
   }
   
   indexesToHide <- c()
@@ -345,13 +361,17 @@ hideElementsInAList <- function(aList, elementsToHide)
 {
   auxList <- list()
   auxVar <- 1
-  for(i in 1:length(aList))
+  
+  if(length(aList) >= 1)
   {
-    cElement <- aList[[i]]
-    if(length(which(elementsToHide == cElement[1])) == 0)
+    for(i in 1:length(aList))
     {
-      auxList[[auxVar]] <- cElement
-      auxVar <- auxVar + 1
+      cElement <- aList[[i]]
+      if(length(which(elementsToHide == cElement[1])) == 0)
+      {
+        auxList[[auxVar]] <- cElement
+        auxVar <- auxVar + 1
+      }
     }
   }
   

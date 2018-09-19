@@ -14,34 +14,45 @@ for(i in df_names)
     )
   )
   
+  class <- as.formula("class ~ .")
   dados <- readFromCsv(df_locations[1], i, "")
   dados <- dropLevelFromDataframe(dados, "?")
-  class <- as.formula("class ~ .")
   
-  model <- J48(
+  dados_indexes <- c(sample(as.integer(rownames(dados)), trunc(nrow(dados) * 0.75)))
+  
+  dados_train <- dados[dados_indexes, ]
+  dados_test <- dados[-dados_indexes, ]
+  
+  dados_fit <- J48(
     formula = class,
-    data = dados,
+    data = dados_test,
     na.action = NULL
   )
   
-  model_accuracy <- sum(diag(table(dados$class, predict(model)))) / 
-    sum(table(dados$class, predict(model))) * 100
+  model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
+  model_accuracy <- sum(diag(model$confusionMatrix)) / sum(model$confusionMatrix) * 100
   
   accuracy_row_to_append[,1] <- i
   accuracy_row_to_append[,2] <- model_accuracy
   for(j in techniques_sufix)
   {
-    dados <- readFromCsv(df_locations[2], i, j)
     class <- as.formula("class ~ .")
+    dados <- readFromCsv(df_locations[2], i, j)
+    dados <- dropLevelFromDataframe(dados, "?")
     
-    model <- J48(
+    # dados_indexes <- c(sample(as.integer(rownames(dados)), trunc(nrow(dados) * 0.75)))
+    
+    dados_train <- dados[dados_indexes, ]
+    dados_test <- dados[-dados_indexes, ]
+    
+    dados_fit <- J48(
       formula = class,
-      data = dados,
+      data = dados_test,
       na.action = NULL
     )
     
-    model_accuracy <- sum(diag(table(dados$class, predict(model)))) / 
-      sum(table(dados$class, predict(model))) * 100
+    model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
+    model_accuracy <- sum(diag(model$confusionMatrix)) / sum(model$confusionMatrix) * 100
     
     accuracy_row_to_append[,(which(techniques_sufix == j) + 2)] <- model_accuracy
   }
@@ -57,3 +68,10 @@ colnames(accuracy_final) <- c("Nome", "Original",
                               "T13", "T14", "T15", "T16",
                               "T17", "T18", "T19", "T20")
 
+
+writeToCsv(
+  df.toWrite = accuracy_final,
+  df.location = df_locations[3],
+  df.name = "TabelaAcuracias",
+  df.sufix = ""
+)

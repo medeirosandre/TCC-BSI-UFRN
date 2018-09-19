@@ -10,4 +10,6 @@ source("tcc/scripts/src/Imports.R")
 # source("tcc/scripts/CongretionalVoting.R")
 # source("tcc/scripts/Mushroom.R")
 
-source("tcc/scripts/test3.R")
+# source("tcc/scripts/Hip.R")
+
+source("tcc/scripts/Classify.R")

@@ -3,9 +3,9 @@
 
 installNeededPackages()
 
-df_locations <- c("tcc/originalDatasets/", "tcc/cleanDatasets/")
+df_locations <- c("tcc/originalDatasets/", "tcc/cleanDatasets/", "tcc/")
 # df_names <- c("vote")
-df_names <- c("vote", "mushroom")
+df_names <- c("vote", "mushroom", "hip")
 techniques_sufix <- c("_MediaEModaConjuntoCompletoAppending", "_MediaEModaConjuntoCompletoNotAppending",
                       "_MediaEModaConjuntoDeMesmaClasseAppending", "_MediaEModaConjuntoDeMesmaClasseNotAppending",
                       "_MediaEModa3NNConjuntoCompletoAppending", "_MediaEModa5NNConjuntoCompletoAppending",
