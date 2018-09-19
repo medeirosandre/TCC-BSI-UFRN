@@ -124,11 +124,21 @@ dropInstancesWithFullNA <- function(df_to_drop_instances)
     if(length(which(is.na(df_to_drop_instances[i,]))) == ncol(df_to_drop_instances)-1)
     {
       rows_to_drop <- c(rows_to_drop, as.integer(rownames(df_to_drop_instances[i, ])))
-      # df_to_drop_instances <- df_to_drop_instances[-which(rownames(df_to_drop_instances) == i), ]
     }
   }
-  
   return(df_to_drop_instances[-rows_to_drop, ])
+}
+
+#' @description Install the needed packages if they are not installed, then load the packages.
+#' @author Arthur Gorgonio
+installNeededPackages <- function() {
+  packages <- c("farff", "FNN", "plyr", "readr", "RWeka")
+  for (pack in packages) {
+    if (!require(pack, character.only = TRUE)) {
+      install.packages(pack)
+    }
+    library(pack, character.only = TRUE)
+  }
 }
 
 #' Drop a level from a dataframe.

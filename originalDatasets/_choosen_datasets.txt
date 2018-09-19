@@ -33,7 +33,7 @@
 		% instâncias completas: 73
 		url: https://www.openml.org/d/981
 
-	Mushroom Data Set (69% dados completos):
+	Mushroom:
 		nome: mushroom.csv
 		n. classes: 2
 		n. atributos: 23

@@ -151,19 +151,27 @@ fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA, conver
     
     cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
     
-    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
-    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
-    
-    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
-    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
-    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
-    
-    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
-    
-    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
-    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
-    
-    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    {
+      df_aux_one_feature <- auxDF.return[runif(numOfK, 1, nrow(auxDF.return)),]
+      cRow.origData <- fillNAInARow(df_aux_one_feature, cRow.origData, cRow.idxNA, fillUsing)
+    }
+    else
+    {
+      auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+      auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+      
+      cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+      cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+      cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+      
+      convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+      
+      auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+      auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+      
+      cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    }
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
     
@@ -198,19 +206,27 @@ fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, con
     
     cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
     
-    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
-    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
-    
-    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
-    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
-    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
-    
-    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
-    
-    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
-    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
-    
-    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    {
+      df_aux_one_feature <- auxDF.return[runif(numOfK, 1, nrow(auxDF.return)),]
+      cRow.origData <- fillNAInARow(df_aux_one_feature, cRow.origData, cRow.idxNA, fillUsing)
+    }
+    else
+    {
+      auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+      auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+      
+      cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+      cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+      cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+      
+      convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+      
+      auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+      auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+      
+      cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    }
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
   }
@@ -242,20 +258,28 @@ fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, co
     
     cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
     
-    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
-    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
-    
-    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
-    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
-    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
-    
-    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
-    convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
-    
-    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
-    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
-    
-    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    {
+      df_aux_one_feature <- auxDF.return[runif(numOfK, 1, nrow(auxDF.return)),]
+      cRow.origData <- fillNAInARow(df_aux_one_feature, cRow.origData, cRow.idxNA, fillUsing)
+    }
+    else
+    {
+      auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+      auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+      
+      cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+      cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+      cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+      
+      convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+      convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
+      
+      auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+      auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+      
+      cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    }
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
     
@@ -267,22 +291,19 @@ fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, co
   return(auxDF.return)
 }
 
-### <summary>
-### function to fill missing values from the original dataframe, based on the nearest neighbors of every case
-### having the same class as the row with the missing values
-### </summary>
-### <param name="df.noNA">dataframe, dataframe containing the complete cases of the original dataframe</param>
-### <param name="df.onlyNA">dataframe, dataframe containing the incomplete cases of the original dataframe</param>
-### <param name="convert.typs">list, contains vectors informing the index for every column and the convertion 
-### which must be made in said columns</param>
-### <param name="convert.lvls">list, contains vectors informing the index for the columns which must be converted 
-### from ordinal categorical data to numeric data, and the appropriate levels for that column</param>
-### <param name="fillUsing">vector, represents the method to be used to input the missing value
-### 1 = fill NA using mean
-### 2 = fill NA using fashion
-### </param>
-### <param name="numOfK">integer, represents the number or neighbors for the knn function</param>
-### <return>returns a dataframe containing all of the missing cases filled</return>
+#' Fill <NA> from the original dataframe based on the NN of every case having the same class as the row
+#' with the <NA>.
+#' 
+#' @param df.noNA dataframe containig the complete cases of the original dataframe.
+#' @param df.onlyNA dataframe containing the incomplete cases of the original dataframe.
+#' @param convert.typs list containing vectors informing the index for every column and the convertion
+#' that must be made in said columns.
+#' @param convert.lvls list containing vectors informing the index for the columns that must be converted
+#' from ordinal categorical data to numeric data, and the apropriate levels for that column.
+#' @param fillUsing represents the method to be used to input the missing value (1 = mean, 2 = fashion).
+#' @param numOfK the number of K for KNN.
+#' 
+#' @return a dataframe containing all of the <NA> filled.
 fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA, convert.typs, convert.lvls, fillUsing, numOfK)
 {
   convertedDF.noNA <- getConvertedDataFrame(df.noNA, convert.typs, convert.lvls)
@@ -294,20 +315,28 @@ fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA,
     
     cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
     
-    auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
-    auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
-    
-    cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
-    cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
-    cRow.convData <- convertCategoricalToNumerical(cRow.convData)
-    
-    convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
-    convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
-    
-    auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
-    auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
-    
-    cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    {
+      df_aux_one_feature <- auxDF.return[runif(numOfK, 1, nrow(auxDF.return)),]
+      cRow.origData <- fillNAInARow(df_aux_one_feature, cRow.origData, cRow.idxNA, fillUsing)
+    }
+    else
+    {
+      auxList.convTyps <- hideElementsInAList(convert.typs, cRow.idxNA)
+      auxList.convLvls <- hideElementsInAList(convert.lvls, cRow.idxNA)
+      
+      cRow.convData <- hideColumnsOfDataframe(cRow.origData, cRow.idxNA)
+      cRow.convData <- getConvertedDataFrame(cRow.convData, auxList.convTyps, auxList.convLvls)
+      cRow.convData <- convertCategoricalToNumerical(cRow.convData)
+      
+      convertedDF.hidden <- hideColumnsOfConvertedDataframe(convertedDF.noNA, cRow.idxNA, convert.typs, convert.lvls, c(colnames(df.noNA)))
+      convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
+      
+      auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
+      auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+      
+      cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
+    }
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
   }
