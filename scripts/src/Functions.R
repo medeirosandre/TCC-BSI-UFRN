@@ -2,6 +2,7 @@
 #' Functions to be used in the experiments
 
 source("tcc/scripts/src/FunctionsFillNA.R")
+source("tcc/scripts/src/FunctionsFillNAKNN.R")
 
 #' Append a row into a dataframe.
 #' 
@@ -23,6 +24,16 @@ convertCategoricalToNumerical <- function(df_to_convert)
 {
   for (i in 1:(ncol(df_to_convert)-1)) {
     df_to_convert[[i]] <- as.numeric(df_to_convert[[i]])
+  }
+  
+  return(df_to_convert)
+}
+
+convertSpecificColumnsFromCatToNum <- function(df_to_convert, columns_to_convert)
+{
+  for(i in columns_to_convert)
+  {
+    df_to_convert[, i] <- as.numeric(as.character(df_to_convert[, i]))
   }
   
   return(df_to_convert)
@@ -104,7 +115,7 @@ convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.origin
   var.aux2 <- c()
   for (i in 1:length(var.aux1))
   {
-    var.aux2 = c(var.aux2, paste(columnName, "_", var.aux1[i]))
+    var.aux2 = c(var.aux2, paste(columnName, var.aux1[i], sep = "_"))
   }
   colnames(df.aux1) <- var.aux2
   
@@ -219,22 +230,41 @@ getCompleteCases <- function(df.original)
 ### <return>returns a dataframe containing the converted data</return>
 getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
 {
-  df.aux <- data.frame(matrix(1,
-                              nrow = nrow(df.original),
-                              ncol = 1),
-                       stringsAsFactors = F)
+  df.aux <- data.frame(
+    matrix(
+      data = 1,
+      nrow = nrow(df.original),
+      ncol = 1
+    ),
+    stringsAsFactors = F
+  )
   
   var.aux1 <- 1
   for (i in 1:length(convertion.types)) {
     if (convertion.types[[i]][2] == 1)
     {
-      df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalOrdinal(
-        df.original[[i]], column.levels[[var.aux1]][-1], colnames(df.original)[i]))
+      df.aux <- cbind(
+        df.aux,
+        convertColumnFromCategoricalToNumericalOrdinal(
+          column_data = df.original[[i]], 
+          column_levels = column.levels[[var.aux1]][-1], 
+          column_name = colnames(df.original)[i]
+        )
+      )
+      var.aux1 <- var.aux1 + 1
     }
     else if (convertion.types[[i]][2] == 2)
     {
-      df.aux <- cbind(df.aux, convertColumnFromCategoricalToNumericalThroughBinarization(
-        df.original, i, colnames(df.original)[i], c(column.levels[[var.aux1]][-1])))
+      df.aux <- cbind(
+        df.aux,
+        convertColumnFromCategoricalToNumericalThroughBinarization(
+        df.original = df.original,
+        column = i,
+        columnName = colnames(df.original)[i],
+        columnLevels = c(column.levels[[var.aux1]][-1])
+        )
+      )
+      var.aux1 <- var.aux1 + 1
     }
     else if (convertion.types[[i]][2] == 3)
     {
@@ -247,7 +277,7 @@ getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
       
       df.aux <- cbind(df.aux, current_col)
     }
-    var.aux1 <- var.aux1 + 1
+    # var.aux1 <- var.aux1 + 1
   }
   
   df.aux <- cbind(df.aux, df.original[ncol(df.original)])
@@ -280,46 +310,51 @@ hideColumnsOfDataframe <- function(df.original, columns)
   return(df.original[, -columns])
 }
 
-### <summary>
-### function to hide column in a converted dataframe
-### </summary>
-### <param name="df.converted">dataframe, dataframe containing the converted data</param>
-### <param name="columnstToHide">vector, contains the indexes for the columnst which must be hidden</param>
-### <param name="convrt.typs">list, represents the types of convertions that the dataframe suffered</param>
-### <param name="convrt.lvls">list, represents the possible values for the original data</param>
-### <param name="originalColnames">vector, contains the names of the original columns for the dataframe</param>
-### <return>returns a dataframe containing the converted data, minus the columns which were supposed to be hidden</return>
-hideColumnsOfConvertedDataframe <- function(df.converted, columnsToHide, convrt.typs, convrt.lvls, originalColnames)
+#' @description Hide a column in a converted dataframe.
+#' 
+#' @param df_converted The converted dataframe.
+#' @param columns_to_hide The indexes for the columns that must be hidden.
+#' @param convrt_typs Represents the types of convertion that the dataframe
+#' suffered.
+#' @param convrt_lvls Represents the possible values for the original data in
+#' the original categorical columns.
+#' @param original_colnames The original names for the columns.
+#' 
+#' @return A dataframe containing the converted data, minus the columns which
+#' were hidden.
+hideColumnsOfConvertedDataframe <- function(df_converted, columns_to_hide,
+  convrt_typs, convrt_lvls, original_colnames)
 {
-  colnamesToHide <- c()
-  for(i in 1:length(columnsToHide))
+  colnames_to_hide <- c()
+  for(i in columns_to_hide)
   {
-    auxVar <- originalColnames[columnsToHide[i]]
-    if(convrt.typs[[columnsToHide[i]]][2] == 1)
+    original_colname <- original_colnames[i]
+    current_column_lvl <- which(lapply(convrt_lvls, `[[`,1) == i)
+    current_column_typ <- which(lapply(convrt_typs, `[[`,1) == i)
+    if(convrt_typs[[current_column_typ]][2] == 1
+       || convrt_typs[[current_column_typ]][2] == 3)
     {
-      colnamesToHide <- c(colnamesToHide, auxVar)
+      colnames_to_hide <- c(colnames_to_hide, original_colname)
     }
-    else if(convrt.typs[[columnsToHide[i]]][2] == 2)
+    else if (convrt_typs[[current_column_typ]][2] == 2)
     {
-      auxVar2 <- convrt.lvls[[columnsToHide[i]]][-1]
-      for(j in 1:length(auxVar2)) 
+      current_column_lvls <- convert_lvls[[current_column_lvl]][-1]
+      for(j in current_column_lvls)
       {
-        colnamesToHide <- c(colnamesToHide, paste(auxVar, "_", auxVar2[j]))
+        colnames_to_hide <- c(
+          colnames_to_hide, paste(original_colname, j, sep = "_")
+        )
       }
     }
-    else if(convrt.typs[[columnsToHide[i]]][2] == 3)
-    {
-      colnamesToHide <- c(colnamesToHide, auxVar)
-    }
   }
   
-  indexesToHide <- c()
-  for(i in 1:length(colnamesToHide))
+  indexes_to_hide <- c()
+  for(i in colnames_to_hide)
   {
-    indexesToHide <- c(indexesToHide, which(colnames(df.converted) == colnamesToHide[i]))
+    indexes_to_hide <- c(indexes_to_hide, which(colnames(df_converted) == i))
   }
   
-  return(df.converted[, -c(indexesToHide)])
+  return(df_converted[, -c(indexes_to_hide)])
 }
 
 ### <summary>

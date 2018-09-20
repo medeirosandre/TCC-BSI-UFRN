@@ -1,7 +1,7 @@
 
 #' Hip Measurements:
 #' 
-#' nome: hip.csv
+#' nome do arquivo: hip.csv
 #' numero de classes: 2
 #' numero de atributos: 8
 #' numero de instancias: 54

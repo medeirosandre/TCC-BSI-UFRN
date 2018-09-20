@@ -1,77 +1,170 @@
 
-accuracy_final <- data.frame(matrix(
-  1,
-  nrow = 1,
-  ncol = length(techniques_sufix) + 2
-  )
-)
-for(i in df_names)
+classifiers_names <- c("J48")
+classifiers <- list(J48)
+times_to_run <- 30
+
+classifiers_names_index <- 1
+for(i in classifiers)
 {
-  accuracy_row_to_append <- data.frame(matrix(
+  for(j in 1:times_to_run)
+  {
+    accuracy_final <- data.frame(matrix(
       1,
       nrow = 1,
       ncol = length(techniques_sufix) + 2
+    ))
+    for(k in df_names)
+    {
+      accuracy_row_to_append <- data.frame(matrix(
+        1,
+        nrow = 1,
+        ncol = length(techniques_sufix) + 2
+      ))
+      
+      class <- as.formula("class ~ .")
+      dados <- readFromCsv(df_locations[1], k, "")
+      dados <- dropLevelFromDataframe(dados, "?")
+      
+      dados_indexes <- c(sample(as.integer(rownames(dados)), 
+                                trunc(nrow(dados) * 0.75)))
+      
+      dados_train <- dados[dados_indexes, ]
+      dados_test <- dados[-dados_indexes, ]
+      
+      dados_fit <- i(
+        formula = class,
+        data = dados_test,
+        na.action = NULL
+      )
+      
+      model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
+      model_accuracy <- sum(diag(model$confusionMatrix)) /
+        sum(model$confusionMatrix) * 100
+      
+      accuracy_row_to_append[,1] <- k
+      accuracy_row_to_append[,2] <- model_accuracy
+      for(l in techniques_sufix)
+      {
+        class <- as.formula("class ~ .")
+        dados <- readFromCsv(df_locations[2], k, l)
+        dados <- dropLevelFromDataframe(dados, "?")
+        
+        dados_train <- dados[dados_indexes, ]
+        dados_test <- dados[-dados_indexes, ]
+        
+        dados_fit <- i(
+          formula = class,
+          data = dados_test,
+          na.action = NULL
+        )
+        
+        model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
+        model_accuracy <- sum(diag(model$confusionMatrix)) /
+          sum(model$confusionMatrix) * 100
+        
+        accuracy_row_to_append[,(which(
+          techniques_sufix == l) + 2)] <- model_accuracy
+      }
+      
+      accuracy_final <- appendRowIntoDataframe(
+        df_original = accuracy_final,
+        row_to_append = accuracy_row_to_append
+      )
+    }
+    
+    accuracy_final <- accuracy_final[-1,]
+    colnames(accuracy_final) <- c(
+      "Nome", "Original", techniques_sufix
     )
-  )
-  
-  class <- as.formula("class ~ .")
-  dados <- readFromCsv(df_locations[1], i, "")
-  dados <- dropLevelFromDataframe(dados, "?")
-  
-  dados_indexes <- c(sample(as.integer(rownames(dados)), trunc(nrow(dados) * 0.75)))
-  
-  dados_train <- dados[dados_indexes, ]
-  dados_test <- dados[-dados_indexes, ]
-  
-  dados_fit <- J48(
-    formula = class,
-    data = dados_test,
-    na.action = NULL
-  )
-  
-  model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
-  model_accuracy <- sum(diag(model$confusionMatrix)) / sum(model$confusionMatrix) * 100
-  
-  accuracy_row_to_append[,1] <- i
-  accuracy_row_to_append[,2] <- model_accuracy
-  for(j in techniques_sufix)
-  {
-    class <- as.formula("class ~ .")
-    dados <- readFromCsv(df_locations[2], i, j)
-    dados <- dropLevelFromDataframe(dados, "?")
     
-    # dados_indexes <- c(sample(as.integer(rownames(dados)), trunc(nrow(dados) * 0.75)))
-    
-    dados_train <- dados[dados_indexes, ]
-    dados_test <- dados[-dados_indexes, ]
-    
-    dados_fit <- J48(
-      formula = class,
-      data = dados_test,
-      na.action = NULL
+    writeToCsv(
+      df.toWrite = accuracy_final,
+      df.location = df_locations[3],
+      df.name = "TabelaAcuracias_",
+      df.sufix = paste(
+        j, classifiers_names[classifiers_names_index], sep = "_")
     )
-    
-    model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
-    model_accuracy <- sum(diag(model$confusionMatrix)) / sum(model$confusionMatrix) * 100
-    
-    accuracy_row_to_append[,(which(techniques_sufix == j) + 2)] <- model_accuracy
   }
-  
-  accuracy_final <- appendRowIntoDataframe(accuracy_final, accuracy_row_to_append)
+  classifiers_names_index <- classifiers_names_index + 1
 }
-
-accuracy_final <- accuracy_final[-1,]
-colnames(accuracy_final) <- c("Nome", "Original",
-                              "T1", "T2", "T3", "T4",
-                              "T5", "T6", "T7", "T8",
-                              "T9", "T10", "T11", "T12",
-                              "T13", "T14", "T15", "T16",
-                              "T17", "T18", "T19", "T20")
-
-
-writeToCsv(
-  df.toWrite = accuracy_final,
-  df.location = df_locations[3],
-  df.name = "TabelaAcuracias",
-  df.sufix = ""
-)
+# 
+# for(i in 1:30)
+# {
+#   accuracy_final <- data.frame(matrix(
+#     1,
+#     nrow = 1,
+#     ncol = length(techniques_sufix) + 2
+#   )
+#   )
+#   for(j in df_names)
+#   {
+#     accuracy_row_to_append <- data.frame(matrix(
+#       1,
+#       nrow = 1,
+#       ncol = length(techniques_sufix) + 2
+#     )
+#     )
+# 
+#     class <- as.formula("class ~ .")
+#     dados <- readFromCsv(df_locations[1], j, "")
+#     dados <- dropLevelFromDataframe(dados, "?")
+# 
+#     dados_indexes <- c(sample(as.integer(rownames(dados)),
+#                               trunc(nrow(dados) * 0.75)))
+# 
+#     dados_train <- dados[dados_indexes, ]
+#     dados_test <- dados[-dados_indexes, ]
+# 
+#     dados_fit <- J48(
+#       formula = class,
+#       data = dados_test,
+#       na.action = NULL
+#     )
+# 
+#     model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
+#     model_accuracy <- sum(diag(model$confusionMatrix)) /
+#       sum(model$confusionMatrix) * 100
+# 
+#     accuracy_row_to_append[,1] <- j
+#     accuracy_row_to_append[,2] <- model_accuracy
+#     for(k in techniques_sufix)
+#     {
+#       class <- as.formula("class ~ .")
+#       dados <- readFromCsv(df_locations[2], j, k)
+#       dados <- dropLevelFromDataframe(dados, "?")
+# 
+#       dados_train <- dados[dados_indexes, ]
+#       dados_test <- dados[-dados_indexes, ]
+# 
+#       dados_fit <- J48(
+#         formula = class,
+#         data = dados_test,
+#         na.action = NULL
+#       )
+# 
+#       model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
+#       model_accuracy <- sum(diag(model$confusionMatrix)) /
+#         sum(model$confusionMatrix) * 100
+# 
+#       accuracy_row_to_append[,(which(
+#         techniques_sufix == k) + 2)] <- model_accuracy
+#     }
+# 
+#     accuracy_final <- appendRowIntoDataframe(
+#       df_original = accuracy_final,
+#       row_to_append = accuracy_row_to_append
+#     )
+#   }
+# 
+#   accuracy_final <- accuracy_final[-1,]
+#   colnames(accuracy_final) <- c(
+#     "Nome", "Original", techniques_sufix
+#   )
+# 
+#   writeToCsv(
+#     df.toWrite = accuracy_final,
+#     df.location = df_locations[3],
+#     df.name = "TabelaAcuracias",
+#     df.sufix = paste("_", i, sep = "")
+#   )
+# }
