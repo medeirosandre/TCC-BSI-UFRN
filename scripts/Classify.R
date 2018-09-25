@@ -5,21 +5,27 @@ classifiers_names <- c("J48")
 classifiers <- list(J48)
 times_to_run <- 30
 
-classifier_mean_accuracy <- data.frame(matrix(
-  data = 1,
-  nrow = 1,
-  ncol = length(techniques_sufix) + 2
-))
-
 classifiers_names_index <- 1
 for(i in classifiers)
 {
+  classifier_mean_accuracy <- data.frame(matrix(
+    data = 1,
+    nrow = 1,
+    ncol = length(techniques_sufix) + 2
+  ))
+  
   for(j in df_names)
   {
     accuracy_final <- data.frame(matrix(
-      1,
+      data = 1,
       nrow = 1,
       ncol = length(techniques_sufix) + 1
+    ))
+    
+    classifier_mean_accuracy_row <- data.frame(matrix(
+      data = 2,
+      nrow = 1,
+      ncol = length(techniques_sufix) + 2
     ))
     for(k in 1:times_to_run)
     {
@@ -79,6 +85,19 @@ for(i in classifiers)
       )
     }
     
+    # Iterar sobre accuracy_final e calcular medias para 
+    # classifier_mean_accuracy
+    classifier_mean_accuracy_row[,1] <- j
+    for(m in 1:ncol(accuracy_final))
+    {
+      classifier_mean_accuracy_row[,m + 1] <- mean(accuracy_final[,m])
+    }
+
+    classifier_mean_accuracy <- appendRowIntoDataframe(
+      df_original = classifier_mean_accuracy,
+      row_to_append = classifier_mean_accuracy_row
+    )
+    
     accuracy_final <- accuracy_final[-1,]
     colnames(accuracy_final) <- c(
       "Original", techniques_sufix
@@ -91,5 +110,19 @@ for(i in classifiers)
       df.sufix = paste("_", j, sep = "")
     )
   }
+  
+  classifier_mean_accuracy <- classifier_mean_accuracy[-1,]
+  
+  colnames(classifier_mean_accuracy) <- c(
+    "Base", "Original", techniques_sufix
+  )
+  
+  writeToCsv(
+    df.toWrite = classifier_mean_accuracy,
+    df.location = df_locations[3],
+    df.name = classifiers_names[classifiers_names_index],
+    df.sufix = ""
+  )
+  
   classifiers_names_index <- classifiers_names_index + 1
 }

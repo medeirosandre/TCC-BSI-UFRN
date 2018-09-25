@@ -173,7 +173,7 @@ dropLevelFromDataframe <- function(df.original, levelToDrop)
 #' @param df.sufix the sufix for the .csv file.
 #' 
 #' @return a dataframe with the data from the .csv file.
-readFromCsv <- function(df.location, df.name, df.sufix)
+readFromCsv <- function(df.location, df.name, df.sufix = "")
 {
   df.aux <- read.csv(paste(df.location,
                            df.name, 
@@ -190,7 +190,7 @@ readFromCsv <- function(df.location, df.name, df.sufix)
 #' @param df.location the path in which the .csv file must be written.
 #' @param df.name the name of the .csv file.
 #' @param df.sufix the sufix of the .csv file.
-writeToCsv <- function(df.toWrite, df.location, df.name, df.sufix)
+writeToCsv <- function(df.toWrite, df.location, df.name, df.sufix = "")
 {
   write.csv(df.toWrite, paste(df.location, 
                               df.name,
