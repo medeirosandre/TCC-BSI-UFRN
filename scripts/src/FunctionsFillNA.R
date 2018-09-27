@@ -48,6 +48,8 @@ fillNAWithCompleteDatasetAppending <- function(df.noNA, df.onlyNA, fill_na_using
     df.aux <- appendRowIntoDataframe(df.aux, current.row)
   }
   
+  df.aux <- orderDataframeByRowname(df.aux)
+  
   return(df.aux)
 }
 
@@ -70,6 +72,8 @@ fillNAWithCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, fill_na_us
     
     df.aux <- appendRowIntoDataframe(df.aux, current.row)
   }
+  
+  df.aux <- orderDataframeByRowname(df.aux)
   
   return(df.aux)
 }
@@ -98,6 +102,8 @@ fillNAWithDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, fill_na_u
     df.aux <- appendRowIntoDataframe(df.aux, current.row)
   }
   
+  df.aux <- orderDataframeByRowname(df.aux)
+  
   return(df.aux)
 }
 
@@ -123,6 +129,8 @@ fillNAWithDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA, fill_n
     
     df.aux <- appendRowIntoDataframe(df.aux, current.row)
   }
+  
+  df.aux <- orderDataframeByRowname(df.aux)
   
   return(df.aux)
 }
@@ -150,7 +158,8 @@ fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, con
     
     cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
     
-    if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    # if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    if(length(cRow.idxNA) >= length(cRow.origData) - 2)
     {
       df_aux_one_feature <- auxDF.return[runif(numOfK, 1, nrow(auxDF.return)),]
       cRow.origData <- fillNAInARow(df_aux_one_feature, cRow.origData, cRow.idxNA, fillUsing)
@@ -174,6 +183,8 @@ fillNAWithKNNFromCompleteDatasetNotAppending <- function(df.noNA, df.onlyNA, con
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
   }
+  
+  auxDF.return <- orderDataframeByRowname(auxDF.return)
   
   return(auxDF.return)
 }
@@ -202,7 +213,8 @@ fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, co
     
     cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
     
-    if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    # if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    if(length(cRow.idxNA) >= length(cRow.origData) - 2)
     {
       df_aux_one_feature <- auxDF.return[runif(numOfK, 1, nrow(auxDF.return)),]
       cRow.origData <- fillNAInARow(df_aux_one_feature, cRow.origData, cRow.idxNA, fillUsing)
@@ -220,7 +232,8 @@ fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, co
       convertedDF.hidden <- getCasesOfSpecificClass(convertedDF.hidden, cRow.origData[[ncol(cRow.origData)]])
       
       auxDF.knn <- findKNNOfARow(convertedDF.hidden, cRow.convData, numOfK)
-      auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
+      auxDF.knnOrigData <- findOriginalDataForNeighbors(auxDF.return, auxDF.knn)
+      # auxDF.knnOrigData <- findOriginalDataForNeighbors(df.noNA, auxDF.knn)
       
       cRow.origData <- fillNAInARow(auxDF.knnOrigData, cRow.origData, cRow.idxNA, fillUsing)
     }
@@ -231,6 +244,8 @@ fillNAWithKNNFromDatasetOfCasesClassAppending <- function(df.noNA, df.onlyNA, co
     cRow.convData <- convertCategoricalToNumerical(cRow.convData)
     convertedDF.noNA <- appendRowIntoDataframe(convertedDF.noNA, cRow.convData)
   }
+  
+  auxDF.return <- orderDataframeByRowname(auxDF.return)
   
   return(auxDF.return)
 }
@@ -259,7 +274,8 @@ fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA,
     
     cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
     
-    if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    # if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    if(length(cRow.idxNA) >= length(cRow.origData) - 2)
     {
       df_aux_one_feature <- auxDF.return[runif(numOfK, 1, nrow(auxDF.return)),]
       cRow.origData <- fillNAInARow(df_aux_one_feature, cRow.origData, cRow.idxNA, fillUsing)
@@ -284,6 +300,8 @@ fillNAWithKNNFromDatasetOfCasesClassNotAppending <- function(df.noNA, df.onlyNA,
     
     auxDF.return <- appendRowIntoDataframe(auxDF.return, cRow.origData)
   }
+  
+  auxDF.return <- orderDataframeByRowname(auxDF.return)
   
   return(auxDF.return)
 }

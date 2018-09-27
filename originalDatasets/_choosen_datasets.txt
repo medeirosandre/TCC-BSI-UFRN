@@ -2,7 +2,7 @@
 
 5 datasets com dados categéricos:
 
-	Breast Cancer:
+	Breast Cancer:*
 		nome: breast-cancer.csv
 		n. classes: 2
 		n. atributos 16
@@ -12,7 +12,7 @@
 		% instâncias completas: 96
 		url: https://www.openml.org/d/13
 
-	Congressional Voting Records:
+	Congressional Voting Records:*
 		nome: vote.csv
 		n. classes: 2
 		n. atributos: 17
@@ -33,7 +33,7 @@
 		% instâncias completas: 73
 		url: https://www.openml.org/d/981
 
-	Mushroom:
+	Mushroom:*
 		nome: mushroom.csv
 		n. classes: 2
 		n. atributos: 23
@@ -43,7 +43,7 @@
 		% instâncias completas: 69
 		url: https://www.openml.org/d/24
 
-	Primary Tumor:
+	Primary Tumor:*
 		nome: primary-tumor.csv
 		n. classes: 21
 		n. atributos: 18
@@ -75,7 +75,7 @@
 		% instâncias completas: 97
 		url: https://www.openml.org/d/15
 
-	HCC Survival:
+	HCC Survival:*
 		nome: hcc-survival.csv
 		n. classes: 2
 		n. atributos: 50
@@ -85,7 +85,7 @@
 		% instâncias completas: .04
 		url: https://archive.ics.uci.edu/ml/datasets/HCC+Survival
 
-	Hip Measurements:
+	Hip Measurements:*
 		nome: hip.csv
 		n. classes: 2
 		n. atributos: 8
@@ -95,7 +95,7 @@
 		% instâncias completas: 44
 		url: https://www.openml.org/d/898
 
-	Mammographic Mass:
+	Mammographic Mass:*
 		nome: mammographic-mass.csv
 		n. classes: 2
 		n. atributos: 6
@@ -105,7 +105,7 @@
 		% instâncias completas: 83
 		url: https://archive.ics.uci.edu/ml/datasets/Mammographic+Mass
 
-	Mice Protein Expression:
+	Mice Protein Expression:*
 		nome: mice.csv
 		n. classes: 8
 		n. atributos: 82
@@ -120,7 +120,7 @@
 
 5 datasets com dados variados (categóricos e numéricos)
 
-	Adult:
+	Adult:*
 		name: adult.csv
 		n. classes: 2
 		n. atributos: 15
@@ -140,7 +140,7 @@
 		% instâncias completas: 86
 		url: https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
 
-	Credit Approval:
+	Credit Approval:*
 		nome: credit-approval.csv
 		n. classes: 2
 		n. atributos: 16

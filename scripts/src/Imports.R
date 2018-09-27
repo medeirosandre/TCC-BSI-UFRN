@@ -6,7 +6,17 @@ installNeededPackages()
 df_locations <- c(
   "tcc/originalDatasets/", "tcc/cleanDatasets/", "tcc/classifierResults/"
 )
-df_names <- c("vote", "mushroom", "hip", "credit-approval", "adult")
+
+df_names <- c(
+  "vote", "mushroom", "hip", "credit-approval", "adult", "breast-cancer", 
+  "mice", "primary-tumor", "mammographic-mass", "hcc-survival"
+)
+
+# df_names <- c(
+#   "adult", "breast-cancer", "credit-approval", "hcc-survival", "hip",
+#   "mammographic-mass", "mice", "mushroom", "vote"
+# )
+
 techniques_sufix <- c(
   "_MediaEModaConjuntoCompletoAppending",
   "_MediaEModaConjuntoCompletoNotAppending",

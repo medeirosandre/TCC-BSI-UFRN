@@ -1,13 +1,12 @@
 
-#' inverter iterações sobre df_names com times_to_run.
-
-classifiers_names <- c("J48")
-classifiers <- list(J48)
+classifiers_names <- c("J48", "IBk", "JRip")
+classifiers <- list(J48, IBk, JRip)
 times_to_run <- 30
 
 classifiers_names_index <- 1
 for(i in classifiers)
 {
+  print(classifiers_names[classifiers_names_index])
   classifier_mean_accuracy <- data.frame(matrix(
     data = 1,
     nrow = 1,
@@ -16,6 +15,7 @@ for(i in classifiers)
   
   for(j in df_names)
   {
+    print(j)
     accuracy_final <- data.frame(matrix(
       data = 1,
       nrow = 1,
@@ -29,6 +29,11 @@ for(i in classifiers)
     ))
     for(k in 1:times_to_run)
     {
+      if(k %% 3 == 0)
+      {
+        print(k)
+      }
+      
       accuracy_row_to_append <- data.frame(matrix(
         1,
         nrow = 1,
@@ -85,8 +90,6 @@ for(i in classifiers)
       )
     }
     
-    # Iterar sobre accuracy_final e calcular medias para 
-    # classifier_mean_accuracy
     classifier_mean_accuracy_row[,1] <- j
     for(m in 1:ncol(accuracy_final))
     {

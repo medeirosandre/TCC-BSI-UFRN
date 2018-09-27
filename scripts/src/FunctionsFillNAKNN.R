@@ -33,7 +33,8 @@ fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA,
     
     cRow.idxNA <- findWhichElementsInRowAreNA(cRow.origData)
     
-    if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    # if(length(cRow.idxNA) == length(cRow.origData) - 2)
+    if(length(cRow.idxNA) >= length(cRow.origData) - 2)
     {
       df_aux_one_feature <- auxDF.return[runif(numOfK, 1, nrow(auxDF.return)),]
       cRow.origData <- fillNAInARow(
@@ -78,8 +79,9 @@ fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA,
         row = cRow.convData,
         kNum = numOfK
       )
+      
       auxDF.knnOrigData <- findOriginalDataForNeighbors(
-        df.original = df.noNA,
+        df.original = auxDF.return,
         df.neighbors = auxDF.knn
       )
       
@@ -107,6 +109,8 @@ fillNAWithKNNFromCompleteDatasetAppending <- function(df.noNA, df.onlyNA,
       row_to_append = cRow.convData
     )
   }
+  
+  auxDF.return <- orderDataframeByRowname(auxDF.return)
   
   return(auxDF.return)
 }

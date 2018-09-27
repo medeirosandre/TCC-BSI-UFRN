@@ -3,12 +3,11 @@
 
 source("tcc/scripts/src/FunctionsFillNA.R")
 source("tcc/scripts/src/FunctionsFillNAKNN.R")
+source("tcc/scripts/src/Utils.R")
 
 #' Append a row into a dataframe.
-#' 
 #' @param df_original the dataframe in which the row must be appended.
 #' @param row_to_append a row to append into a dataframe.
-#' 
 #' @return a dataframe with the row appended into.
 appendRowIntoDataframe <- function(df_original, row_to_append)
 {
@@ -126,30 +125,23 @@ convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.origin
 #' 
 #' @param df_to_drop_instances the dataframe from which the instances must be dropped.
 #' 
-#' @return the dataframe with the instances dropped.
-dropInstancesWithFullNA <- function(df_to_drop_instances)
+#' @return the instances that must be dropped.
+whichInstancesAreFullNA <- function(df_to_find_instances)
 {
   rows_to_drop <- c()
-  for(i in 1:nrow(df_to_drop_instances))
+  for(i in 1:nrow(df_to_find_instances))
   {
-    if(length(which(is.na(df_to_drop_instances[i,]))) == ncol(df_to_drop_instances)-1)
+    if(length(which(is.na(df_to_find_instances[i,]))) == ncol(df_to_find_instances)-1)
     {
-      rows_to_drop <- c(rows_to_drop, as.integer(rownames(df_to_drop_instances[i, ])))
+      rows_to_drop <- c(rows_to_drop, as.integer(rownames(df_to_find_instances[i, ])))
     }
   }
-  return(df_to_drop_instances[-rows_to_drop, ])
+  return(rows_to_drop)
 }
 
-#' @description Install the needed packages if they are not installed, then load the packages.
-#' @author Arthur Gorgonio
-installNeededPackages <- function() {
-  packages <- c("farff", "FNN", "plyr", "readr", "RWeka")
-  for (pack in packages) {
-    if (!require(pack, character.only = TRUE)) {
-      install.packages(pack)
-    }
-    library(pack, character.only = TRUE)
-  }
+dropColumnFromDataFrame <- function(df_to_drop_column, column_to_drop)
+{
+  return(df_to_drop_column[, -column_to_drop])
 }
 
 #' Drop a level from a dataframe.
@@ -165,42 +157,6 @@ dropLevelFromDataframe <- function(df.original, levelToDrop)
   
   return(df.aux)
 }
-
-#' Load a .csv file from de HD.
-#' 
-#' @param df.location a path to a .csv file.
-#' @param df.name the .csv filename.
-#' @param df.sufix the sufix for the .csv file.
-#' 
-#' @return a dataframe with the data from the .csv file.
-readFromCsv <- function(df.location, df.name, df.sufix = "")
-{
-  df.aux <- read.csv(paste(df.location,
-                           df.name, 
-                           df.sufix, 
-                           ".csv", sep = ""), 
-                     stringsAsFactors = TRUE)
-  return(df.aux)
-}
-
-#' Write a dataframe into a .csv file.
-#' 
-#' @param df.toWrite a dataframe that is supposed to be written
-#' into a .csv file.
-#' @param df.location the path in which the .csv file must be written.
-#' @param df.name the name of the .csv file.
-#' @param df.sufix the sufix of the .csv file.
-writeToCsv <- function(df.toWrite, df.location, df.name, df.sufix = "")
-{
-  write.csv(df.toWrite, paste(df.location, 
-                              df.name,
-                              df.sufix,
-                              ".csv", sep = ""), 
-            quote = FALSE, 
-            na = "", row.names = FALSE)
-}
-
-
 
 ### <summary>
 ### funcion to get a dataframe of complete cases from another dataframe
@@ -428,10 +384,12 @@ findFashion <- function(df.original, column)
   var.aux <- df.original
   var.aux <- var.aux[, column]
   
-  var.aux <- summary(var.aux)
-  var.aux <- names(sort(var.aux, decreasing = T))
+  # var.aux <- summary(var.aux)
+  # var.aux <- names(sort(var.aux, decreasing = T))
+  found_fashion <- names(which.max(table(var.aux)))
   
-  return(var.aux[1])
+  # return(var.aux[1])
+  return(found_fashion)
 }
 
 ### <summary>
