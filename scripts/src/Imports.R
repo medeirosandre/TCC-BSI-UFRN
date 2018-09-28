@@ -9,7 +9,7 @@ df_locations <- c(
 
 df_names <- c(
   "vote", "mushroom", "hip", "credit-approval", "adult", "breast-cancer", 
-  "mice", "primary-tumor", "mammographic-mass", "hcc-survival"
+  "mice", "primary-tumor", "mammographic-mass", "hcc-survival", "aps-failure"
 )
 
 # df_names <- c(
