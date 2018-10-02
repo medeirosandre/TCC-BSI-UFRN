@@ -162,7 +162,7 @@
 		% instâncias completas: 51
 		url: https://www.openml.org/d/6332
 
-	Jungle Chess 2pcs Endgame Rat Panther:
+	Jungle Chess 2pcs Endgame Rat Panther:*
 		nome: jngl-chs-2pcs-ndgm-rat-pntr.csv
 		n. classes: 2
 		n. atributos: 47
@@ -172,7 +172,7 @@
 		% instâncias completas: 80
 		url: https://www.openml.org/d/41002
 
-	Kicks:
+	Kicks:*
 		nome: kick.csv
 		n. classes: 2
 		n. atributos: 33

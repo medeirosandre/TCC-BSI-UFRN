@@ -36,11 +36,7 @@ convert_lvls <- list()
 # 1 = mean
 # 2 = fashion
 
-fill_na_using <- c()
-for(i in 1:170)
-{
-  fill_na_using <- c(fill_na_using, 1)
-}
+fill_na_using <- c(rep(1, 170))
 
 source("tcc/scripts/src/ExecuteTechniques.R")
 
