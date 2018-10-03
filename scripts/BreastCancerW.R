@@ -1,21 +1,20 @@
 
-#' APS Failure at Scania Trucks:
+#' Breast Cancer Wisconsin:
 #' 
-#' nome do arquivo: aps-failure.csv
-#' numero de classes 2
-#' numero de atributos: 171
-#' numero de instancias: 60000
-#' numero de instancias completas: 591
-#' numero de valores faltosos: 850015
-#' % instancias completas: .009
+#' nome do arquivo: breast-w.csv
+#' numero de classes: 2
+#' numero de atributos: 10
+#' numero de instancias: 699
+#' numero de instancias completas: 683
+#' numero de valores faltosos: 16
+#' % instancias completas: 97
 #' 
-#' url: http://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
+#' url: https://www.openml.org/d/15
 
-df_name <- df_names[11]
+df_name <- df_names[15]
 
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
-df_original <- pushClassToTheEnd(df_original, 1, "class")
 df_original <- convertCategoricalToNumerical(df_original)
 
 df_noNA <- getCompleteCases(df_original)
@@ -26,7 +25,7 @@ df_onlyNA <- getIncompleteCases(df_original)
 # 3 = just append
 
 convert_types <- list()
-for(i in 1:170)
+for(i in 1:9)
 {
   convert_types[[i]] <- c(i, 3)
 }
@@ -36,6 +35,6 @@ convert_lvls <- list()
 # 1 = mean
 # 2 = fashion
 
-fill_na_using <- c(rep(1, 170))
+fill_na_using <- c(rep(2, 9))
 
 source("tcc/scripts/src/ExecuteTechniques.R")

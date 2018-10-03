@@ -15,7 +15,7 @@ for(i in classifiers)
   
   for(j in df_names)
   {
-    print(j)
+    cat("\n")
     accuracy_final <- data.frame(matrix(
       data = 1,
       nrow = 1,
@@ -31,7 +31,12 @@ for(i in classifiers)
     {
       if(k %% 3 == 0)
       {
-        print(k)
+        cat(
+          "Classifier:", classifiers_names[classifiers_names_index],
+          " Dataset:", j,
+          " Run:", k,
+          "\n"
+        )
       }
       
       accuracy_row_to_append <- data.frame(matrix(
@@ -50,11 +55,23 @@ for(i in classifiers)
       dados_train <- dados[dados_indexes, ]
       dados_test <- dados[-dados_indexes, ]
       
-      dados_fit <- i(
-        formula = class,
-        data = dados_test,
-        na.action = NULL
-      )
+      if(classifiers_names[classifiers_names_index] == "IBk")
+      {
+        dados_fit <- i(
+          formula = class,
+          data = dados_test,
+          na.action = NULL,
+          control = Weka_control(K = trunc(sqrt(nrow(dados))))
+        )
+      }
+      else
+      {
+        dados_fit <- i(
+          formula = class,
+          data = dados_test,
+          na.action = NULL
+        )
+      }
       
       model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
       model_accuracy <- sum(diag(model$confusionMatrix)) /
@@ -70,11 +87,23 @@ for(i in classifiers)
         dados_train <- dados[dados_indexes, ]
         dados_test <- dados[-dados_indexes, ]
         
-        dados_fit <- i(
-          formula = class,
-          data = dados_test,
-          na.action = NULL
-        )
+        if(classifiers_names[classifiers_names_index] == "IBk")
+        {
+          dados_fit <- i(
+            formula = class,
+            data = dados_test,
+            na.action = NULL,
+            control = Weka_control(K = trunc(sqrt(nrow(dados))))
+          )
+        }
+        else
+        {
+          dados_fit <- i(
+            formula = class,
+            data = dados_test,
+            na.action = NULL
+          )
+        }
         
         model <- evaluate_Weka_classifier(dados_fit, newdata = dados_test)
         model_accuracy <- sum(diag(model$confusionMatrix)) /

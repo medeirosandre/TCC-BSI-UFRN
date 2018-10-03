@@ -7,11 +7,13 @@ df_locations <- c(
   "tcc/originalDatasets/", "tcc/cleanDatasets/", "tcc/classifierResults/"
 )
 
-df_names <- c(
-  "vote", "mushroom", "hip", "credit-approval", "adult", "breast-cancer", 
-  "mice", "primary-tumor", "mammographic-mass", "hcc-survival", "aps-failure",
-  "kick", "jngl-chs-2pcs-ndgm-rat-pntr"
-)
+# df_names <- c(
+#   "vote", "mushroom", "hip", "credit-approval", "adult", "breast-cancer", 
+#   "mice", "primary-tumor", "mammographic-mass", "hcc-survival", "aps-failure",
+#   "kick", "jngl-chs-2pcs-ndgm-rat-pntr", "autism-adult", "breast-w"
+# )
+
+df_names <- c("hip")
 
 # df_names <- c(
 #   "adult", "breast-cancer", "credit-approval", "hcc-survival", "hip",

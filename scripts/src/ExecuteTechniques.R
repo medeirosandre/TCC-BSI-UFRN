@@ -64,6 +64,8 @@ executeTechnique3A <- function()
   tech_suf <- c(techniques_sufix[5:8])
   for(i in 1:4)
   {
+    cat("Dataset:", df_name, " Technique: 3a  K:", (i + i + 1), "\n")
+    
     df_final <- fillNAWithKNNFromCompleteDatasetAppending(
       df.noNA = df_noNA,
       df.onlyNA = df_onlyNA,
@@ -86,6 +88,8 @@ executeTechnique3B <- function()
   tech_suf <- c(techniques_sufix[9:12])
   for(i in 1:4)
   {
+    cat("Dataset:", df_name, " Technique: 3b  K:", (i + i + 1), "\n")
+    
     df_final <- fillNAWithKNNFromCompleteDatasetNotAppending(
       df.noNA = df_noNA,
       df.onlyNA = df_onlyNA,
@@ -108,6 +112,8 @@ executeTechnique4A <- function()
   tech_suf <- c(techniques_sufix[13:16])
   for(i in 1:4)
   {
+    cat("Dataset:", df_name, " Technique: 4a  K:", (i + i + 1), "\n")
+    
     df_final <- fillNAWithKNNFromDatasetOfCasesClassAppending(
       df.noNA = df_noNA,
       df.onlyNA = df_onlyNA,
@@ -130,6 +136,8 @@ executeTechnique4B <- function()
   tech_suf <- c(techniques_sufix[17:20])
   for(i in 1:4)
   {
+    cat("Dataset:", df_name, " Technique: 4b  K:", (i + i + 1), "\n")
+    
     df_final <- fillNAWithKNNFromDatasetOfCasesClassNotAppending(
       df.noNA = df_noNA,
       df.onlyNA = df_onlyNA,
@@ -147,11 +155,24 @@ executeTechnique4B <- function()
   }
 }
 
+cat("\n")
+cat("Dataset:", df_name, " Technique: 1a", "\n")
 executeTechnique1A()
+
+cat("Dataset:", df_name, " Technique: 1b", "\n")
 executeTechnique1B()
+
+cat("Dataset:", df_name, " Technique: 2a", "\n")
 executeTechnique2A()
+
+cat("Dataset:", df_name, " Technique: 2b", "\n")
 executeTechnique2B()
+
+cat("\n")
 executeTechnique3A()
+cat("\n")
 executeTechnique3B()
+cat("\n")
 executeTechnique4A()
+cat("\n")
 executeTechnique4B()

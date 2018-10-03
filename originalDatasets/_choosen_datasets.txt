@@ -66,7 +66,7 @@
 		url: http://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
 		url: https://www.openml.org/d/41138
 
-	Breast Cancer Wisconsin:
+	Breast Cancer Wisconsin:*
 		nome: breast-w.csv
 		n. classes: 2
 		n. atributos: 10
@@ -131,7 +131,7 @@
 		% instâncias completas: 92
 		url: https://www.openml.org/d/1590
 
-	Autistic Screening Adult:
+	Autistic Screening Adult:*
 		nome: autism-adult.csv
 		n. classes: 2
 		n. atributos: 21

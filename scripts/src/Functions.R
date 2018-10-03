@@ -400,7 +400,8 @@ findFashion <- function(df.original, column)
 ### <return>returns number representing the mean of such column</return>
 findMean <- function(df.original, column)
 {
-  return(mean(df.original[,column]))
+  return(mean(as.numeric(df.original[,column])))
+  # return(mean(df.original[,column]))
 }
 ###############################################################################
 
