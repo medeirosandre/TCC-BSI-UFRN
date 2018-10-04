@@ -22,7 +22,8 @@ appendRowIntoDataframe <- function(df_original, row_to_append)
 convertCategoricalToNumerical <- function(df_to_convert)
 {
   for (i in 1:(ncol(df_to_convert)-1)) {
-    df_to_convert[[i]] <- as.numeric(df_to_convert[[i]])
+    df_to_convert[[i]] <- type.convert(df_to_convert[[i]], as.is = T)
+    # df_to_convert[[i]] <- as.numeric(df_to_convert[[i]])
   }
   
   return(df_to_convert)
@@ -32,7 +33,8 @@ convertSpecificColumnsFromCatToNum <- function(df_to_convert, columns_to_convert
 {
   for(i in columns_to_convert)
   {
-    df_to_convert[, i] <- as.numeric(as.character(df_to_convert[, i]))
+    df_to_convert[, i] <- type.convert(df_to_convert[, i], as.is = T)
+    # df_to_convert[, i] <- as.numeric(as.character(df_to_convert[, i]))
   }
   
   return(df_to_convert)

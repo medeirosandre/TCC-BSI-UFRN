@@ -6,7 +6,6 @@ times_to_run <- 30
 classifiers_names_index <- 1
 for(i in classifiers)
 {
-  print(classifiers_names[classifiers_names_index])
   classifier_mean_accuracy <- data.frame(matrix(
     data = 1,
     nrow = 1,

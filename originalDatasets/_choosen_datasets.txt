@@ -116,7 +116,24 @@
 		% instâncias completas: 51
 		url: https://archive.ics.uci.edu/ml/datasets/Mice+Protein+Expression
 
-	Polish Companies Bankrupcy:
+	Polish Companies Bankrupcy:*
+		nome: 2year.csv
+		n. classes: 2
+		n. atributos: 65
+		n. instancias: 10173
+		n. instancias completas: 4088
+		n. valores faltosos: 12157
+		% instancias complestas: 40
+		url: https://archive.ics.uci.edu/ml/datasets/Polish+companies+bankruptcy+data
+
+	Polish Companies Bankrupcy:*
+		nome: 3year.csv
+		numero. classes: 2
+		numero. atributos: 65
+		numero. instancias: 10503
+		numero. instancias completas: 4885
+		numero. valores faltosos: 9888
+		% instancias complestas: 46
 		url: https://archive.ics.uci.edu/ml/datasets/Polish+companies+bankruptcy+data
 
 5 datasets com dados variados (categóricos e numéricos)

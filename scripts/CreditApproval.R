@@ -34,8 +34,7 @@ df_name <- df_names[4]
 
 df_original <- readFromCsv(
   df.location = df_locations[1],
-  df.name = df_name,
-  df.sufix = ""
+  df.name = df_name
 )
 df_original <- dropLevelFromDataframe(
   df.original = df_original,
