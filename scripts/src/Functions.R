@@ -1,9 +1,9 @@
 
 #' Functions to be used in the experiments
 
-source("tcc/scripts/src/FunctionsFillNA.R")
-source("tcc/scripts/src/FunctionsFillNAKNN.R")
-source("tcc/scripts/src/Utils.R")
+source("scripts/src/FunctionsFillNA.R")
+source("scripts/src/FunctionsFillNAKNN.R")
+source("scripts/src/Utils.R")
 
 #' Append a row into a dataframe.
 #' @param df_original the dataframe in which the row must be appended.

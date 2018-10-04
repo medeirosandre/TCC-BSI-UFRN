@@ -3,7 +3,7 @@
 #' then load the packages.
 #' @author Arthur Gorgonio
 installNeededPackages <- function() {
-  packages <- c("farff", "FNN", "plyr", "readr", "RWeka")
+  packages <- c("FNN", "plyr", "readr", "RWeka")
   for (pack in packages) {
     if (!require(pack, character.only = TRUE)) {
       install.packages(pack)

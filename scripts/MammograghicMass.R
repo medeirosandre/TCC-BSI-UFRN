@@ -33,4 +33,4 @@ convert_lvls <- list()
 
 fill_na_using <- c(2, 2, 2, 2, 2)
 
-source("tcc/scripts/src/ExecuteTechniques.R")
+source("scripts/src/ExecuteTechniques.R")

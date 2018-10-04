@@ -4,7 +4,7 @@
 installNeededPackages()
 
 df_locations <- c(
-  "tcc/originalDatasets/", "tcc/cleanDatasets/", "tcc/classifierResults/"
+  "originalDatasets/", "cleanDatasets/", "classifierResults/"
 )
 
 df_names <- c(

@@ -50,4 +50,4 @@ convert_lvls <- list(c(1, c(levels(df_original[[1]]))),
 
 fill_na_using <- c(2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2)
 
-source("tcc/scripts/src/ExecuteTechniques.R")
+source("scripts/src/ExecuteTechniques.R")

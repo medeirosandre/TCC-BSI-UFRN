@@ -62,4 +62,4 @@ convert_lvls[[18]] <- c(20, c(levels(df_original[[20]])))
 
 fill_na_using <- c(rep(2, 10), 1, rep(2, 6), 1, rep(2, 2))
 
-source("tcc/scripts/src/ExecuteTechniques.R")
+source("scripts/src/ExecuteTechniques.R")

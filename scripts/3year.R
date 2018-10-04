@@ -43,4 +43,4 @@ convert_lvls <- list()
 
 fill_na_using <- c(rep(1, 64))
 
-source("tcc/scripts/src/ExecuteTechniques.R")
+source("scripts/src/ExecuteTechniques.R")

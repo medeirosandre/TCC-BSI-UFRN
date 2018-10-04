@@ -52,4 +52,4 @@ for(i in 1:3)
   fill_na_using <- c(fill_na_using, 2)
 }
 
-source("tcc/scripts/src/ExecuteTechniques.R")
+source("scripts/src/ExecuteTechniques.R")
