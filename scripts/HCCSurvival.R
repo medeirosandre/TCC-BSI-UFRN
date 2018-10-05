@@ -48,5 +48,3 @@ for(i in 1:20)
 {
   fill_na_using <- c(fill_na_using, 1)
 }
-
-source("tcc/scripts/src/ExecuteTechniques.R")

@@ -11,7 +11,7 @@
 #' 
 #' url: https://www.openml.org/d/41002
 
-df_name <- df_names[13]
+df_name <- df_names[11]
 
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
@@ -89,5 +89,3 @@ fill_na_using <- c(
   rep(1, 3), 2, rep(1, 3), 2, rep(1, 2), rep(2, 5), 1, rep(2, 2), rep(1, 3), 2,
   rep(1, 5), rep(2, 7), 1, rep(2, 4), 1, 2, 1, rep(2, 4)
 )
-
-source("scripts/src/ExecuteTechniques.R")

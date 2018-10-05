@@ -1,4 +1,69 @@
 
+#' @description List the files in a folder.
+#' 
+#' @param path_to_look path to the folder.
+#' @param pattern pattern to look for in the filenames.
+#' 
+#' @return a vector of the found filenames.
+getFileNames <- function(path_to_look, pattern = NULL)
+{
+  return(list.files(
+    path = path_to_look,
+    pattern = pattern
+  ))
+}
+
+getWhichTechniquesToAplly <- function(techniques_completed)
+{
+  techniques_to_apply <- c()
+  if(length(techniques_completed) == 20)
+  {
+    return(techniques_to_apply)
+  }
+  
+  if(length(techniques_completed) < 1)
+  {
+    techniques_to_apply <- c(techniques_to_apply, 1)
+  }
+  
+  if(length(techniques_completed) < 2)
+  {
+    techniques_to_apply <- c(techniques_to_apply, 2)
+  }
+  
+  if(length(techniques_completed) < 3)
+  {
+    techniques_to_apply <- c(techniques_to_apply, 3)
+  }
+  
+  if(length(techniques_completed) < 4)
+  {
+    techniques_to_apply <- c(techniques_to_apply, 4)
+  }
+  
+  if(length(techniques_completed) < 8)
+  {
+    techniques_to_apply <- c(techniques_to_apply, 5)
+  }
+  
+  if(length(techniques_completed) < 12)
+  {
+    techniques_to_apply <- c(techniques_to_apply, 6)
+  }
+  
+  if(length(techniques_completed) < 16)
+  {
+    techniques_to_apply <- c(techniques_to_apply, 7)
+  }
+  
+  if(length(techniques_completed) < 20)
+  {
+    techniques_to_apply <- c(techniques_to_apply, 8)
+  }
+  
+  return(techniques_to_apply)
+}
+
 #' @description Install the needed packages if they are not installed,
 #' then load the packages.
 #' @author Arthur Gorgonio

@@ -12,7 +12,7 @@
 #' url: https://www.openml.org/d/898
 
 # df_name <- df_names[1]
-df_name <- df_names[3]
+df_name <- df_names[10]
 
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
@@ -27,5 +27,3 @@ convert_types <- list(c(1, 3), c(2, 3), c(3, 3), c(4, 3),
 convert_lvls <- list()
 
 fill_na_using <- c(1,1,1,1,1,1,1)
-
-source("scripts/src/ExecuteTechniques.R")

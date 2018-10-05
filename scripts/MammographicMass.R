@@ -11,7 +11,7 @@
 #' 
 #' url: https://archive.ics.uci.edu/ml/datasets/Mammographic+Mass
 
-df_name <- df_names[9]
+df_name <- df_names[13]
 
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
@@ -32,5 +32,3 @@ convert_lvls <- list()
 # 2 = fashion
 
 fill_na_using <- c(2, 2, 2, 2, 2)
-
-source("scripts/src/ExecuteTechniques.R")

@@ -12,7 +12,7 @@
 #' url: https://archive.ics.uci.edu/ml/datasets/Mice+Protein+Expression
 #' url: https://www.openml.org/d/40966
 
-df_name <- df_names[7]
+df_name <- df_names[14]
 
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
@@ -51,5 +51,3 @@ for(i in 1:3)
 {
   fill_na_using <- c(fill_na_using, 2)
 }
-
-source("scripts/src/ExecuteTechniques.R")

@@ -11,7 +11,7 @@
 #' 
 #' url: https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
 
-df_name <- df_names[14]
+df_name <- df_names[4]
 
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
@@ -61,5 +61,3 @@ convert_lvls[[18]] <- c(20, c(levels(df_original[[20]])))
 # 2 = fashion
 
 fill_na_using <- c(rep(2, 10), 1, rep(2, 6), 1, rep(2, 2))
-
-source("scripts/src/ExecuteTechniques.R")

@@ -11,7 +11,7 @@
 #' 
 #' url: http://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
 
-df_name <- df_names[11]
+df_name <- df_names[5]
 
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
@@ -37,5 +37,3 @@ convert_lvls <- list()
 # 2 = fashion
 
 fill_na_using <- c(rep(1, 170))
-
-source("scripts/src/ExecuteTechniques.R")

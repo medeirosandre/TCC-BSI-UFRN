@@ -11,7 +11,7 @@
 #' 
 #' url: https://www.openml.org/d/1590
 
-df_name <- df_names[5]
+df_name <- df_names[3]
 
 df_original <- readFromCsv(
   df.location = df_locations[1],
@@ -83,5 +83,3 @@ convert_lvls <- list(
 # 2 = fashion
 
 fill_na_using <- c(1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2)
-
-source("scripts/src/ExecuteTechniques.R")

@@ -30,7 +30,7 @@
 #' 5 Income        : num  560 824 3 0 0 ...
 #' 6 Approved      : chr  "+" "+" "+" "+" ...
 
-df_name <- df_names[4]
+df_name <- df_names[9]
 
 df_original <- readFromCsv(
   df.location = df_locations[1],
@@ -69,5 +69,3 @@ convert_lvls <- list(
 )
 
 fill_na_using <- c(2,1,1,2,2,2,2,1,2,2,1,2,2,1,1)
-
-source("scripts/src/ExecuteTechniques.R")

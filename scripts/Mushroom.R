@@ -11,7 +11,7 @@
 #' 
 #' url: https://www.openml.org/d/24
 
-df_name <- df_names[2]
+df_name <- df_names[15]
 
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
@@ -49,5 +49,3 @@ convert_lvls <- list(c(1, c(levels(df_original[[1]]))),
                      c(21, c(levels(df_original[[21]]))))
 
 fill_na_using <- c(2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2)
-
-source("scripts/src/ExecuteTechniques.R")

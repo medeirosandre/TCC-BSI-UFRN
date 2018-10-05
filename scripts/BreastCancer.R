@@ -57,5 +57,3 @@ convert_lvls <- list(
 # 2 = fashion
 
 fill_na_using <- c(2, 2, 2, 2, 2, 2, 2, 2, 2)
-
-source("scripts/src/ExecuteTechniques.R")

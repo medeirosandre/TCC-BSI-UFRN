@@ -11,7 +11,7 @@
 #' 
 #' url: https://archive.ics.uci.edu/ml/datasets/Polish+companies+bankruptcy+data
 
-df_name <- df_names[17]
+df_name <- df_names[2]
 
 df_original <- readFromCsv(
   df.location = df_locations[1],
@@ -42,5 +42,3 @@ convert_lvls <- list()
 # 2 = fashion
 
 fill_na_using <- c(rep(1, 64))
-
-source("scripts/src/ExecuteTechniques.R")

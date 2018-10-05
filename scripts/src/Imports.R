@@ -8,18 +8,12 @@ df_locations <- c(
 )
 
 df_names <- c(
-  "vote", "mushroom", "hip", "credit-approval", "adult", "breast-cancer",
-  "mice", "primary-tumor", "mammographic-mass", "hcc-survival", "aps-failure",
-  "kick", "jngl-chs-2pcs-ndgm-rat-pntr", "autism-adult", "breast-w", "2year",
-  "3year"
+  "2Year", "3Year", "Adult", "AdultAutism", "APSFailure", "BreastCancer",
+  "BreastCancerW", "CongretionalVoting", "CreditApproval", "Hip",
+  "JungleChessRatPanther", "Kicks", "MammographicMass", "Mice", "Mushroom"
 )
 
-# df_names <- c("hip")
-
-# df_names <- c(
-#   "adult", "breast-cancer", "credit-approval", "hcc-survival", "hip",
-#   "mammographic-mass", "mice", "mushroom", "vote"
-# )
+# df_names <- c("Hip")
 
 techniques_sufix <- c(
   "_MediaEModaConjuntoCompletoAppending",

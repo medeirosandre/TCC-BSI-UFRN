@@ -156,23 +156,51 @@ executeTechnique4B <- function()
 }
 
 cat("\n")
-cat("Dataset:", df_name, " Technique: 1a", "\n")
-executeTechnique1A()
 
-cat("Dataset:", df_name, " Technique: 1b", "\n")
-executeTechnique1B()
+if(1 %in% which_techniques_to_apply)
+{
+  cat("Dataset:", df_name, " Technique: 1a", "\n")
+  executeTechnique1A()
+}
 
-cat("Dataset:", df_name, " Technique: 2a", "\n")
-executeTechnique2A()
+if(2 %in% which_techniques_to_apply)
+{
+  cat("Dataset:", df_name, " Technique: 1b", "\n")
+  executeTechnique1B()
+}
 
-cat("Dataset:", df_name, " Technique: 2b", "\n")
-executeTechnique2B()
+if(3 %in% which_techniques_to_apply)
+{
+  cat("Dataset:", df_name, " Technique: 2a", "\n")
+  executeTechnique2A()
+}
 
-cat("\n")
-executeTechnique3A()
-cat("\n")
-executeTechnique3B()
-cat("\n")
-executeTechnique4A()
-cat("\n")
-executeTechnique4B()
+if(4 %in% which_techniques_to_apply)
+{
+  cat("Dataset:", df_name, " Technique: 2b", "\n")
+  executeTechnique2B()
+}
+
+if(5 %in% which_techniques_to_apply)
+{
+  cat("\n")
+  executeTechnique3A()
+}
+
+if(6 %in% which_techniques_to_apply)
+{
+  cat("\n")
+  executeTechnique3B()
+}
+
+if(7 %in% which_techniques_to_apply)
+{
+  cat("\n")
+  executeTechnique4A()
+}
+
+if(8 %in% which_techniques_to_apply)
+{
+  cat("\n")
+  executeTechnique4B()
+}
