@@ -11,8 +11,6 @@
 #' 
 #' url: https://www.openml.org/d/41162
 
-df_name <- df_names[12]
-
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
 df_original <- pushClassToTheEnd(df_original, 1, "class")

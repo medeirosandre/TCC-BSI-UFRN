@@ -11,8 +11,6 @@
 #' 
 #' url: https://archive.ics.uci.edu/ml/datasets/Polish+companies+bankruptcy+data
 
-df_name <- df_names[1]
-
 df_original <- readFromCsv(
   df.location = df_locations[1],
   df.name = df_name

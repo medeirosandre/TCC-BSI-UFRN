@@ -24,6 +24,7 @@ for(i in df_names)
   
   if(length(which_techniques_to_apply) != 0)
   {
+    df_name <- i
     source(paste("scripts/", i, ".R", sep = ""))
     source("scripts/src/ExecuteTechniques.R")
   }

@@ -11,8 +11,6 @@
 #' 
 #' url: https://archive.ics.uci.edu/ml/datasets/Mammographic+Mass
 
-df_name <- df_names[13]
-
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
 df_original <- convertCategoricalToNumerical(df_original)

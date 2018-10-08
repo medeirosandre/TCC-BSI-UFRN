@@ -11,8 +11,6 @@
 #' 
 #' url: https://www.openml.org/d/56
 
-df_name <- df_names[8]
-
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
 

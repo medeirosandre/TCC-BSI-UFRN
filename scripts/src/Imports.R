@@ -13,7 +13,7 @@ df_names <- c(
   "JungleChessRatPanther", "Kicks", "MammographicMass", "Mice", "Mushroom"
 )
 
-# df_names <- c("Hip")
+# df_names <- c("CreditApproval", "Hip")
 
 techniques_sufix <- c(
   "_MediaEModaConjuntoCompletoAppending",

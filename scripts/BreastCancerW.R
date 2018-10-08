@@ -11,8 +11,6 @@
 #' 
 #' url: https://www.openml.org/d/15
 
-df_name <- df_names[7]
-
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
 df_original <- convertCategoricalToNumerical(df_original)

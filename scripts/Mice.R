@@ -12,8 +12,6 @@
 #' url: https://archive.ics.uci.edu/ml/datasets/Mice+Protein+Expression
 #' url: https://www.openml.org/d/40966
 
-df_name <- df_names[14]
-
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
 df_original <- convertCategoricalToNumerical(df_original)

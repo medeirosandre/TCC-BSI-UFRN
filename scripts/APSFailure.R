@@ -11,8 +11,6 @@
 #' 
 #' url: http://archive.ics.uci.edu/ml/datasets/APS+Failure+at+Scania+Trucks
 
-df_name <- df_names[5]
-
 df_original <- readFromCsv(df_locations[1], df_name, "")
 df_original <- dropLevelFromDataframe(df_original, "?")
 df_original <- pushClassToTheEnd(df_original, 1, "class")

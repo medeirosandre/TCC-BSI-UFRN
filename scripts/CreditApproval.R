@@ -30,8 +30,6 @@
 #' 5 Income        : num  560 824 3 0 0 ...
 #' 6 Approved      : chr  "+" "+" "+" "+" ...
 
-df_name <- df_names[9]
-
 df_original <- readFromCsv(
   df.location = df_locations[1],
   df.name = df_name

@@ -11,8 +11,6 @@
 #' 
 #' url: https://www.openml.org/d/1590
 
-df_name <- df_names[3]
-
 df_original <- readFromCsv(
   df.location = df_locations[1],
   df.name = df_name
