@@ -61,8 +61,14 @@ executeTechnique2B <- function()
 
 executeTechnique3A <- function()
 {
+  start_of_k <- getStartOfKVector(
+    path_to_look = df_locations[2],
+    base_name = df_name,
+    pattern = "NNConjuntoCompletoAppending"
+  )
   tech_suf <- c(techniques_sufix[5:8])
-  for(i in 1:4)
+  # for(i in 1:4)
+  for(i in start_of_k:4)
   {
     cat("Dataset:", df_name, " Technique: 3a  K:", (i + i + 1), "\n")
     
@@ -85,8 +91,14 @@ executeTechnique3A <- function()
 
 executeTechnique3B <- function()
 {
+  start_of_k <- getStartOfKVector(
+    path_to_look = df_locations[2],
+    base_name = df_name,
+    pattern = "NNConjuntoCompletoNotAppending"
+  )
   tech_suf <- c(techniques_sufix[9:12])
-  for(i in 1:4)
+  # for(i in 1:4)
+  for(i in start_of_k:4)
   {
     cat("Dataset:", df_name, " Technique: 3b  K:", (i + i + 1), "\n")
     
@@ -109,8 +121,14 @@ executeTechnique3B <- function()
 
 executeTechnique4A <- function()
 {
+  start_of_k <- getStartOfKVector(
+    path_to_look = df_locations[2],
+    base_name = df_name,
+    pattern = "NNConjuntoDeMesmaClasseAppending"
+  )
   tech_suf <- c(techniques_sufix[13:16])
-  for(i in 1:4)
+  # for(i in 1:4)
+  for(i in start_of_k:4)
   {
     cat("Dataset:", df_name, " Technique: 4a  K:", (i + i + 1), "\n")
     
@@ -133,8 +151,14 @@ executeTechnique4A <- function()
 
 executeTechnique4B <- function()
 {
+  start_of_k <- getStartOfKVector(
+    path_to_look = df_locations[2],
+    base_name = df_name,
+    pattern = "NNConjuntoDeMesmaClasseNotAppending"
+  )
   tech_suf <- c(techniques_sufix[17:20])
-  for(i in 1:4)
+  # for(i in 1:4)
+  for(i in start_of_k:4)
   {
     cat("Dataset:", df_name, " Technique: 4b  K:", (i + i + 1), "\n")
     

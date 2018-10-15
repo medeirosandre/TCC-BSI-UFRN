@@ -1,4 +1,11 @@
 
+clearCommonVariables <- function()
+{
+  rm(
+    convert_lvls, convert_types, df_noNA, df_onlyNA, df_original, fill_na_using
+  )
+}
+
 #' @description List the files in a folder.
 #' 
 #' @param path_to_look path to the folder.
@@ -11,6 +18,16 @@ getFileNames <- function(path_to_look, pattern = NULL)
     path = path_to_look,
     pattern = pattern
   ))
+}
+
+getStartOfKVector <- function(path_to_look, base_name = NULL, pattern = NULL)
+{
+  return(length(
+    getFileNames(
+      path_to_look = path_to_look,
+      pattern = paste("^.*", base_name, ".*.*", pattern, ".*.$", sep = "")
+    )
+  ) + 1)
 }
 
 getWhichTechniquesToAplly <- function(techniques_completed)
@@ -75,6 +92,8 @@ installNeededPackages <- function() {
     }
     library(pack, character.only = TRUE)
   }
+  
+  rm(packages)
 }
 
 #' @description Order the instances in a dataframe by rownames.
@@ -92,12 +111,10 @@ orderDataframeByRowname <- function(df_to_order)
 #' @return a dataframe with the data from the .csv file.
 readFromCsv <- function(df.location, df.name, df.sufix = "")
 {
-  df.aux <- read.csv(paste(df.location,
-                           df.name, 
-                           df.sufix, 
-                           ".csv", sep = ""), 
-                     stringsAsFactors = TRUE)
-  return(df.aux)
+  return(read.csv(
+    paste(df.location, df.name, df.sufix, ".csv", sep = ""),
+    stringsAsFactors = T
+  ))
 }
 
 #' Write a dataframe into a .csv file.
@@ -108,10 +125,11 @@ readFromCsv <- function(df.location, df.name, df.sufix = "")
 #' @param df.sufix the sufix of the .csv file.
 writeToCsv <- function(df.toWrite, df.location, df.name, df.sufix = "")
 {
-  write.csv(df.toWrite, paste(df.location, 
-                              df.name,
-                              df.sufix,
-                              ".csv", sep = ""), 
-            quote = FALSE, 
-            na = "?", row.names = FALSE)
+  write.csv(
+    x = df.toWrite,
+    file = paste(df.location, df.name, df.sufix, ".csv", sep = ""), 
+    quote = F, 
+    na = "?",
+    row.names = F
+  )
 }

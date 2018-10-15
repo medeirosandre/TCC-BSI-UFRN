@@ -7,13 +7,25 @@ df_locations <- c(
   "originalDatasets/", "cleanDatasets/", "classifierResults/"
 )
 
-df_names <- c(
-  "2Year", "3Year", "Adult", "AdultAutism", "APSFailure", "BreastCancer",
-  "BreastCancerW", "CongretionalVoting", "CreditApproval", "Hip",
-  "JungleChessRatPanther", "Kicks", "MammographicMass", "Mice", "Mushroom"
-)
+# df_names <- c(
+#   "2Year", "3Year", "Adult", "AdultAutism", "APSFailure", "BreastCancer",
+#   "BreastCancerW", "CongretionalVoting", "CreditApproval", "Hip",
+#   "JungleChessRatPanther", "Kicks", "MammographicMass", "Mice", "Mushroom"
+# )
 
-# df_names <- c("CreditApproval", "Hip")
+# df_names <- c(
+#   "2Year", "3Year", "Adult", "AdultAutism", "BreastCancer", "BreastCancerW",
+#   "CongretionalVoting", "CreditApproval", "Hip", "JungleChessRatPanther",
+#   "MammographicMass", "Mice", "Mushroom", "Kicks", "APSFailure"
+# )
+
+# df_names <- c("Hip", "CreditApproval")
+
+df_names <- c(
+  "1Year", "2Year", "3Year", "4Year", "Adult", "AdultAutism", "BreastCancer", 
+  "BreastCancerW", "CongretionalVoting", "CreditApproval", "Hip",
+  "JungleChessRatPanther", "MammographicMass", "Mice", "Mushroom"
+)
 
 techniques_sufix <- c(
   "_MediaEModaConjuntoCompletoAppending",
