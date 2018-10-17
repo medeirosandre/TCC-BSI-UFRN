@@ -1,5 +1,7 @@
 classifierResults/
 cleanDatasets/
+originalDatasets/_unused/
+scripts/_unused/
 tcc_latex/
 
 .Rhistory

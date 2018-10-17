@@ -12,12 +12,38 @@ appendRowIntoDataframe <- function(df_original, row_to_append)
   return(rbind(df_original, row_to_append))
 }
 
+#' @description Convert the type of data in a dataframe from categorical to
+#' numerical.
+#' @param df_to_convert The dataframe in which the type of data must be
+#' converted.
+#' @return A dataframe that contains the same data as the input, only
+#' represented as it's original type.
+convertCategoricalToNumerical <- function(df_to_convert)
+{
+  #' Iterates over the columns for the dataframe, except the class (last one).
+  for (i in 1:(ncol(df_to_convert)-1))
+  {
+    df_to_convert[[i]] <- type.convert(df_to_convert[[i]])
+  }
+  
+  return(df_to_convert)
+}
+
+#' @description Drop a column from a dataframe
+#' @param df_to_drop_column The dataframe from which the column must be
+#' dropped.
+#' @param column_to_drop The column that must be dropped from the dataframe.
+dropColumnFromDataFrame <- function(df_to_drop_column, column_to_drop)
+{
+  return(df_to_drop_column[, -column_to_drop])
+}
+
 #' @description Drop a level from a dataframe.
 #' @param df_to_drop_level Original dataframe from which the level must be
 #' dropped.
 #' @param level_to_drop Level to drop from the dataframe.
 #' @return A dataframe with such level dropped.
-dropLevelFromDataframe <- function(df_to_drop_level, level_to_drop = "?")
+dropLevelFromDataframe <- function(df_to_drop_level, level_to_drop="?")
 {
   return(droplevels(df_to_drop_level, exclude = level_to_drop))
 }
@@ -30,12 +56,86 @@ findFashion <- function(vector)
   return(names(which.max(table(vector))))
 }
 
+#' @description Find the k-nearest neighbors of an individual row within a
+#' dataframe.
+#' @param df_to_analize A dataframe in which the nearest neighbors must be
+#' found.
+#' @param row A dataframe containing the single row from which the NN must be
+#' found.
+#' @param num_of_k The number of nearest neighbors who must be found.
+#' @return A dataframe contaning the k-nearest neighbors of the given row.
+findKNNOfARow <- function(df_to_analize, row, num_of_k=1)
+{
+  target_values <- df_to_analize[[ncol(df_to_analize)]]
+  df_training <- df_to_analize[, -ncol(df_to_analize)]
+  df_test <- row[,-ncol(row)]
+  
+  k <- knn(df_training, df_test, target_values, k = num_of_k,
+           algorithm = "cover_tree")
+  indices <- attr(k, "nn.index")
+  
+  knn_num_indexes <- c(as.numeric(indices[1, ]))
+  knn_row_names <- rownames(df_training)[knn_num_indexes]
+  
+  nearest_neighbors <- df_training[
+    which(rownames(df_training) == knn_row_names[1]), ]
+  for (i in 2:length(knn_row_names)) {
+    nearest_neighbors <- appendRowIntoDataframe(
+      df_original = nearest_neighbors,
+      row_to_append = df_training[
+        which(rownames(df_training) == knn_row_names[i]), ]
+    )
+  }
+  
+  rm(df_to_analize, row, num_of_k, target_values, df_training, df_test, k,
+     indices, knn_num_indexes, knn_row_names)
+  return(nearest_neighbors)
+}
+
 #' @description Find the mean of a vector.
 #' @param vector The vector from which the mean must be observed.
 #' @return The mean of a vector.
 findMean <- function(vector)
 {
   return(mean(as.numeric(vector)))
+}
+
+#' @description Find the original data for the NN.
+#' @param df_to_analize The dataframe containing the original data.
+#' @param df_neighbors The dataframe containing the data from the found NN.
+#' @return A dataframe with the original data equivalent to the found NN.
+findOriginalDataForNeighbors <- function(df_to_analize, df_neighbors)
+{
+  df_return <- df_to_analize[which(rownames(
+    df_to_analize) == rownames(df_neighbors)[1]), ]
+  for (i in 2:nrow(df_neighbors))
+  {
+    df_return <- rbind(df_return, df_to_analize[which(rownames(
+      df_to_analize) == rownames(df_neighbors)[i]), ])
+  }
+  
+  rm(df_to_analize, df_neighbors)
+  return(df_return)
+}
+
+#' @description  Find which elements in a vector are NA.
+#' @param vector A vector from which the NA must be found.
+#' @return A vector with the indexes of the NA found whithin the analized
+#' vector.
+findWhichElementsInRowAreNA <- function(vector)
+{
+  return(which(is.na(vector)))
+}
+
+#' @description Get all of the cases of a specific class.
+#' @param df_to_be_observed Original dataframe from which the cases must be
+#' observed.
+#' @param class_name Value of the class who must be observed.
+#' @return A dataframe containing only the cases of said specific class.
+getCasesOfSpecificClass <- function(df_to_be_observed, class_name)
+{
+  return(df_to_be_observed[c(which(
+    df_to_be_observed[[ncol(df_to_be_observed)]] == class_name)),])
 }
 
 #' @description Get a dataframe of complete cases from another dataframe.
@@ -57,35 +157,80 @@ getIncompleteCases <- function(df_to_get_cases)
     getCompleteCases(df_to_get_cases)), rownames(df_to_get_cases))),])
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#' @description Convert the type of data in a dataframe from categorical to
-#' numerical.
-#' @param df_to_convert the dataframe in which the type of data must be
-#' converted.
-#' @return a dataframe that contains the same data as the input, only
-#' represented as it's original type.
-convertCategoricalToNumerical <- function(df_to_convert)
+#' @description  Hide columns in a dataframe.
+#' @param df_to_hide_columns A dataframe from which the columns must be hidden.
+#' @param columns A vector of integers containing the indexes of the columns
+#' who must be hidden.
+#' @return The original dataframe without the hidden columns.
+hideColumnsOfDataframe <- function(df_to_hide_columns, columns)
 {
-  for (i in 1:(ncol(df_to_convert)-1))
+  return(df_to_hide_columns[, -columns])
+}
+
+#' @description Move the target column of a dataframe to the end of said
+#' dataframe.
+#' @param df_to_move_colum A dataframe from which the column must be moved.
+#' @param column Index for a column who must be moved within a dataframe.
+#' @param columnName Final name of the moved column.
+#' @return A dataframe with the target attribute as the last column.
+pushClassToTheEnd <- function(df_to_move_colum, column=1, column_name="class")
+{
+  column_to_move <- df_to_move_colum[, column]
+  df_to_move_colum <- df_to_move_colum[, -column]
+  
+  new_colnames <- c(colnames(df_to_move_colum), column_name)
+  
+  df_to_move_colum <- cbind(df_to_move_colum, column_to_move)
+  colnames(df_to_move_colum) <- new_colnames
+  
+  rm(column_to_move, new_colnames, column, column_name)
+  return(df_to_move_colum)
+}
+
+#' @description Finds all of the instances from a dataframe that doesn't have
+#' any of it's features filled.
+#' @param df_to_find_instances The dataframe from which the instances must be
+#' found.
+#' @return The instances that doesn't have any of it's features filled.
+whichInstancesAreFullNA <- function(df_to_find_instances)
+{
+  rows_to_drop <- c()
+  for(i in 1:nrow(df_to_find_instances))
   {
-    df_to_convert[[i]] <- type.convert(df_to_convert[[i]])
+    if(length(which(is.na(
+      df_to_find_instances[i,]))) == ncol(df_to_find_instances)-1)
+    {
+      rows_to_drop <- c(rows_to_drop, as.integer(
+        rownames(df_to_find_instances[i, ])))
+    }
   }
   
-  return(df_to_convert)
+  rm(df_to_find_instances)
+  return(rows_to_drop)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #' Convert categorical data into ordinal numerical data.
 #' 
@@ -170,31 +315,6 @@ convertColumnFromCategoricalToNumericalThroughBinarization <- function(df.origin
   return(df.aux1)
 }
 
-#' Drops all of the instances from a dataframe that doesn't have a any features filled.
-#' 
-#' @param df_to_drop_instances the dataframe from which the instances must be dropped.
-#' 
-#' @return the instances that must be dropped.
-whichInstancesAreFullNA <- function(df_to_find_instances)
-{
-  rows_to_drop <- c()
-  for(i in 1:nrow(df_to_find_instances))
-  {
-    if(length(which(is.na(df_to_find_instances[i,]))) == ncol(df_to_find_instances)-1)
-    {
-      rows_to_drop <- c(rows_to_drop, as.integer(rownames(df_to_find_instances[i, ])))
-    }
-  }
-  return(rows_to_drop)
-}
-
-dropColumnFromDataFrame <- function(df_to_drop_column, column_to_drop)
-{
-  return(df_to_drop_column[, -column_to_drop])
-}
-
-
-
 ### <summary>
 ### function to get a converted dataframe, using the convertion.types as a method of 
 ### differing the converting function
@@ -266,21 +386,6 @@ getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
   return(df.aux)
 }
 
-
-
-### <summary>
-### function to hide columns in a dataframe
-### </summary>
-### <param name="df.original">dataframe, dataframe from which the columns must be hidden</param>
-### <param name"columns">
-### vector, vector of integers containing the indexes of the columns who must be hidden
-### </param>
-### <return>returns the original dataframe without the hidden columns</return>
-hideColumnsOfDataframe <- function(df.original, columns)
-{
-  return(df.original[, -columns])
-}
-
 #' @description Hide a column in a converted dataframe.
 #' 
 #' @param df_converted The converted dataframe.
@@ -329,32 +434,6 @@ hideColumnsOfConvertedDataframe <- function(df_converted, columns_to_hide,
 }
 
 ### <summary>
-### funcion to move the target column of a dataframe to the end of said dataframe
-### </summary>
-### <param name="df.original">dataframe, dataframe from which the column must be moved</param>
-### <param name="column">integer, index for a column who must be moved within a dataframe</param>
-### <param name="columnName">string, final name of the moved column</param>
-### <return>returns a dataframe with the target attribute as the last column</return>
-pushClassToTheEnd <- function(df.original, column, columnName)
-{
-  df.aux <- df.original
-  var.aux <- df.aux[, column]
-  
-  df.aux <- df.aux[, -column]
-  
-  var.aux1 <- c(colnames(df.aux), columnName)
-  
-  df.aux <- cbind(df.aux, var.aux)
-  colnames(df.aux) <- var.aux1
-  
-  return(df.aux)
-}
-###############################################################################
-
-# Functions to manipulate lists
-###############################################################################
-
-### <summary>
 ### function to hide elements inside a list, using the first value of each 
 ### element from the list to determine if said element must be hidden
 ### </summary>
@@ -383,76 +462,3 @@ hideElementsInAList <- function(aList, elementsToHide)
   
   return(auxList)
 }
-###############################################################################
-
-# Functions to find mean and fashion
-###############################################################################
-
-
-###############################################################################
-
-# functions to analize data
-###############################################################################
-
-findOriginalDataForNeighbors <- function(df.original, df.neighbors)
-{
-  df.aux <- df.original[which(rownames(df.original) == rownames(df.neighbors)[1]), ]
-  for (i in 2:nrow(df.neighbors))
-  {
-    df.aux <- rbind(df.aux, df.original[which(rownames(df.original) == rownames(df.neighbors)[i]), ])
-  }
-  
-  return(df.aux)
-}
-
-### <summary>
-### function to find which elements in a row are NA
-### </summary>
-### <param name="row">vector, a row from the dataframe, from which the NA must be found</param>
-### <return>returns a vector with the indexes of the NA found whithin the analized row</return>
-findWhichElementsInRowAreNA <- function(row)
-{
-  return(which(is.na(row)))
-}
-
-### <summary>
-### function to get all of the cases of a specific class
-### <summary>
-### <param name="df.original">dataframe, original dataframe from which the cases must be observed</param>
-### <param name="className">string, value of the class who must be observed</param>
-### <return>returns a dataframe containing only the cases of said specific class</return>
-getCasesOfSpecificClass <- function(df.original, className)
-{
-  return(df.original[c(which(df.original[[ncol(df.original)]] == className)),])
-}
-###############################################################################
-
-# functions to use k-nn
-###############################################################################
-
-### <summary>
-### function to find the k-nearest neighbors of an individual row within a dataframe
-### </summary>
-### <param name="dfToAnalize">dataframe, dataframe in which the nearest neighbors must be found</param>
-### <param name="row">dataframe, dataframe containing the single row from which the nearest neighbors must be found</param
-### <param name="kNum">integer, number of nearest neighbors who must be found</param>
-### <return>returns a dataframe contaning the k-nearest neighbors of the given row</param>
-findKNNOfARow <- function(dfToAnalize, row, kNum)
-{
-  targetValues <- dfToAnalize[[ncol(dfToAnalize)]]
-  dfTraining <- dfToAnalize[, -ncol(dfToAnalize)]
-  dfTest <- row[,-ncol(row)]
-  
-  k <- knn(dfTraining, dfTest, targetValues, k = kNum, algorithm = "cover_tree")
-  indices <- attr(k, "nn.index")
-  
-  knn.numericIndexes <- c(as.numeric(indices[1, ]))
-  knn.rowNames <- rownames(dfTraining)[knn.numericIndexes]
-  nearestNeighbors <- dfTraining[which(rownames(dfTraining) == knn.rowNames[1]), ]
-  for (i in 2:length(knn.rowNames)) {
-    nearestNeighbors <- appendRowIntoDataframe(nearestNeighbors, dfTraining[which(rownames(dfTraining) == knn.rowNames[i]), ])
-  }
-  
-  return(nearestNeighbors)
-}
-###############################################################################

@@ -58,7 +58,7 @@ fillNAWithKNNFromCompleteDataset <- function(df.noNA, df.onlyNA,
       )
       
       cRow.convData <- hideColumnsOfDataframe(
-        df.original = cRow.origData,
+        df_to_hide_columns = cRow.origData,
         columns = cRow.idxNA
       )
       cRow.convData <- getConvertedDataFrame(
@@ -77,14 +77,14 @@ fillNAWithKNNFromCompleteDataset <- function(df.noNA, df.onlyNA,
       )
       
       auxDF.knn <- findKNNOfARow(
-        dfToAnalize = convertedDF.hidden,
+        df_to_analize = convertedDF.hidden,
         row = cRow.convData,
-        kNum = numOfK
+        num_of_k = numOfK
       )
       
       auxDF.knnOrigData <- findOriginalDataForNeighbors(
-        df.original = auxDF.return,
-        df.neighbors = auxDF.knn
+        df_to_analize = auxDF.return,
+        df_neighbors = auxDF.knn
       )
       
       cRow.origData <- fillNAInARow(
@@ -184,7 +184,7 @@ fillNAWithKNNFromDatasetOfCasesClass <- function(df.noNA, df.onlyNA,
       )
       
       cRow.convData <- hideColumnsOfDataframe(
-        df.original = cRow.origData,
+        df_to_hide_columns = cRow.origData,
         columns = cRow.idxNA
       )
       cRow.convData <- getConvertedDataFrame(
@@ -202,18 +202,18 @@ fillNAWithKNNFromDatasetOfCasesClass <- function(df.noNA, df.onlyNA,
         original_colnames = c(colnames(df.noNA))
       )
       convertedDF.hidden <- getCasesOfSpecificClass(
-        df.original = convertedDF.hidden,
-        className = cRow.origData[[ncol(cRow.origData)]]
+        df_to_be_observed = convertedDF.hidden,
+        class_name = cRow.origData[[ncol(cRow.origData)]]
       )
       
       auxDF.knn <- findKNNOfARow(
-        dfToAnalize = convertedDF.hidden,
+        df_to_analize = convertedDF.hidden,
         row = cRow.convData,
-        kNum = numOfK
+        num_of_k = numOfK
       )
       auxDF.knnOrigData <- findOriginalDataForNeighbors(
-        df.original = auxDF.return,
-        df.neighbors = auxDF.knn
+        df_to_analize = auxDF.return,
+        df_neighbors = auxDF.knn
       )
       
       cRow.origData <- fillNAInARow(

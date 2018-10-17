@@ -15,12 +15,10 @@ fillNAInARow <- function(df.toAnalize, row, row.naElements, fillUsing)
   for (j in 1:length(row.naElements)) {
     if (fillUsing[row.naElements[j]] == 1)
     {
-      # value.toReplace <- findMean(df.toAnalize, row.naElements[j])
       value.toReplace <- findMean(df.toAnalize[[row.naElements[j]]])
     }
     else
     {
-      # value.toReplace <- findFashion(df.toAnalize, row.naElements[j])
       value.toReplace <- findFashion(df.toAnalize[[row.naElements[j]]])
     }
     row[, row.naElements[j]] <- value.toReplace
@@ -100,15 +98,15 @@ fillNAWithDatasetOfCasesClass <- function(df.noNA, df.onlyNA, fill_na_using,
     if(appending)
     {
       df.aux2 <- getCasesOfSpecificClass(
-        df.original = df.aux, 
-        className = as.character(current.row[, ncol(current.row)])
+        df_to_be_observed = df.aux, 
+        class_name = as.character(current.row[, ncol(current.row)])
       )
     }
     else
     {
       df.aux2 <- getCasesOfSpecificClass(
-        df.original = df.noNA,
-        className = as.character(current.row[, ncol(current.row)])
+        df_to_be_observed = df.noNA,
+        class_name = as.character(current.row[, ncol(current.row)])
       )
     }
     
