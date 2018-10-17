@@ -1,7 +1,7 @@
 
 #' Adult:
 #' 
-#' name do arquivo: adult.csv
+#' name do arquivo: Adult.csv
 #' numero de classes: 2
 #' numero de atributos: 15
 #' numero de instancias: 48842
@@ -11,18 +11,9 @@
 #' 
 #' url: https://www.openml.org/d/1590
 
-df_original <- readFromCsv(
-  df.location = df_locations[1],
-  df.name = df_name
-)
-df_original <- dropLevelFromDataframe(
-  df.original = df_original,
-  levelToDrop = "?"
-)
-df_original <- convertSpecificColumnsFromCatToNum(
-  df_to_convert = df_original,
-  columns_to_convert = c(1, 3, 5, 11, 12, 13)
-)
+df_original <- readFromCsv(df.location = df_locations[1], df_name)
+df_original <- dropLevelFromDataframe(df_original)
+df_original <- convertCategoricalToNumerical(df_original)
 
 df_noNA <- getCompleteCases(df_original)
 df_onlyNA <- getIncompleteCases(df_original)

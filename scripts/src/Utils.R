@@ -1,16 +1,7 @@
 
-clearCommonVariables <- function()
-{
-  rm(
-    convert_lvls, convert_types, df_noNA, df_onlyNA, df_original, fill_na_using
-  )
-}
-
 #' @description List the files in a folder.
-#' 
 #' @param path_to_look path to the folder.
 #' @param pattern pattern to look for in the filenames.
-#' 
 #' @return a vector of the found filenames.
 getFileNames <- function(path_to_look, pattern = NULL)
 {
@@ -20,6 +11,11 @@ getFileNames <- function(path_to_look, pattern = NULL)
   ))
 }
 
+#' @description Get the starting number for KNN based methods.
+#' @param path_to_look path to search for files.
+#' @param base_name name of the base.
+#' @param pattern pattern in the filename.
+#' @return the starting number for K.
 getStartOfKVector <- function(path_to_look, base_name = NULL, pattern = NULL)
 {
   return(length(
@@ -30,6 +26,9 @@ getStartOfKVector <- function(path_to_look, base_name = NULL, pattern = NULL)
   ) + 1)
 }
 
+#' @description Get which techniques must be applied to the dataset.
+#' @param techniques_completed The techniques that were applied.
+#' @return A vector indicating the techniques to be applied.
 getWhichTechniquesToAplly <- function(techniques_completed)
 {
   techniques_to_apply <- c()
@@ -96,6 +95,65 @@ installNeededPackages <- function() {
   rm(packages)
 }
 
+#' @description Normalize a dataframe.
+#' @param df_to_normalize The dataframe that must be normalized.
+#' @return The normalized dataframe.
+normalizeDataframe <- function(df_to_normalize)
+{
+  #' Iterate over the dataframe's columns, except class (last one)
+  for(i in 1:(ncol(df_to_normalize)-1))
+  {
+    #' Retrieves the current column.
+    col <- df_to_normalize[[i]]
+    
+    #' Identifies the indexes for NA in the column.
+    na_col <- c()
+    na_col <- which(is.na(col))
+    
+    #' Replaces NA with a value from the column, normalizes and inserts
+    #' the NA back to it's places.
+    col[na_col] <- col[which(!is.na(col))[1]]
+    col <- (col - min(col)) / (max(col) - min(col))
+    col[na_col] <- NA
+    
+    #' Replaces the column in the dataframe to be returned.
+    df_to_normalize[[i]] <- col
+  }
+  
+  #' Removes disposable variables from enviroment
+  rm(col, na_col)
+  return(df_to_normalize)
+}
+
+normalizeDataframeBasedOnOtherDataframe <- function(df_to_normalize,
+  df_to_analize)
+{
+  for(i in 1:(ncol(df_to_normalize)-1))
+  {
+    col <- df_to_normalize[[i]]
+    min <- min(df_to_analize[[i]])
+    max <- max(df_to_analize[[i]])
+    
+    na_col <- c()
+    na_col <- which(is.na(col))
+    if(length(na_col) > 0)
+    {
+      col[na_col] <- min
+    }
+    
+    col <- (col - min) / (max - min)
+    
+    if(length(na_col) > 0)
+    {
+      col[na_col] <- NA
+    }
+    df_to_normalize[[i]] <- col
+  }
+  
+  rm(col, na_col)
+  return(df_to_normalize)
+}
+
 #' @description Order the instances in a dataframe by rownames.
 #' @param df_to_order A dataframe to be ordered.
 #' @return The dataframe, with it's instances ordered.
@@ -104,7 +162,7 @@ orderDataframeByRowname <- function(df_to_order)
   return(df_to_order[order(as.numeric(rownames(df_to_order))), ])
 }
 
-#' Load a .csv file from de HD.
+#' @description Load a .csv file from de HD.
 #' @param df.location a path to a .csv file.
 #' @param df.name the .csv filename.
 #' @param df.sufix the sufix for the .csv file.
@@ -117,7 +175,7 @@ readFromCsv <- function(df.location, df.name, df.sufix = "")
   ))
 }
 
-#' Write a dataframe into a .csv file.
+#' @description Write a dataframe into a .csv file.
 #' @param df.toWrite a dataframe that is supposed to be written
 #' into a .csv file.
 #' @param df.location the path in which the .csv file must be written.

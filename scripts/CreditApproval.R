@@ -1,7 +1,7 @@
 
 #' Credit Approval
 #' 
-#' nome do arquivo: credit-approval.csv
+#' nome do arquivo: CreditApproval.csv
 #' numero de classes: 2
 #' numero de atributos: 16
 #' numero de instancias: 640
@@ -30,21 +30,16 @@
 #' 5 Income        : num  560 824 3 0 0 ...
 #' 6 Approved      : chr  "+" "+" "+" "+" ...
 
-df_original <- readFromCsv(
-  df.location = df_locations[1],
-  df.name = df_name
-)
-df_original <- dropLevelFromDataframe(
-  df.original = df_original,
-  levelToDrop = "?"
-)
-df_original <- convertSpecificColumnsFromCatToNum(
-  df_to_convert = df_original,
-  columns_to_convert = c(2, 3, 8, 11, 14, 15)
-)
+df_original <- readFromCsv(df_locations[1], df_name)
+df_original <- dropLevelFromDataframe(df_original)
+df_original <- convertCategoricalToNumerical(df_original)
 
 df_noNA <- getCompleteCases(df_original)
 df_onlyNA <- getIncompleteCases(df_original)
+
+# 1 = convertion from ordinal categorical data to numerical data
+# 2 = convertion from categorical data to numerical data through binarization
+# 3 = just append
 
 convert_types <- list(
   c(1, 2), c(2, 3), c(3, 3), c(4, 2),
@@ -65,5 +60,8 @@ convert_lvls <- list(
   c(12, c("t", "f")),
   c(13, c("g", "p", "s"))
 )
+
+# 1 = mean
+# 2 = fashion
 
 fill_na_using <- c(2,1,1,2,2,2,2,1,2,2,1,2,2,1,1)

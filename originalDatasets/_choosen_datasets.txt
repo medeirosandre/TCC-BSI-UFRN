@@ -128,13 +128,24 @@
 
 	Polish Companies Bankrupcy:*
 		nome: 3year.csv
-		numero. classes: 2
-		numero. atributos: 65
-		numero. instancias: 10503
-		numero. instancias completas: 4885
-		numero. valores faltosos: 9888
+		n. classes: 2
+		n. atributos: 65
+		n. instancias: 10503
+		n. instancias completas: 4885
+		n. valores faltosos: 9888
 		% instancias complestas: 46
 		url: https://archive.ics.uci.edu/ml/datasets/Polish+companies+bankruptcy+data
+
+	Polish Companies Bankrupcy
+		nome: 4Year.csv
+		n.classes: 2
+		n. atributos: 65
+		n. instancias: 9792
+		n. instancias completas: 4769
+		n. valores faltosos: 8776
+		% instancias complestas: 49
+	
+	url: https://archive.ics.uci.edu/ml/datasets/Polish+companies+bankruptcy+data
 
 5 datasets com dados variados (categóricos e numéricos)
 

@@ -1,7 +1,7 @@
 
 #' Autistic Screening Adult:
 #' 
-#' nome do arquivo: autism-adult.csv
+#' nome do arquivo: AutismAdult.csv
 #' numero de classes: 2
 #' numero de atributos: 21
 #' numero de instancias: 704
@@ -11,12 +11,9 @@
 #' 
 #' url: https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Adult
 
-df_original <- readFromCsv(df_locations[1], df_name, "")
-df_original <- dropLevelFromDataframe(df_original, "?")
-df_original <- convertSpecificColumnsFromCatToNum(
-  df_to_convert = df_original,
-  columns_to_convert = c(seq(1, 11), 18)
-)
+df_original <- readFromCsv(df_locations[1], df_name)
+df_original <- dropLevelFromDataframe(df_original)
+df_original <- convertCategoricalToNumerical(df_original)
 
 df_noNA <- getCompleteCases(df_original)
 df_onlyNA <- getIncompleteCases(df_original)

@@ -1,11 +1,9 @@
 
-#' Functions to be used in the experiments
-
 source("scripts/src/FunctionsFillNA.R")
 source("scripts/src/FunctionsFillNAKNN.R")
 source("scripts/src/Utils.R")
 
-#' Append a row into a dataframe.
+#' @description Append a row into a dataframe.
 #' @param df_original the dataframe in which the row must be appended.
 #' @param row_to_append a row to append into a dataframe.
 #' @return a dataframe with the row appended into.
@@ -14,27 +12,76 @@ appendRowIntoDataframe <- function(df_original, row_to_append)
   return(rbind(df_original, row_to_append))
 }
 
-#' Convert the type of data in a dataframe from categorical to numerical.
-#' 
-#' @param df_to_convert the dataframe in which the type of data must be converted.
-#' 
-#' @return a dataframe that contains the same data as the input, only represented in numeric type.
-convertCategoricalToNumerical <- function(df_to_convert)
+#' @description Drop a level from a dataframe.
+#' @param df_to_drop_level Original dataframe from which the level must be
+#' dropped.
+#' @param level_to_drop Level to drop from the dataframe.
+#' @return A dataframe with such level dropped.
+dropLevelFromDataframe <- function(df_to_drop_level, level_to_drop = "?")
 {
-  for (i in 1:(ncol(df_to_convert)-1)) {
-    df_to_convert[[i]] <- type.convert(df_to_convert[[i]], as.is = T)
-    # df_to_convert[[i]] <- as.numeric(df_to_convert[[i]])
-  }
-  
-  return(df_to_convert)
+  return(droplevels(df_to_drop_level, exclude = level_to_drop))
 }
 
-convertSpecificColumnsFromCatToNum <- function(df_to_convert, columns_to_convert)
+#' @description Find the fashion of a vector.
+#' @param vector The vector from which the fashion must be observed.
+#' @return The fashion of a vector
+findFashion <- function(vector)
 {
-  for(i in columns_to_convert)
+  return(names(which.max(table(vector))))
+}
+
+#' @description Find the mean of a vector.
+#' @param vector The vector from which the mean must be observed.
+#' @return The mean of a vector.
+findMean <- function(vector)
+{
+  return(mean(as.numeric(vector)))
+}
+
+#' @description Get a dataframe of complete cases from another dataframe.
+#' @param df_to_get_cases Original dataframe from which the function finds the
+#' complete cases.
+#' @return A dataframe with the complete cases of the original dataframe.
+getCompleteCases <- function(df_to_get_cases)
+{
+  return(df_to_get_cases[complete.cases(df_to_get_cases),])
+}
+
+#' @description Get a dataframe of incomplete cases from another dataframe.
+#' @param df_to_get_cases Original dataframe from which the function finds the
+#' incomplete cases.
+#' @return A dataframe with the incomplete cases of the orginal dataframe.
+getIncompleteCases <- function(df_to_get_cases)
+{
+  return(df_to_get_cases[-c(match(rownames(
+    getCompleteCases(df_to_get_cases)), rownames(df_to_get_cases))),])
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' @description Convert the type of data in a dataframe from categorical to
+#' numerical.
+#' @param df_to_convert the dataframe in which the type of data must be
+#' converted.
+#' @return a dataframe that contains the same data as the input, only
+#' represented as it's original type.
+convertCategoricalToNumerical <- function(df_to_convert)
+{
+  for (i in 1:(ncol(df_to_convert)-1))
   {
-    df_to_convert[, i] <- type.convert(df_to_convert[, i], as.is = T)
-    # df_to_convert[, i] <- as.numeric(as.character(df_to_convert[, i]))
+    df_to_convert[[i]] <- type.convert(df_to_convert[[i]])
   }
   
   return(df_to_convert)
@@ -146,32 +193,7 @@ dropColumnFromDataFrame <- function(df_to_drop_column, column_to_drop)
   return(df_to_drop_column[, -column_to_drop])
 }
 
-#' Drop a level from a dataframe.
-#' 
-#' @param df.original original dataframe from which the level must be dropped.
-#' @param levelToDrop name of the level to drop from the dataframe.
-#' 
-#' @return a dataframe with such level dropped.
-dropLevelFromDataframe <- function(df.original, levelToDrop)
-{
-  df.aux <- df.original
-  df.aux <- droplevels(df.aux, exclude = levelToDrop)
-  
-  return(df.aux)
-}
 
-### <summary>
-### funcion to get a dataframe of complete cases from another dataframe
-### </summary>
-### <param name="df.original">dataframe, original dataframe from which the function finds the complete cases</param>
-### <return>returns a dataframe with the complete cases of the original dataframe</return>
-getCompleteCases <- function(df.original)
-{
-  df.aux <- df.original
-  df.aux <- df.aux[complete.cases(df.aux),]
-  
-  return(df.aux)
-}
 
 ### <summary>
 ### function to get a converted dataframe, using the convertion.types as a method of 
@@ -244,16 +266,7 @@ getConvertedDataFrame <- function(df.original, convertion.types, column.levels)
   return(df.aux)
 }
 
-### <summary>
-### function to get a dataframe of incomplete cases from another dataframe
-### </summary>
-### <param name="df.original">dataframe, original dataframe from which the function finds the incomplete cases</param>
-### <return>returns a dataframe with the incomplete cases of the orginal dataframe</return>
-getIncompleteCases <- function(df.original)
-{
-  # return(df.original[-c(as.integer(rownames(getCompleteCases(df.original)))),])
-  return(df.original[-c(match(rownames(getCompleteCases(df_original)), rownames(df_original))),])
-}
+
 
 ### <summary>
 ### function to hide columns in a dataframe
@@ -375,36 +388,7 @@ hideElementsInAList <- function(aList, elementsToHide)
 # Functions to find mean and fashion
 ###############################################################################
 
-### <summary>
-### funcion to find the fashion of a column in a dataframe
-### </summary>
-### <param name='df.original">dataframe, dataframe from which the column must be observed</param>
-### <param name="column">integer, index for the column within the dataframe</param>
-### <return>returns number representing the fashion of such column</return>
-findFashion <- function(df.original, column)
-{
-  var.aux <- df.original
-  var.aux <- var.aux[, column]
-  
-  # var.aux <- summary(var.aux)
-  # var.aux <- names(sort(var.aux, decreasing = T))
-  found_fashion <- names(which.max(table(var.aux)))
-  
-  # return(var.aux[1])
-  return(found_fashion)
-}
 
-### <summary>
-### funcion to find the mean of a column in a dataframe
-### </summary>
-### <param name="df.original">dataframe, dataframe from which the column must be observed</param>
-### <param name="column">integer, index for the column within the dataframe</param>
-### <return>returns number representing the mean of such column</return>
-findMean <- function(df.original, column)
-{
-  return(mean(as.numeric(df.original[,column])))
-  # return(mean(df.original[,column]))
-}
 ###############################################################################
 
 # functions to analize data

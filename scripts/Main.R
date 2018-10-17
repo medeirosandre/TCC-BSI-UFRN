@@ -1,6 +1,7 @@
 
 # run on windows
 # setwd("D:/workspace/UFRN/R")
+# setwd("C:/Users/Arthur/Documents/andre/tcc")
 # run on linux
 setwd("~/Workspace/ufrn/tcc")
 # run on docker
@@ -27,10 +28,6 @@ for(i in df_names)
     df_name <- i
     source(paste("scripts/", i, ".R", sep = ""))
     source("scripts/src/ExecuteTechniques.R")
-    rm(
-      convert_lvls, convert_types, df_noNA, df_onlyNA, df_original,
-      fill_na_using
-    )
   }
 }
 
