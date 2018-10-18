@@ -74,13 +74,22 @@ executeTechnique3A <- function()
   {
     cat("Dataset:", df_name, " Technique: 3a  K:", (i + i + 1), "\n")
     
+    # df_final <- fillNAWithKNNFromCompleteDataset(
+    #   df.noNA = df_noNA,
+    #   df.onlyNA = df_onlyNA,
+    #   convert.typs = convert_types,
+    #   convert.lvls = convert_lvls,
+    #   fillUsing = fill_na_using,
+    #   numOfK = (i + i + 1)
+    # )
+    
     df_final <- fillNAWithKNNFromCompleteDataset(
-      df.noNA = df_noNA,
-      df.onlyNA = df_onlyNA,
-      convert.typs = convert_types,
-      convert.lvls = convert_lvls,
-      fillUsing = fill_na_using,
-      numOfK = (i + i + 1)
+      df_to_complete = df_original,
+      convert_typs = convert_types,
+      convert_lvls = convert_lvls,
+      columns_to_normalize = columns_to_normalize,
+      fill_using = fill_na_using,
+      num_of_k = (i + i + 1)
     )
     writeToCsv(
       df.toWrite = df_final,
@@ -104,13 +113,23 @@ executeTechnique3B <- function()
   {
     cat("Dataset:", df_name, " Technique: 3b  K:", (i + i + 1), "\n")
     
+    # df_final <- fillNAWithKNNFromCompleteDataset(
+    #   df.noNA = df_noNA,
+    #   df.onlyNA = df_onlyNA,
+    #   convert.typs = convert_types,
+    #   convert.lvls = convert_lvls,
+    #   fillUsing = fill_na_using,
+    #   numOfK = (i + i + 1),
+    #   appending = F
+    # )
+    
     df_final <- fillNAWithKNNFromCompleteDataset(
-      df.noNA = df_noNA,
-      df.onlyNA = df_onlyNA,
-      convert.typs = convert_types,
-      convert.lvls = convert_lvls,
-      fillUsing = fill_na_using,
-      numOfK = (i + i + 1),
+      df_to_complete = df_original,
+      convert_typs = convert_types,
+      convert_lvls = convert_lvls,
+      columns_to_normalize = columns_to_normalize,
+      fill_using = fill_na_using,
+      num_of_k = (i + i + 1),
       appending = F
     )
     writeToCsv(

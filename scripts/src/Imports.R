@@ -1,6 +1,5 @@
 
 #' Imports packages and sets dataframes locations and names
-
 installNeededPackages()
 
 df_locations <- c(
@@ -13,7 +12,7 @@ df_locations <- c(
 #   "JungleChessRatPanther", "MammographicMass", "Mice", "Mushroom"
 # )
 
-df_names <- c("Hip", "CreditApproval")
+df_names <- c("Hip")
 
 techniques_sufix <- c(
   "_MediaEModaConjuntoCompletoAppending",

@@ -95,65 +95,6 @@ installNeededPackages <- function() {
   rm(packages)
 }
 
-#' @description Normalize a dataframe.
-#' @param df_to_normalize The dataframe that must be normalized.
-#' @return The normalized dataframe.
-normalizeDataframe <- function(df_to_normalize)
-{
-  #' Iterate over the dataframe's columns, except class (last one)
-  for(i in 1:(ncol(df_to_normalize)-1))
-  {
-    #' Retrieves the current column.
-    col <- df_to_normalize[[i]]
-    
-    #' Identifies the indexes for NA in the column.
-    na_col <- c()
-    na_col <- which(is.na(col))
-    
-    #' Replaces NA with a value from the column, normalizes and inserts
-    #' the NA back to it's places.
-    col[na_col] <- col[which(!is.na(col))[1]]
-    col <- (col - min(col)) / (max(col) - min(col))
-    col[na_col] <- NA
-    
-    #' Replaces the column in the dataframe to be returned.
-    df_to_normalize[[i]] <- col
-  }
-  
-  #' Removes disposable variables from enviroment
-  rm(col, na_col)
-  return(df_to_normalize)
-}
-
-normalizeDataframeBasedOnOtherDataframe <- function(df_to_normalize,
-  df_to_analize)
-{
-  for(i in 1:(ncol(df_to_normalize)-1))
-  {
-    col <- df_to_normalize[[i]]
-    min <- min(df_to_analize[[i]])
-    max <- max(df_to_analize[[i]])
-    
-    na_col <- c()
-    na_col <- which(is.na(col))
-    if(length(na_col) > 0)
-    {
-      col[na_col] <- min
-    }
-    
-    col <- (col - min) / (max - min)
-    
-    if(length(na_col) > 0)
-    {
-      col[na_col] <- NA
-    }
-    df_to_normalize[[i]] <- col
-  }
-  
-  rm(col, na_col)
-  return(df_to_normalize)
-}
-
 #' @description Order the instances in a dataframe by rownames.
 #' @param df_to_order A dataframe to be ordered.
 #' @return The dataframe, with it's instances ordered.
