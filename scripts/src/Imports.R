@@ -1,18 +1,13 @@
 
-#' Imports packages and sets dataframes locations and names
-installNeededPackages()
-
 df_locations <- c(
   "originalDatasets/", "cleanDatasets/", "classifierResults/"
 )
 
-# df_names <- c(
-#   "2Year", "3Year", "4Year", "Adult", "AdultAutism", "BreastCancer",
-#   "BreastCancerW", "CongretionalVoting", "CreditApproval", "Hip",
-#   "JungleChessRatPanther", "MammographicMass", "Mice", "Mushroom"
-# )
-
-df_names <- c("Hip")
+df_names <- c(
+  "2Year", "3Year", "4Year", "Adult", "AdultAutism", "BreastCancer",
+  "BreastCancerW", "CongretionalVoting", "CreditApproval", "Hip",
+  "JungleChessRatPanther", "MammographicMass", "Mice", "Mushroom"
+)
 
 techniques_sufix <- c(
   "_MediaEModaConjuntoCompletoAppending",

@@ -1,6 +1,5 @@
 
 source("scripts/src/FunctionsFillNA.R")
-source("scripts/src/FunctionsFillNAKNN.R")
 source("scripts/src/Utils.R")
 
 #' @description Append a row into a dataframe.
@@ -421,10 +420,11 @@ normalizeColumnsOfDataframe <- function(df_to_normalize, columns_to_normalize)
     
     #' Replaces the column in the dataframe to be returned.
     df_to_normalize[[i]] <- col
+    
+    #' Removes disposable variables from enviroment
+    rm(col, na_col)
   }
   
-  #' Removes disposable variables from enviroment
-  rm(col, na_col)
   return(df_to_normalize)
 }
 

@@ -11,12 +11,11 @@
 #' 
 #' url: https://www.openml.org/d/15
 
-df_original <- readFromCsv(df_locations[1], df_name, "")
-df_original <- dropLevelFromDataframe(df_original, "?")
+df_original <- readFromCsv(df_locations[1], df_name)
+df_original <- dropLevelFromDataframe(df_original)
 df_original <- convertCategoricalToNumerical(df_original)
 
-df_noNA <- getCompleteCases(df_original)
-df_onlyNA <- getIncompleteCases(df_original)
+columns_to_normalize <- c(1:9)
 
 # 1 = convertion from ordinal categorical data to numerical data
 # 2 = convertion from categorical data to numerical data through binarization

@@ -1,10 +1,10 @@
 
 executeTechnique1A <- function()
 {
-  df_final <- fillNAWithCompleteDataset(
-    df.noNA = df_noNA,
-    df.onlyNA = df_onlyNA,
-    fill_na_using = fill_na_using
+  df_final <- fillNAWithDataset(
+    df_to_convert = df_original,
+    fill_using = fill_na_using,
+    appending = T
   )
   writeToCsv(
     df.toWrite = df_final,
@@ -16,11 +16,9 @@ executeTechnique1A <- function()
 
 executeTechnique1B <- function()
 {
-  df_final <- fillNAWithCompleteDataset(
-    df.noNA = df_noNA,
-    df.onlyNA = df_onlyNA,
-    fill_na_using = fill_na_using,
-    appending = F
+  df_final <- fillNAWithDataset(
+    df_to_convert = df_original,
+    fill_using = fill_na_using
   )
   writeToCsv(
     df.toWrite = df_final,
@@ -32,10 +30,11 @@ executeTechnique1B <- function()
 
 executeTechnique2A <- function()
 {
-  df_final <- fillNAWithDatasetOfCasesClass(
-    df.noNA = df_noNA,
-    df.onlyNA = df_onlyNA,
-    fill_na_using = fill_na_using
+  df_final <- fillNAWithDataset(
+    df_to_convert = df_original,
+    fill_using = fill_na_using,
+    appending = T,
+    same_class = T
   )
   writeToCsv(
     df.toWrite = df_final,
@@ -47,11 +46,10 @@ executeTechnique2A <- function()
 
 executeTechnique2B <- function()
 {
-  df_final <- fillNAWithDatasetOfCasesClass(
-    df.noNA = df_noNA,
-    df.onlyNA = df_onlyNA,
-    fill_na_using = fill_na_using,
-    appending = F
+  df_final <- fillNAWithDataset(
+    df_to_convert = df_original,
+    fill_using = fill_na_using,
+    same_class = T
   )
   writeToCsv(
     df.toWrite = df_final,
@@ -74,22 +72,14 @@ executeTechnique3A <- function()
   {
     cat("Dataset:", df_name, " Technique: 3a  K:", (i + i + 1), "\n")
     
-    # df_final <- fillNAWithKNNFromCompleteDataset(
-    #   df.noNA = df_noNA,
-    #   df.onlyNA = df_onlyNA,
-    #   convert.typs = convert_types,
-    #   convert.lvls = convert_lvls,
-    #   fillUsing = fill_na_using,
-    #   numOfK = (i + i + 1)
-    # )
-    
-    df_final <- fillNAWithKNNFromCompleteDataset(
+    df_final <- fillNAWithKNN(
       df_to_complete = df_original,
       convert_typs = convert_types,
       convert_lvls = convert_lvls,
       columns_to_normalize = columns_to_normalize,
       fill_using = fill_na_using,
-      num_of_k = (i + i + 1)
+      num_of_k = (i + i + 1),
+      appending = T
     )
     writeToCsv(
       df.toWrite = df_final,
@@ -113,24 +103,13 @@ executeTechnique3B <- function()
   {
     cat("Dataset:", df_name, " Technique: 3b  K:", (i + i + 1), "\n")
     
-    # df_final <- fillNAWithKNNFromCompleteDataset(
-    #   df.noNA = df_noNA,
-    #   df.onlyNA = df_onlyNA,
-    #   convert.typs = convert_types,
-    #   convert.lvls = convert_lvls,
-    #   fillUsing = fill_na_using,
-    #   numOfK = (i + i + 1),
-    #   appending = F
-    # )
-    
-    df_final <- fillNAWithKNNFromCompleteDataset(
+    df_final <- fillNAWithKNN(
       df_to_complete = df_original,
       convert_typs = convert_types,
       convert_lvls = convert_lvls,
       columns_to_normalize = columns_to_normalize,
       fill_using = fill_na_using,
-      num_of_k = (i + i + 1),
-      appending = F
+      num_of_k = (i + i + 1)
     )
     writeToCsv(
       df.toWrite = df_final,
@@ -154,13 +133,15 @@ executeTechnique4A <- function()
   {
     cat("Dataset:", df_name, " Technique: 4a  K:", (i + i + 1), "\n")
     
-    df_final <- fillNAWithKNNFromDatasetOfCasesClass(
-      df.noNA = df_noNA,
-      df.onlyNA = df_onlyNA,
-      convert.typs = convert_types,
-      convert.lvls = convert_lvls,
-      fillUsing = fill_na_using,
-      numOfK = (i + i + 1)
+    df_final <- fillNAWithKNN(
+      df_to_complete = df_original,
+      convert_typs = convert_types,
+      convert_lvls = convert_lvls,
+      columns_to_normalize = columns_to_normalize,
+      fill_using = fill_na_using,
+      num_of_k = (i + i + 1),
+      appending = T,
+      same_class = T
     )
     writeToCsv(
       df.toWrite = df_final,
@@ -184,14 +165,14 @@ executeTechnique4B <- function()
   {
     cat("Dataset:", df_name, " Technique: 4b  K:", (i + i + 1), "\n")
     
-    df_final <- fillNAWithKNNFromDatasetOfCasesClass(
-      df.noNA = df_noNA,
-      df.onlyNA = df_onlyNA,
-      convert.typs = convert_types,
-      convert.lvls = convert_lvls,
-      fillUsing = fill_na_using,
-      numOfK = (i + i + 1),
-      appending = F
+    df_final <- fillNAWithKNN(
+      df_to_complete = df_original,
+      convert_typs = convert_types,
+      convert_lvls = convert_lvls,
+      columns_to_normalize = columns_to_normalize,
+      fill_using = fill_na_using,
+      num_of_k = (i + i + 1),
+      same_class = T
     )
     writeToCsv(
       df.toWrite = df_final,

@@ -11,11 +11,10 @@
 #' 
 #' url: https://www.openml.org/d/56
 
-df_original <- readFromCsv(df_locations[1], df_name, "")
-df_original <- dropLevelFromDataframe(df_original, "?")
+df_original <- readFromCsv(df_locations[1], df_name)
+df_original <- dropLevelFromDataframe(df_original)
 
-df_noNA <- getCompleteCases(df_original)
-df_onlyNA <- getIncompleteCases(df_original)
+columns_to_normalize <- c()
 
 convert_types <- list(c(1, 1), c(2, 1), c(3, 1), c(4, 1), c(5, 1),
                       c(6, 1), c(7, 1), c(8, 1), c(9, 1), c(10, 1),

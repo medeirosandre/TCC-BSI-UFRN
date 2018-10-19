@@ -10,6 +10,9 @@ setwd("~/Workspace/ufrn/tcc")
 source("scripts/src/Functions.R")
 source("scripts/src/Imports.R")
 
+#' Imports packages and sets dataframes locations and names
+installNeededPackages()
+
 dir.create(file.path(getwd(), df_locations[2]), showWarnings = F)
 dir.create(file.path(getwd(), df_locations[3]), showWarnings = F)
 
@@ -28,7 +31,15 @@ for(i in df_names)
     df_name <- i
     source(paste("scripts/", i, ".R", sep = ""))
     source("scripts/src/ExecuteTechniques.R")
+    
+    rm(
+      df_name, df_original, columns_to_normalize, convert_lvls, convert_types,
+      fill_na_using
+    )
   }
+  
+  rm(which_techniques_to_apply, techniques_completed)
 }
+rm(i)
 
 source("scripts/src/Classify.R")

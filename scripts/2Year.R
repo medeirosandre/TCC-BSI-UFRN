@@ -11,18 +11,12 @@
 #' 
 #' url: https://archive.ics.uci.edu/ml/datasets/Polish+companies+bankruptcy+data
 
-df_original <- readFromCsv(
-  df.location = df_locations[1],
-  df.name = df_name
-)
-df_original <- dropLevelFromDataframe(
-  df.original = df_original,
-  levelToDrop = "?"
-)
+df_original <- readFromCsv(df_locations[1], df_name)
+df_original <- dropLevelFromDataframe(df_original)
 df_original <- convertCategoricalToNumerical(df_original)
 
-df_noNA <- getCompleteCases(df_original)
-df_onlyNA <- getIncompleteCases(df_original)
+columns_to_normalize <- c()
+# columns_to_normalize <- c(1:64)
 
 # 1 = convertion from ordinal categorical data to numerical data
 # 2 = convertion from categorical data to numerical data through binarization
