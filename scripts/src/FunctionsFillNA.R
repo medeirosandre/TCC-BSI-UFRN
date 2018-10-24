@@ -246,9 +246,12 @@ fillNAWithKNN <- function(
     #' IF the row is supposed to be appended into the training set.
     if(appending)
     {
-      current_row_norm <- normalizeDataframeBasedOnOtherDataframe(
+      cat(i, "\n")
+      current_row_orig <- convertCategoricalToNumerical(current_row_orig)
+      current_row_norm <- normalizeColumnsOfDataframeBasedOnOtherDataframe(
         df_to_normalize = current_row_orig,
-        df_to_analize = df_to_complete
+        df_to_analize = df_to_complete,
+        columns_to_normalize = columns_to_normalize
       )
       
       #' Convert the data in the current row.

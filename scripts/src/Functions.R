@@ -428,6 +428,48 @@ normalizeColumnsOfDataframe <- function(df_to_normalize, columns_to_normalize)
   return(df_to_normalize)
 }
 
+#' @description Normalize specific columns in a dataframe.
+#' @param df_to_normalize The dataframe that must be normalized.
+#' @param columns_to_normalize Indexes for the columns that must be normalized.
+#' @return The normalized dataframe.
+normalizeColumnsOfDataframeBasedOnOtherDataframe <- function(
+  df_to_normalize, df_to_analize, columns_to_normalize)
+{
+  #' Iterate over the columns that must be normalized
+  for(i in columns_to_normalize)
+  {
+    #' Retrieves the current column.
+    col <- df_to_normalize[[i]]
+    col_to_analize <- df_to_analize[[i]]
+    
+    #' Identifies the indexes for NA in the column.
+    na_col <- c()
+    na_col_analize <- c()
+    na_col <- which(is.na(col))
+    na_col_analize <- which(is.na(col_to_analize))
+    
+    #' Replace NA with a value from the column.
+    col_to_analize[na_col_analize] <- 
+      col_to_analize[which(!is.na(col_to_analize))[1]]
+    
+    #' Set min and max values.
+    min <- min(col_to_analize)
+    max <- max(col_to_analize)
+    
+    #' Replaces NA with a value from the column, normalizes and inserts
+    #' the NA back to it's places.
+    col[na_col] <- min
+    col <- (col - min) / (max - min)
+    col[na_col] <- NA
+    
+    #' Replaces the column in the dataframe to be returned.
+    df_to_normalize[[i]] <- col
+  }
+  
+  rm(df_to_analize, columns_to_normalize)
+  return(df_to_normalize)
+}
+
 #' @description Normalize a dataframe.
 #' @param df_to_normalize The dataframe that must be normalized.
 #' @return The normalized dataframe.
