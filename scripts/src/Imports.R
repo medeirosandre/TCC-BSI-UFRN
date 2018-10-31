@@ -5,8 +5,8 @@ df_locations <- c(
 
 df_names <- c(
   "2Year", "3Year", "4Year", "Adult", "AdultAutism", "BreastCancer",
-  "BreastCancerW", "CongretionalVoting", "CreditApproval", "Hip",
-  "JungleChessRatPanther", "MammographicMass", "Mice", "Mushroom"
+  "BreastCancerW", "CollegesUSNews", "CongretionalVoting", "CreditApproval",
+  "Hip", "JungleChessRatPanther", "MammographicMass", "Mice", "Mushroom"
 )
 
 techniques_sufix <- c(
