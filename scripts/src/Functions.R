@@ -211,6 +211,38 @@ findWhichElementsInRowAreNA <- function(vector)
   return(which(is.na(vector)))
 }
 
+fixFinalDatasetKNN <- function(df_original)
+{
+  dataset_col <- df_original[, 1:2]
+  df_return <- dropColumnFromDataFrame(df_original, 1)
+  df_return <- fixDatasetKNN(df_return)
+  
+  df_return <- cbind(dataset_col, df_return)
+  df_return <- dropColumnFromDataFrame(df_return, 2)
+  
+  rm(df_original, dataset_col)
+  return(df_return)
+}
+
+fixDatasetKNN <- function(df_original)
+{
+  df_return <- df_original[, 1:9]
+  knn_techniques_cols <- list(c(6:9), c(10:13), c(14:17), c(18:21))
+  for(i in 1:nrow(df_original))
+  {
+    for(j in 1:length(knn_techniques_cols))
+    {
+      technique_mean <- mean(unname(
+        unlist(example[i, c(knn_techniques_cols[[j]])])))
+      df_return[i, 5 + j] <- technique_mean
+    }
+    rm(j, technique_mean)
+  }
+  rm(knn_techniques_cols, i, df_original)
+  
+  return(df_return)
+}
+
 #' @description Get all of the cases of a specific class.
 #' @param df_to_be_observed Original dataframe from which the cases must be
 #' observed.

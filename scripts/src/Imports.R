@@ -1,6 +1,6 @@
 
 df_locations <- c(
-  "originalDatasets/", "cleanDatasets/", "classifierResults/"
+  "originalDatasets/", "cleanDatasets/", "classifierResults/", "fixedResults/"
 )
 
 df_names <- c(
@@ -31,3 +31,6 @@ techniques_sufix <- c(
   "_MediaEModa7NNConjuntoDeMesmaClasseNotAppending",
   "_MediaEModa9NNConjuntoDeMesmaClasseNotAppending"
 )
+
+classifiers_names <- c("J48", "IBk", "JRip")
+classifiers <- list(J48, IBk, JRip)

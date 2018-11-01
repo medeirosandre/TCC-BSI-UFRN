@@ -15,6 +15,7 @@ installNeededPackages()
 
 dir.create(file.path(getwd(), df_locations[2]), showWarnings = F)
 dir.create(file.path(getwd(), df_locations[3]), showWarnings = F)
+dir.create(file.path(getwd(), df_locations[4]), showWarnings = F)
 
 which_techniques_to_apply <- c()
 for(i in df_names)
@@ -42,4 +43,6 @@ for(i in df_names)
 }
 rm(i)
 
-source("scripts/src/Classify.R")
+# source("scripts/src/Classify.R")
+source("scripts/src/FixDataset.R")
+source("scripts/src/RunStatisticalAnalisys.R")

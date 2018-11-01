@@ -1,6 +1,4 @@
 
-classifiers_names <- c("J48", "IBk", "JRip")
-classifiers <- list(J48, IBk, JRip)
 times_to_run <- 30
 
 classifiers_names_index <- 1
