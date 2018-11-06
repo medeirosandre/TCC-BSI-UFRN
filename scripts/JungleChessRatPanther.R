@@ -2,7 +2,7 @@
 #' Jungle Chess 2pcs Endgame Rat Panther:
 #' 
 #' nome do arquivo: jngl-chs-2pcs-ndgm-rat-pntr.csv
-#' numero de classes: 2
+#' numero de classes: 3
 #' numero de atributos: 47
 #' numero de instancias: 5880
 #' numero de instancias completas: 4704

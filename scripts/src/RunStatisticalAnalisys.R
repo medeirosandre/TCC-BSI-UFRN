@@ -22,8 +22,44 @@ for(i in classifiers_names)
       row_to_append = current_result
     )
   }
+  rm(j)
+  
+  if(i == "IBk")
+  {
+    statistical_result_nem_ibk <- posthoc.friedman.nemenyi.test(
+      as.matrix(current_classifier_results))
+    statistical_result_con_ibk <- posthoc.friedman.conover.test(
+      as.matrix(current_classifier_results))
+  }
+  else if(i == "J48")
+  {
+    statistical_result_nem_j48 <- posthoc.friedman.nemenyi.test(
+      as.matrix(current_classifier_results))
+    statistical_result_con_j48 <- posthoc.friedman.conover.test(
+      as.matrix(current_classifier_results))
+  }
+  else if(i == "JRip")
+  {
+    statistical_result_nem_jrip <- posthoc.friedman.nemenyi.test(
+      as.matrix(current_classifier_results))
+    statistical_result_con_jrip <- posthoc.friedman.conover.test(
+      as.matrix(current_classifier_results))
+  }
 }
+rm(i, current_classifier_results, current_result)
 
-posthoc.friedman.conover.test(as.matrix(current_classifier_results))
-posthoc.friedman.nemenyi.test(as.matrix(current_classifier_results))
+print(statistical_result_con_ibk$p.value[,1])
+print(statistical_result_nem_ibk$p.value[,1])
 
+print(statistical_result_con_j48$p.value[,1])
+print(statistical_result_nem_j48$p.value[,1])
+
+print(statistical_result_con_jrip$p.value[,1])
+print(statistical_result_nem_jrip$p.value[,1])
+
+# round(statistical_result_nem_ibk$p.value[,1], digits = 2)
+
+# statistical_result$p.value[,1] < 0.05
+# friedman.test(as.matrix(current_classifier_results))
+# posthoc.friedman.conover.test(as.matrix(current_classifier_results))
+# posthoc.friedman.nemenyi.test(as.matrix(current_classifier_results))

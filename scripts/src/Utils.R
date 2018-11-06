@@ -84,7 +84,7 @@ getWhichTechniquesToAplly <- function(techniques_completed)
 #' then load the packages.
 #' @author Arthur Gorgonio
 installNeededPackages <- function() {
-  packages <- c("FNN", "plyr", "readr", "RWeka", "PMCMRplus")
+  packages <- c("FNN", "plyr", "readr", "RWeka", "PMCMR", "PMCMRplus")
   for (pack in packages) {
     if (!require(pack, character.only = TRUE)) {
       install.packages(pack)

@@ -43,6 +43,11 @@ for(i in df_names)
 }
 rm(i)
 
+classifiers_names <- c("J48", "IBk", "JRip")
+classifiers <- list(J48, IBk, JRip)
+
 # source("scripts/src/Classify.R")
-source("scripts/src/FixDataset.R")
-source("scripts/src/RunStatisticalAnalisys.R")
+# source("scripts/src/FixDataset.R")
+# source("scripts/src/RunStatisticalAnalisys.R")
+
+# rm(classifiers_names, classifiers)
