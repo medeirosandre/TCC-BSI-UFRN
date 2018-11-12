@@ -233,7 +233,7 @@ fixDatasetKNN <- function(df_original)
     for(j in 1:length(knn_techniques_cols))
     {
       technique_mean <- mean(unname(
-        unlist(example[i, c(knn_techniques_cols[[j]])])))
+        unlist(df_original[i, c(knn_techniques_cols[[j]])])))
       df_return[i, 5 + j] <- technique_mean
     }
     rm(j, technique_mean)

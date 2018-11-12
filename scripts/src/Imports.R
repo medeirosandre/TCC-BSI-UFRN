@@ -1,12 +1,14 @@
 
 df_locations <- c(
-  "originalDatasets/", "cleanDatasets/", "classifierResults/", "fixedResults/"
+  "originalDatasets/", "cleanDatasets/", "classifierResults/", "fixedResults/",
+  "statisticalResults/"
 )
 
 df_names <- c(
   "2Year", "3Year", "4Year", "Adult", "AdultAutism", "BreastCancer",
   "BreastCancerW", "CollegesUSNews", "CongretionalVoting", "CreditApproval",
-  "Hip", "JungleChessRatPanther", "MammographicMass", "Mice", "Mushroom"
+  "JungleChessRatElephant", "JungleChessRatPanther", "MammographicMass", "Mice",
+  "Mushroom"
 )
 
 techniques_sufix <- c(

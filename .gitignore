@@ -1,6 +1,7 @@
 classifierResults/
 cleanDatasets/
 fixedResults/
+statisticalResults/
 originalDatasets/_unused/
 scripts/_unused/
 tcc_latex/
